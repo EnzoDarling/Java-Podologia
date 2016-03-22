@@ -16,6 +16,8 @@ public class VentanaTurnos extends javax.swing.JFrame {
      */
     public VentanaTurnos() {
         initComponents();
+        setSize(1006, 520);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -38,7 +40,6 @@ public class VentanaTurnos extends javax.swing.JFrame {
         campoDire = new javax.swing.JTextField();
         campoTel = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jdcFecha = new com.toedter.calendar.JDateChooser();
         jsfMin = new com.toedter.components.JSpinField();
         jsfHora = new com.toedter.components.JSpinField();
         jLabel8 = new javax.swing.JLabel();
@@ -46,6 +47,8 @@ public class VentanaTurnos extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
+        campoFecha = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaTurnos = new javax.swing.JTable();
@@ -58,84 +61,93 @@ public class VentanaTurnos extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Celular");
         jPanel3.add(jLabel1);
         jLabel1.setBounds(30, 20, 60, 20);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Hora");
         jPanel3.add(jLabel2);
         jLabel2.setBounds(30, 150, 50, 20);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Nombre");
         jPanel3.add(jLabel3);
-        jLabel3.setBounds(30, 210, 60, 30);
+        jLabel3.setBounds(10, 80, 80, 30);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Direccion");
         jPanel3.add(jLabel4);
-        jLabel4.setBounds(30, 270, 70, 30);
+        jLabel4.setBounds(10, 270, 80, 30);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Tel/Cel");
         jPanel3.add(jLabel5);
         jLabel5.setBounds(30, 330, 60, 30);
 
-        campoCel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        campoCel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoCel);
-        campoCel.setBounds(110, 20, 130, 30);
+        campoCel.setBounds(110, 20, 210, 30);
 
-        campoNom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoNom);
-        campoNom.setBounds(110, 210, 130, 30);
+        campoNom.setBounds(110, 80, 210, 30);
 
-        campoDire.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        campoDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoDire);
-        campoDire.setBounds(110, 270, 130, 30);
+        campoDire.setBounds(110, 270, 210, 30);
 
-        campoTel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        campoTel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoTel);
-        campoTel.setBounds(110, 330, 130, 30);
+        campoTel.setBounds(110, 330, 210, 30);
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Fecha");
         jPanel3.add(jLabel7);
-        jLabel7.setBounds(30, 80, 50, 30);
-
-        jdcFecha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jPanel3.add(jdcFecha);
-        jdcFecha.setBounds(110, 80, 130, 30);
+        jLabel7.setBounds(30, 200, 50, 30);
         jPanel3.add(jsfMin);
         jsfMin.setBounds(210, 150, 50, 30);
         jPanel3.add(jsfHora);
         jsfHora.setBounds(110, 150, 50, 30);
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("Hs");
         jPanel3.add(jLabel8);
         jLabel8.setBounds(170, 150, 30, 30);
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setText("Mins");
         jPanel3.add(jLabel9);
-        jLabel9.setBounds(270, 150, 30, 30);
+        jLabel9.setBounds(270, 150, 40, 30);
 
-        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatsave.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         jPanel3.add(btnGuardar);
-        btnGuardar.setBounds(13, 420, 90, 40);
+        btnGuardar.setBounds(10, 430, 140, 40);
 
-        btnModificar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatedit.png"))); // NOI18N
         btnModificar.setText("Modificar");
         jPanel3.add(btnModificar);
-        btnModificar.setBounds(130, 420, 90, 40);
+        btnModificar.setBounds(200, 370, 140, 40);
 
-        btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatdelete.png"))); // NOI18N
         btnBorrar.setText("Borrar");
         jPanel3.add(btnBorrar);
-        btnBorrar.setBounds(240, 420, 90, 40);
+        btnBorrar.setBounds(200, 430, 140, 40);
+
+        campoFecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel3.add(campoFecha);
+        campoFecha.setBounds(110, 200, 210, 30);
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/broom.png"))); // NOI18N
+        jButton1.setText("LIMPIAR");
+        jPanel3.add(jButton1);
+        jButton1.setBounds(10, 370, 140, 40);
 
         getContentPane().add(jPanel3);
         jPanel3.setBounds(0, 0, 370, 480);
@@ -159,10 +171,10 @@ public class VentanaTurnos extends javax.swing.JFrame {
         jPanel1.add(jScrollPane2);
         jScrollPane2.setBounds(10, 60, 600, 400);
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel10.setText("Buscar");
         jPanel1.add(jLabel10);
-        jLabel10.setBounds(20, 10, 50, 30);
+        jLabel10.setBounds(20, 10, 70, 30);
 
         campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jPanel1.add(campoBuscar);
@@ -217,8 +229,10 @@ public class VentanaTurnos extends javax.swing.JFrame {
     private javax.swing.JTextField campoBuscar;
     private javax.swing.JTextField campoCel;
     private javax.swing.JTextField campoDire;
+    private javax.swing.JTextField campoFecha;
     private javax.swing.JTextField campoNom;
     private javax.swing.JTextField campoTel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -231,7 +245,6 @@ public class VentanaTurnos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
-    private com.toedter.calendar.JDateChooser jdcFecha;
     private com.toedter.components.JSpinField jsfHora;
     private com.toedter.components.JSpinField jsfMin;
     private javax.swing.JTable tablaTurnos;

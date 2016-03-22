@@ -1,24 +1,131 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+    ************ Flat Icons from http://flaticon.com ****************
  */
 package Vistas;
+import Conector.Conexion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Enzo
  */
-public class VentanaPacientes extends javax.swing.JFrame {
 
+public class VentanaPacientes extends javax.swing.JFrame {
+DefaultTableModel model;
     /**
      * Creates new form VentanaPacientes2
      */
     public VentanaPacientes() {
         initComponents();
-        setSize(825, 475);
+        setSize(1190, 455);
+        setLocationRelativeTo(null);
+        cargar("");
+        limpiar();
     }
-
+    
+    private void cargar(String valor){
+        String [] titulos= {"Tel/Cel","Apellido", "Nombre", "Domicilio"};
+        String [] registros = new String[5];
+        String sql="SELECT * FROM pacientes WHERE pac_ap LIKE '%"+valor+"%' ORDER BY pac_ap ASC";
+        model= new DefaultTableModel (null,titulos);
+        Conexion cc= new Conexion();
+        Connection cn= cc.conexion();
+        try {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sql);
+            while(rs.next()){
+            registros[0]=rs.getString("pac_ap");
+            registros[1]=rs.getString("pac_nom");
+            registros[2]=rs.getString("pac_dom");
+            registros[3]=rs.getString("pac_cel");
+            model.addRow(registros);
+            }            
+            tablaPacientes.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Error:"+e);
+        }
+        
+    }
+    
+    private void guardar(){
+        Conexion cc= new Conexion();
+        Connection cn= cc.conexion();
+        String ape=campoApe.getText();
+        String nom= campoNom.getText();
+        String tel= campoTel.getText();
+        String dom= campoDom.getText();        
+        String sql="INSERT INTO pacientes (pac_cel, pac_ap, pac_nom, pac_dom) VALUES(?,?,?,?)";
+        try {
+            PreparedStatement psd= cn.prepareStatement(sql);
+            psd.setString(1,tel);
+            psd.setString(2,ape);
+            psd.setString(3,nom);
+            psd.setString(4,dom);
+            int n=psd.executeUpdate();            
+            if(n>0){
+                JOptionPane.showMessageDialog(null,"SE HA GUARDADO EL REGISTRO","AVISO",JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"ERROR:" +e);
+        }
+        cargar("");
+    }
+    private void eliminar(){
+        Conexion cc= new Conexion();
+        Connection cn=cc.conexion();
+        String cel= campoTel.getText();
+        String sql= "DELETE FROM pacientes WHERE cli_cod=?";
+        int resp;
+        resp=JOptionPane.showConfirmDialog(null,"¿ESTÁ SEGURA DE ELIMINAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
+        if(resp== JOptionPane.YES_OPTION){
+            try {
+                PreparedStatement psd=cn.prepareStatement(sql);
+                psd.setString(1,cel);
+                int x= psd.executeUpdate();
+                if(x>0){
+                    JOptionPane.showMessageDialog(null,"SE HA ELIMNADO EL REGISTRO","AVISO", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,"ERROR:" +e);
+            }
+        }
+        cargar("");
+    }
+    private void modificar(){
+        Conexion cc= new Conexion();
+        Connection cn= cc.conexion();
+        String cel= campoTel.getText();
+        String ap= campoApe.getText();
+        String nom= campoNom.getText();
+        String dom= campoDom.getText();
+        String sql= "UPDATE clientes SET pac_ap='"+ap+"', pac_nom='"+nom+"', pac_dom='"+dom+"' WHERE cli_cel='"+cel+"'";
+        int resp;
+        resp= JOptionPane.showConfirmDialog(null,"¿ESTÁ SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
+        if(resp == JOptionPane.YES_OPTION){
+            try {
+                PreparedStatement psd= cn.prepareStatement(sql);
+                int x= psd.executeUpdate();
+                if(x==1){
+                    JOptionPane.showMessageDialog(null,"SE HA MODIFICADO EL REGISTRO");                }   
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,"ERROR:" +e);
+            }
+        }
+    }
+    private void limpiar(){
+        campoApe.setText("");
+        campoNom.setText("");
+        campoTel.setText("");
+        campoDom.setText("");
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,7 +139,13 @@ public class VentanaPacientes extends javax.swing.JFrame {
         campoBuscar = new javax.swing.JTextField();
         labelBuscar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaPacientes = new javax.swing.JTable();
+        tablaPacientes = new javax.swing.JTable(){
+            private static final long serialVersionUID = 1L;
+
+            public boolean isCellEditable(int row, int column) {                
+                return false;               
+            };
+        };
         jPanel1 = new javax.swing.JPanel();
         labelNombre = new javax.swing.JLabel();
         labelApellido = new javax.swing.JLabel();
@@ -45,20 +158,29 @@ public class VentanaPacientes extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
+        campoLimpiar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setLayout(null);
+
+        campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoBuscarKeyReleased(evt);
+            }
+        });
         jPanel2.add(campoBuscar);
         campoBuscar.setBounds(90, 10, 160, 30);
 
-        labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelBuscar.setText("Buscar");
         jPanel2.add(labelBuscar);
         labelBuscar.setBounds(14, 14, 60, 30);
 
+        tablaPacientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tablaPacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -70,65 +192,137 @@ public class VentanaPacientes extends javax.swing.JFrame {
 
             }
         ));
+        tablaPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPacientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaPacientes);
 
         jPanel2.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 50, 510, 404);
+        jScrollPane1.setBounds(10, 50, 720, 350);
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(280, 0, 540, 470);
+        jPanel2.setBounds(430, 0, 740, 410);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(null);
 
-        labelNombre.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        labelNombre.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelNombre.setText("Nombre");
         jPanel1.add(labelNombre);
-        labelNombre.setBounds(20, 20, 70, 30);
+        labelNombre.setBounds(20, 140, 70, 30);
 
-        labelApellido.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        labelApellido.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelApellido.setText("Apellido");
         jPanel1.add(labelApellido);
         labelApellido.setBounds(20, 80, 70, 30);
 
-        labelTel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        labelTel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTel.setText("Tel/Cel");
         jPanel1.add(labelTel);
-        labelTel.setBounds(20, 140, 70, 30);
+        labelTel.setBounds(20, 20, 70, 30);
 
-        labelDomicilio.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        labelDomicilio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDomicilio.setText("Domicilio");
         jPanel1.add(labelDomicilio);
         labelDomicilio.setBounds(20, 200, 80, 30);
+
+        campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoNom);
-        campoNom.setBounds(130, 20, 90, 30);
+        campoNom.setBounds(130, 140, 190, 30);
+
+        campoApe.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoApe);
-        campoApe.setBounds(130, 80, 90, 30);
+        campoApe.setBounds(130, 80, 190, 30);
+
+        campoTel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoTel);
-        campoTel.setBounds(130, 140, 90, 30);
+        campoTel.setBounds(130, 20, 190, 30);
+
+        campoDom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoDom);
-        campoDom.setBounds(130, 200, 90, 30);
+        campoDom.setBounds(130, 200, 190, 30);
 
-        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnGuardar.setText("Guardar");
+        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatsave.png"))); // NOI18N
+        btnGuardar.setText("GUARDAR");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnGuardar);
-        btnGuardar.setBounds(10, 280, 100, 40);
+        btnGuardar.setBounds(10, 350, 160, 40);
 
-        btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnBorrar.setText("Borrar");
+        btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatdelete.png"))); // NOI18N
+        btnBorrar.setText("BORRAR");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnBorrar);
-        btnBorrar.setBounds(130, 280, 110, 40);
+        btnBorrar.setBounds(250, 350, 160, 40);
 
-        btnModificar.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnModificar.setText("Modificar");
+        btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatedit.png"))); // NOI18N
+        btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnModificar);
-        btnModificar.setBounds(10, 350, 99, 40);
+        btnModificar.setBounds(240, 280, 170, 40);
+
+        campoLimpiar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        campoLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/broom.png"))); // NOI18N
+        campoLimpiar.setText("LIMPIAR");
+        campoLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(campoLimpiar);
+        campoLimpiar.setBounds(10, 280, 160, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 270, 470);
+        jPanel1.setBounds(0, 0, 420, 410);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void campoLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLimpiarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_campoLimpiarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        modificar();
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        eliminar();
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void tablaPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPacientesMouseClicked
+        int fila=tablaPacientes.getSelectedRow();
+        if(fila>=0){
+            campoTel.setText(tablaPacientes.getValueAt(fila,0).toString());
+            campoApe.setText(tablaPacientes.getValueAt(fila,1).toString());
+            campoNom.setText(tablaPacientes.getValueAt(fila,2).toString());
+            campoDom.setText(tablaPacientes.getValueAt(fila,3).toString());
+        }
+    }//GEN-LAST:event_tablaPacientesMouseClicked
+
+    private void campoBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscarKeyReleased
+        cargar(campoBuscar.getText());
+    }//GEN-LAST:event_campoBuscarKeyReleased
 
     /**
      * @param args the command line arguments
@@ -173,6 +367,7 @@ public class VentanaPacientes extends javax.swing.JFrame {
     private javax.swing.JTextField campoApe;
     private javax.swing.JTextField campoBuscar;
     private javax.swing.JTextField campoDom;
+    private javax.swing.JButton campoLimpiar;
     private javax.swing.JTextField campoNom;
     private javax.swing.JTextField campoTel;
     private javax.swing.JPanel jPanel1;

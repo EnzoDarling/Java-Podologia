@@ -5,6 +5,14 @@
  */
 package Vistas;
 
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Enzo
@@ -14,11 +22,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    
     public VentanaPrincipal() {
         initComponents();
-        setSize(396, 292);
-        setLocationRelativeTo(null);
+        setSize(800, 600);
+        setLocationRelativeTo(this);
+        setResizable(false);
     }
+    public class ImgUtils {
+
+    
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,98 +43,94 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        miPanel1 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         btnTurnos = new javax.swing.JButton();
-        btnVade = new javax.swing.JButton();
         btnPacientes = new javax.swing.JButton();
-        btnFichas = new javax.swing.JButton();
+        btnVade = new javax.swing.JButton();
         btnFichMedica = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        miPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        miPanel1.setLayout(null);
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setLayout(null);
 
+        btnTurnos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnTurnos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/turnos.png"))); // NOI18N
         btnTurnos.setText("Turnos");
         btnTurnos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTurnosActionPerformed(evt);
             }
         });
-        miPanel1.add(btnTurnos);
-        btnTurnos.setBounds(180, 100, 120, 50);
+        jPanel1.add(btnTurnos);
+        btnTurnos.setBounds(430, 30, 140, 50);
 
-        btnVade.setText("Vademecum");
-        btnVade.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVadeActionPerformed(evt);
-            }
-        });
-        miPanel1.add(btnVade);
-        btnVade.setBounds(30, 170, 120, 50);
-
+        btnPacientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnPacientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458530871_PatientMale.png"))); // NOI18N
         btnPacientes.setText("Pacientes");
         btnPacientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPacientesActionPerformed(evt);
             }
         });
-        miPanel1.add(btnPacientes);
-        btnPacientes.setBounds(30, 100, 120, 50);
+        jPanel1.add(btnPacientes);
+        btnPacientes.setBounds(600, 30, 160, 50);
 
-        btnFichas.setText("Fichas");
-        btnFichas.addActionListener(new java.awt.event.ActionListener() {
+        btnVade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnVade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/book.png"))); // NOI18N
+        btnVade.setText("Vademecum");
+        btnVade.setBorder(null);
+        btnVade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFichasActionPerformed(evt);
+                btnVadeActionPerformed(evt);
             }
         });
-        miPanel1.add(btnFichas);
-        btnFichas.setBounds(30, 30, 120, 50);
+        jPanel1.add(btnVade);
+        btnVade.setBounds(220, 30, 160, 50);
 
+        btnFichMedica.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnFichMedica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ficha medica.png"))); // NOI18N
         btnFichMedica.setText("Fichas Medicas");
         btnFichMedica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFichMedicaActionPerformed(evt);
             }
         });
-        miPanel1.add(btnFichMedica);
-        btnFichMedica.setBounds(180, 30, 120, 50);
+        jPanel1.add(btnFichMedica);
+        btnFichMedica.setBounds(10, 30, 190, 50);
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(4, 4, 780, 590);
 
-        getContentPane().add(miPanel1);
-        miPanel1.setBounds(4, 2, 390, 290);
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 790, 600);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFichMedicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFichMedicaActionPerformed
-        VentanaFichaMedica VFM2= new VentanaFichaMedica();
-        VFM2.setVisible(true);
-        this.dispose();
+        VentanaFicha VFM= new VentanaFicha();
+        VFM.setVisible(true);
+        //this.dispose();
     }//GEN-LAST:event_btnFichMedicaActionPerformed
-
-    private void btnFichasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFichasActionPerformed
-        VentanaFicha miVentanaFicha= new VentanaFicha();
-        miVentanaFicha.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnFichasActionPerformed
 
     private void btnTurnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnosActionPerformed
         VentanaTurnos miVentanaTurnos= new VentanaTurnos();
         miVentanaTurnos.setVisible(true);
-        this.dispose();
+        //this.dispose();
     }//GEN-LAST:event_btnTurnosActionPerformed
 
     private void btnPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPacientesActionPerformed
         VentanaPacientes miVentanaPacientes= new VentanaPacientes();
         miVentanaPacientes.setVisible(true);
-        this.dispose();
+       // this.dispose();
     }//GEN-LAST:event_btnPacientesActionPerformed
 
     private void btnVadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVadeActionPerformed
         VentanaVademecum miVentanaVademecum= new VentanaVademecum();
         miVentanaVademecum.setVisible(true);
-        this.dispose();
+        //this.dispose();
     }//GEN-LAST:event_btnVadeActionPerformed
 
     /**
@@ -161,10 +171,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFichMedica;
-    private javax.swing.JButton btnFichas;
     private javax.swing.JButton btnPacientes;
     private javax.swing.JButton btnTurnos;
     private javax.swing.JButton btnVade;
-    private javax.swing.JPanel miPanel1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

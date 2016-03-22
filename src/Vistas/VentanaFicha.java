@@ -16,7 +16,8 @@ public class VentanaFicha extends javax.swing.JFrame {
      */
     public VentanaFicha() {
         initComponents();
-        setSize(966, 563);
+        setSize(1125, 600);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -82,148 +83,167 @@ public class VentanaFicha extends javax.swing.JFrame {
         btnBorrar = new javax.swing.JButton();
         btnMostrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(null);
 
-        labelApe.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelApe.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelApe.setText("Apellido");
         jPanel1.add(labelApe);
-        labelApe.setBounds(10, 30, 50, 17);
+        labelApe.setBounds(10, 30, 70, 22);
 
-        labelNom.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelNom.setText("Nombre");
         jPanel1.add(labelNom);
-        labelNom.setBounds(240, 30, 60, 17);
+        labelNom.setBounds(300, 30, 80, 22);
 
-        labelDire.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDire.setText("Dirección");
         jPanel1.add(labelDire);
-        labelDire.setBounds(470, 40, 60, 17);
+        labelDire.setBounds(550, 40, 60, 22);
 
-        labelTel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelTel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTel.setText("Tel/Cel");
         jPanel1.add(labelTel);
-        labelTel.setBounds(700, 30, 40, 17);
+        labelTel.setBounds(840, 30, 55, 22);
 
-        labelEdad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelEdad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelEdad.setText("Edad");
         jPanel1.add(labelEdad);
-        labelEdad.setBounds(10, 90, 31, 17);
+        labelEdad.setBounds(10, 90, 50, 22);
 
-        labelDbt.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelDbt.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDbt.setText("DBT");
         jPanel1.add(labelDbt);
-        labelDbt.setBounds(480, 110, 26, 17);
-        jPanel1.add(campoApe);
-        campoApe.setBounds(110, 30, 110, 30);
-        jPanel1.add(campoNom);
-        campoNom.setBounds(330, 30, 110, 30);
-        jPanel1.add(campoDire);
-        campoDire.setBounds(550, 30, 110, 30);
-        jPanel1.add(campoTel);
-        campoTel.setBounds(830, 30, 110, 30);
-        jPanel1.add(campoEdad);
-        campoEdad.setBounds(110, 90, 110, 30);
+        labelDbt.setBounds(550, 110, 50, 22);
 
+        campoApe.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(campoApe);
+        campoApe.setBounds(130, 30, 110, 30);
+
+        campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(campoNom);
+        campoNom.setBounds(420, 30, 100, 30);
+
+        campoDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(campoDire);
+        campoDire.setBounds(640, 40, 110, 30);
+
+        campoTel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(campoTel);
+        campoTel.setBounds(970, 30, 110, 30);
+
+        campoEdad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(campoEdad);
+        campoEdad.setBounds(130, 90, 110, 30);
+
+        comboHiperhidrosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboHiperhidrosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
         jPanel1.add(comboHiperhidrosis);
-        comboHiperhidrosis.setBounds(110, 210, 110, 30);
+        comboHiperhidrosis.setBounds(130, 210, 110, 30);
 
-        labelCardiacas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelCardiacas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelCardiacas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelCardiacas.setText("Afecciones Cardíacas");
         jPanel1.add(labelCardiacas);
-        labelCardiacas.setBounds(690, 100, 130, 17);
+        labelCardiacas.setBounds(830, 100, 130, 22);
 
-        labelAnticuagulado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelAnticuagulado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelAnticuagulado.setText("Anticuagulado");
         jPanel1.add(labelAnticuagulado);
-        labelAnticuagulado.setBounds(240, 90, 86, 17);
+        labelAnticuagulado.setBounds(290, 90, 120, 22);
 
+        comboTalon.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboTalon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
         jPanel1.add(comboTalon);
-        comboTalon.setBounds(550, 180, 110, 30);
+        comboTalon.setBounds(640, 190, 110, 30);
 
+        comboCardiacas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboCardiacas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
         jPanel1.add(comboCardiacas);
-        comboCardiacas.setBounds(830, 100, 110, 30);
+        comboCardiacas.setBounds(970, 100, 110, 30);
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel1.add(jSeparator1);
-        jSeparator1.setBounds(680, 10, 10, 250);
+        jSeparator1.setBounds(800, 10, 10, 250);
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel1.add(jSeparator2);
-        jSeparator2.setBounds(230, 10, 10, 250);
+        jSeparator2.setBounds(280, 10, 10, 250);
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel1.add(jSeparator3);
-        jSeparator3.setBounds(460, 10, 10, 250);
+        jSeparator3.setBounds(530, 10, 10, 250);
 
-        labelMicosis.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelMicosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelMicosis.setText("Micosis");
         jPanel1.add(labelMicosis);
-        labelMicosis.setBounds(10, 150, 60, 17);
+        labelMicosis.setBounds(10, 150, 80, 22);
 
+        comboMicosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboMicosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inter Digital", "Ungueal", "Plantar", " " }));
         jPanel1.add(comboMicosis);
-        comboMicosis.setBounds(110, 150, 110, 30);
+        comboMicosis.setBounds(130, 150, 110, 30);
 
-        labelOnicocriptosis.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelOnicocriptosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelOnicocriptosis.setText("Onicocriptosis");
         jPanel1.add(labelOnicocriptosis);
-        labelOnicocriptosis.setBounds(240, 160, 90, 17);
+        labelOnicocriptosis.setBounds(290, 160, 120, 22);
 
+        comboAnticuagulado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboAnticuagulado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
         jPanel1.add(comboAnticuagulado);
-        comboAnticuagulado.setBounds(340, 90, 100, 30);
+        comboAnticuagulado.setBounds(420, 90, 100, 30);
 
-        labelTalon1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelTalon1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTalon1.setText("Talón");
         jPanel1.add(labelTalon1);
-        labelTalon1.setBounds(470, 170, 40, 17);
+        labelTalon1.setBounds(550, 170, 60, 22);
 
+        comboDbt.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboDbt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
         jPanel1.add(comboDbt);
-        comboDbt.setBounds(550, 100, 110, 30);
+        comboDbt.setBounds(640, 110, 110, 30);
 
-        labelHiperquratosis.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelHiperquratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelHiperquratosis.setText("Hiperqueratosis");
         jPanel1.add(labelHiperquratosis);
-        labelHiperquratosis.setBounds(690, 170, 100, 17);
+        labelHiperquratosis.setBounds(830, 170, 100, 22);
 
+        comboHiperqueratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboHiperqueratosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lateral", "Superior", "Metatarsal" }));
         jPanel1.add(comboHiperqueratosis);
-        comboHiperqueratosis.setBounds(830, 170, 110, 30);
+        comboHiperqueratosis.setBounds(970, 170, 110, 30);
 
-        labelHiperhidrosis.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelHiperhidrosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelHiperhidrosis.setText("HiperHidrosis");
         jPanel1.add(labelHiperhidrosis);
-        labelHiperhidrosis.setBounds(10, 220, 90, 17);
+        labelHiperhidrosis.setBounds(10, 220, 110, 22);
 
+        comboEdema.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboEdema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
         jPanel1.add(comboEdema);
-        comboEdema.setBounds(340, 210, 100, 30);
+        comboEdema.setBounds(420, 210, 100, 30);
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel16.setText("Edema");
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(240, 220, 42, 17);
+        jLabel16.setBounds(310, 220, 60, 22);
 
+        comboOnicocriptosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboOnicocriptosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
         jPanel1.add(comboOnicocriptosis);
-        comboOnicocriptosis.setBounds(340, 150, 100, 30);
+        comboOnicocriptosis.setBounds(420, 150, 100, 30);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setLayout(null);
 
-        labelDClinicos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelDClinicos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDClinicos.setText("Datos Clínicos");
         jPanel2.add(labelDClinicos);
-        labelDClinicos.setBounds(20, 10, 100, 17);
+        labelDClinicos.setBounds(20, 10, 130, 22);
 
         areaDClinicos.setColumns(20);
         areaDClinicos.setRows(5);
@@ -232,10 +252,10 @@ public class VentanaFicha extends javax.swing.JFrame {
         jPanel2.add(jScrollPane1);
         jScrollPane1.setBounds(10, 40, 200, 160);
 
-        labelPatologias.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelPatologias.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelPatologias.setText("Otras Patologías");
         jPanel2.add(labelPatologias);
-        labelPatologias.setBounds(250, 10, 110, 17);
+        labelPatologias.setBounds(250, 10, 140, 22);
 
         areaPatologias.setColumns(20);
         areaPatologias.setRows(5);
@@ -244,10 +264,10 @@ public class VentanaFicha extends javax.swing.JFrame {
         jPanel2.add(jScrollPane2);
         jScrollPane2.setBounds(240, 40, 200, 160);
 
-        labelTratamiento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelTratamiento.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTratamiento.setText("Tratamiento");
         jPanel2.add(labelTratamiento);
-        labelTratamiento.setBounds(470, 10, 90, 17);
+        labelTratamiento.setBounds(470, 10, 120, 22);
 
         areaEvolucion.setColumns(20);
         areaEvolucion.setRows(5);
@@ -263,10 +283,10 @@ public class VentanaFicha extends javax.swing.JFrame {
         jPanel2.add(jScrollPane4);
         jScrollPane4.setBounds(470, 40, 210, 160);
 
-        labelEvolucion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelEvolucion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelEvolucion.setText("Evolución");
         jPanel2.add(labelEvolucion);
-        labelEvolucion.setBounds(720, 10, 60, 17);
+        labelEvolucion.setBounds(720, 10, 90, 22);
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel2.add(jSeparator4);
@@ -283,33 +303,37 @@ public class VentanaFicha extends javax.swing.JFrame {
         jPanel1.add(jPanel2);
         jPanel2.setBounds(10, 270, 930, 210);
 
-        labelTalon2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelTalon2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTalon2.setText("Agrietado");
         jPanel1.add(labelTalon2);
-        labelTalon2.setBounds(470, 200, 60, 14);
+        labelTalon2.setBounds(550, 200, 80, 14);
 
-        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        btnGuardar.setText("Guardar");
+        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458532674_floppy_disk_save.png"))); // NOI18N
+        btnGuardar.setText("GUARDAR");
         jPanel1.add(btnGuardar);
-        btnGuardar.setBounds(10, 500, 90, 40);
+        btnGuardar.setBounds(10, 500, 150, 40);
 
-        btnModificar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        btnModificar.setText("Modificar");
+        btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/modify.png"))); // NOI18N
+        btnModificar.setText("MODIFICAR");
         jPanel1.add(btnModificar);
-        btnModificar.setBounds(120, 500, 100, 40);
+        btnModificar.setBounds(190, 500, 170, 40);
 
-        btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        btnBorrar.setText("Borrar");
+        btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458532731_trash.png"))); // NOI18N
+        btnBorrar.setText("BORRAR");
         jPanel1.add(btnBorrar);
-        btnBorrar.setBounds(240, 500, 90, 40);
+        btnBorrar.setBounds(410, 500, 140, 40);
 
-        btnMostrar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        btnMostrar.setText("Mostrar Fichas");
+        btnMostrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458516970_medical-06.png"))); // NOI18N
+        btnMostrar.setText("MOSTRAR FICHAS");
         jPanel1.add(btnMostrar);
-        btnMostrar.setBounds(710, 500, 150, 40);
+        btnMostrar.setBounds(710, 500, 230, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 960, 560);
+        jPanel1.setBounds(0, 0, 1100, 560);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

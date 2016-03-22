@@ -16,7 +16,8 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
      */
     public VentanaFichaMedica() {
         initComponents();
-        setSize(875, 485);
+        setSize(932, 550);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -35,19 +36,23 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         tablaFichaMedica = new javax.swing.JTable();
         btnMostrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(null);
-        jPanel1.add(campoBuscar);
-        campoBuscar.setBounds(120, 10, 140, 30);
 
+        campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jPanel1.add(campoBuscar);
+        campoBuscar.setBounds(160, 20, 140, 30);
+
+        labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelBuscar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelBuscar.setText("Buscar");
         jPanel1.add(labelBuscar);
         labelBuscar.setBounds(30, 14, 70, 30);
 
+        tablaFichaMedica.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tablaFichaMedica.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -62,14 +67,16 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tablaFichaMedica);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(10, 64, 850, 390);
+        jScrollPane2.setBounds(10, 64, 890, 440);
 
-        btnMostrar.setText("Mostrar Todo");
+        btnMostrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458516970_medical-06.png"))); // NOI18N
+        btnMostrar.setText("MOSTRAR TODO");
         jPanel1.add(btnMostrar);
-        btnMostrar.setBounds(410, 13, 110, 30);
+        btnMostrar.setBounds(360, 13, 220, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 880, 480);
+        jPanel1.setBounds(0, 0, 910, 510);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

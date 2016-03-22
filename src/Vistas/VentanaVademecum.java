@@ -16,7 +16,8 @@ public class VentanaVademecum extends javax.swing.JFrame {
      */
     public VentanaVademecum() {
         initComponents();
-        setSize(912, 498);
+        setSize(924, 535);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -71,7 +72,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
         jScrollPane1.setViewportView(areaIndi);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(20, 180, 300, 180);
+        jScrollPane1.setBounds(10, 180, 380, 350);
 
         comboPoso.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         comboPoso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 vez al día", "2 veces al día", "3 veces al día", "cada 24 hs", "1 vez por semana" }));
@@ -85,20 +86,20 @@ public class VentanaVademecum extends javax.swing.JFrame {
         btnEliminar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
         jPanel1.add(btnEliminar);
-        btnEliminar.setBounds(210, 370, 90, 40);
+        btnEliminar.setBounds(210, 540, 90, 40);
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
         jPanel1.add(btnGuardar);
-        btnGuardar.setBounds(10, 370, 90, 40);
+        btnGuardar.setBounds(10, 540, 90, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnModificar.setText("Modificar");
         jPanel1.add(btnModificar);
-        btnModificar.setBounds(110, 370, 90, 40);
+        btnModificar.setBounds(110, 540, 90, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(10, 10, 330, 480);
+        jPanel1.setBounds(10, 10, 400, 600);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setLayout(null);
@@ -126,10 +127,10 @@ public class VentanaVademecum extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tablaVade);
 
         jPanel2.add(jScrollPane2);
-        jScrollPane2.setBounds(10, 60, 530, 410);
+        jScrollPane2.setBounds(10, 60, 530, 530);
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(350, 10, 550, 480);
+        jPanel2.setBounds(410, 10, 550, 600);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
