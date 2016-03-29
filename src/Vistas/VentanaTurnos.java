@@ -19,7 +19,9 @@ public class VentanaTurnos extends javax.swing.JFrame {
         setSize(1006, 520);
         setLocationRelativeTo(null);
     }
-
+    private void cargar(){
+        String [] titulos = {""};
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
