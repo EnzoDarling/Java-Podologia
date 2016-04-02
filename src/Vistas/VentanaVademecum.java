@@ -46,7 +46,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaVade = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
