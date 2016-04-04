@@ -1,57 +1,165 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vistas;
 
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import javax.swing.JOptionPane;
 
 import Conector.Conexion;
 
-/**
- *
- * @author Enzo
- */
 public class VentanaFicha extends javax.swing.JFrame {
-
-    /**
-     * Creates new form VentanaFicha2
-     */
     public VentanaFicha() {
         initComponents();
         setSize(1125, 600);
         setLocationRelativeTo(null);
+        campoCod.setVisible(false);
+        labelCod.setVisible(false);
     }
     
     private void guardar(){
     	Conexion cc= new Conexion();
     	Connection cn= cc.conexion();
-    	String sql="INSERT INTO fichasmedicas (fich_ap, fich_nom, fich_dire, fich_edad, fich_anticua, fich_dbt, fich_afcard, fich_micosis, fich_onicocri, fich_talonagri, fich_hiperquera, fich_hiperhidro, fich_edema, fich_datoscli, fich_otraspato, fich_tratam, fich_evolucion) VALUES ()";
+    	String ape=campoApe.getText() ;
+    	String nom= campoNom.getText();
+    	String dire=campoDire.getText();
+    	String edad=campoEdad.getText();
+    	String anticua=comboAnticuagulado.getSelectedItem().toString();
+    	String dbt= comboDbt.getSelectedItem().toString();
+    	String afcard=comboCardiacas.getSelectedItem().toString();
+    	String micosis= comboMicosis.getSelectedItem().toString();
+    	String onicocri= comboOnicocriptosis.getSelectedItem().toString();
+    	String talonagri= comboTalon.getSelectedItem().toString();
+    	String hiperquera = comboHiperqueratosis.getSelectedItem().toString();
+    	String hiperhidro = comboHiperhidrosis.getSelectedItem().toString();
+    	String edema= comboEdema.getSelectedItem().toString();
+    	String datoscli= areaDClinicos.getText();
+    	String otraspato= areaPatologias.getText();
+    	String tratam= areaTratamiento.getText();
+    	String evol= areaEvolucion.getText();
+    	String sql="INSERT INTO fichasmedicas (fich_ap, fich_nom, fich_dire, fich_edad,"
+    			+ " fich_anticua, fich_dbt, fich_afcard, fich_micosis,"
+    			+ " fich_onicocri, fich_talonagri, fich_hiperquera, fich_hiperhidro,"
+    			+ " fich_edema, fich_datoscli, fich_otraspato, fich_tratam, fich_evolucion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    	try {
+			PreparedStatement psd= cn.prepareStatement(sql);
+			psd.setString(1,ape);
+			psd.setString(2,nom);
+			psd.setString(3,dire);
+			psd.setString(4,edad);
+			psd.setString(5,anticua);
+			psd.setString(6,dbt);
+			psd.setString(7,afcard);
+			psd.setString(8,micosis);
+			psd.setString(9,onicocri);
+			psd.setString(10,talonagri);
+			psd.setString(11,hiperquera);
+			psd.setString(12,hiperhidro);
+			psd.setString(13,edema);
+			psd.setString(14,datoscli);
+			psd.setString(15,otraspato);
+			psd.setString(16,tratam);
+			psd.setString(17,evol);
+			int n= psd.executeUpdate();
+			if(n>0){
+				JOptionPane.showMessageDialog(null,"SE HA GUARDADO EL REGISTRO", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,"ERROR :" +e,"ERROR", JOptionPane.ERROR_MESSAGE);
+		}
     }
     private void modificar(){
-    	
+    	Conexion cc= new Conexion();
+    	Connection cn= cc.conexion();
+    	String ape=campoApe.getText() ;
+    	String nom= campoNom.getText();
+    	String dire=campoDire.getText();
+    	String edad=campoEdad.getText();
+    	String anticua=comboAnticuagulado.getSelectedItem().toString();
+    	String dbt= comboDbt.getSelectedItem().toString();
+    	String afcard=comboCardiacas.getSelectedItem().toString();
+    	String micosis= comboMicosis.getSelectedItem().toString();
+    	String onicocri= comboOnicocriptosis.getSelectedItem().toString();
+    	String talonagri= comboTalon.getSelectedItem().toString();
+    	String hiperquera = comboHiperqueratosis.getSelectedItem().toString();
+    	String hiperhidro = comboHiperhidrosis.getSelectedItem().toString();
+    	String edema= comboEdema.getSelectedItem().toString();
+    	String datoscli= areaDClinicos.getText();
+    	String otraspato= areaPatologias.getText();
+    	String tratam= areaTratamiento.getText();
+    	String evol= areaEvolucion.getText();
+    	String sql="UPDATE fichasmedicas SET fich_ap='"+ape+"',fich_nom='"+nom+"',fich_dire='"+dire+"', fich_edad='"+edad+"',"
+    			+ " fich_anticua='"+anticua+"', fich_dbt='"+dbt+"', fich_afcard='"+afcard+"', fich_micosis='"+micosis+"',"
+    			+ " fich_onicocri='"+onicocri+"', fich_talonagri='"+talonagri+"', fich_hiperquera='"+hiperquera+"', fich_hiperhidro='"+hiperhidro+"',"
+    			+ " fich_edema='"+edema+"', fich_datoscli='"+datoscli+"', fich_otraspato='"+otraspato+"', fich_tratam='"+tratam+"', fich_evolucion='"+evol+"' WHERE fich_cod";
+    	int resp;
+    	resp= JOptionPane.showConfirmDialog(null,"Â¿ESTÃ SEGURA DE MODIFICAR EL REGISTRO?","AVISO",JOptionPane.YES_NO_OPTION);
+    	if(resp==JOptionPane.YES_OPTION){
+    		try {
+				PreparedStatement psd= cn.prepareStatement(sql);
+				int x= psd.executeUpdate();
+				if(x==1){
+					JOptionPane.showMessageDialog(null,"SE HA MODIFICADO EL REGISTRO","AVISO",JOptionPane.INFORMATION_MESSAGE);
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null,"ERROR :"+e,"ERROR",JOptionPane.ERROR_MESSAGE);
+			}
+    	}
     }
     private void eliminar(){
-    	
+    	Conexion cc= new Conexion();
+    	Connection cn= cc.conexion();
+    	String cod= campoCod.getText();
+    	String sql="DELETE FROM fichasmedicas WHERE fich_cod=?";
+    	int resp;
+    	resp=JOptionPane.showConfirmDialog(null,"Â¿ESTÃ SEGURA DE ELIMINAR EL REGISTRO?","AVISO",JOptionPane.YES_NO_OPTION);
+    	if(resp==JOptionPane.YES_OPTION){
+    		try {
+				PreparedStatement psd= cn.prepareStatement(sql);
+				psd.setString(1,cod);
+				int x= psd.executeUpdate();
+				if(x>0){
+					JOptionPane.showMessageDialog(null,"EL REGISTRO SE HA ELIMINADO","AVISO",JOptionPane.INFORMATION_MESSAGE);
+				}
+			} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "ERROR :"+e ,"ERROR",JOptionPane.ERROR_MESSAGE);
+			}
+    	}
     }
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+    private void limpiar(){
+    	campoCod.setVisible(false);
+    	labelCod.setVisible(false);
+    	campoApe.setText("") ;
+    	campoNom.setText("");
+    	campoDire.setText("");
+    	campoEdad.setText("");
+    	comboAnticuagulado.setSelectedIndex(0);
+    	comboDbt.setSelectedIndex(0);
+    	comboCardiacas.setSelectedIndex(0);
+    	comboMicosis.setSelectedIndex(0);
+    	comboOnicocriptosis.setSelectedIndex(0);
+    	comboTalon.setSelectedIndex(0);    	
+    	comboHiperqueratosis.setSelectedIndex(0);
+    	comboHiperhidrosis.setSelectedIndex(0);
+    	comboEdema.setSelectedIndex(0);
+    	areaDClinicos.setText("");
+    	areaPatologias.setText("");
+    	areaTratamiento.setText("");
+    	areaEvolucion.setText("");
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        labelCod = new javax.swing.JLabel();
         labelApe = new javax.swing.JLabel();
         labelNom = new javax.swing.JLabel();
         labelDire = new javax.swing.JLabel();
         labelTel = new javax.swing.JLabel();
         labelEdad = new javax.swing.JLabel();
         labelDbt = new javax.swing.JLabel();
+        campoCod = new javax.swing.JTextField();
         campoApe = new javax.swing.JTextField();
         campoNom = new javax.swing.JTextField();
         campoDire = new javax.swing.JTextField();
@@ -104,11 +212,16 @@ public class VentanaFicha extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(null);
+        
+        labelCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        labelCod.setText("CÃ³digo");
+        jPanel1.add(labelCod);
+        labelCod.setBounds(10, 11, 70, 22);
 
         labelApe.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelApe.setText("Apellido");
         jPanel1.add(labelApe);
-        labelApe.setBounds(10, 30, 70, 22);
+        labelApe.setBounds(10, 45, 70, 22);
 
         labelNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelNom.setText("Nombre");
@@ -116,7 +229,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelNom.setBounds(300, 30, 80, 22);
 
         labelDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelDire.setText("Dirección");
+        labelDire.setText("Direcciï¿½n");
         jPanel1.add(labelDire);
         labelDire.setBounds(550, 40, 75, 22);
 
@@ -135,9 +248,13 @@ public class VentanaFicha extends javax.swing.JFrame {
         jPanel1.add(labelDbt);
         labelDbt.setBounds(550, 110, 50, 22);
 
+        campoCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(campoCod);
+        campoCod.setBounds(130, 11, 110, 30);
+     
         campoApe.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoApe);
-        campoApe.setBounds(130, 30, 110, 30);
+        campoApe.setBounds(130, 45, 110, 30);
 
         campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoNom);
@@ -162,7 +279,7 @@ public class VentanaFicha extends javax.swing.JFrame {
 
         labelCardiacas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelCardiacas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelCardiacas.setText("Afecciones Cardíacas");
+        labelCardiacas.setText("Afecciones Cardï¿½acas");
         jPanel1.add(labelCardiacas);
         labelCardiacas.setBounds(808, 105, 165, 22);
 
@@ -214,7 +331,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         comboAnticuagulado.setBounds(420, 90, 100, 30);
 
         labelTalon1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelTalon1.setText("Talón");
+        labelTalon1.setText("Talï¿½n");
         jPanel1.add(labelTalon1);
         labelTalon1.setBounds(550, 170, 60, 22);
 
@@ -257,7 +374,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jPanel2.setLayout(null);
 
         labelDClinicos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelDClinicos.setText("Datos Clínicos");
+        labelDClinicos.setText("Datos Clï¿½nicos");
         jPanel2.add(labelDClinicos);
         labelDClinicos.setBounds(20, 10, 130, 22);
 
@@ -269,7 +386,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jScrollPane1.setBounds(10, 40, 200, 160);
 
         labelPatologias.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelPatologias.setText("Otras Patologías");
+        labelPatologias.setText("Otras Patologï¿½as");
         jPanel2.add(labelPatologias);
         labelPatologias.setBounds(250, 10, 140, 22);
 
@@ -300,7 +417,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jScrollPane4.setBounds(470, 40, 210, 160);
 
         labelEvolucion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelEvolucion.setText("Evolución");
+        labelEvolucion.setText("Evoluciï¿½n");
         jPanel2.add(labelEvolucion);
         labelEvolucion.setBounds(720, 10, 90, 22);
 
@@ -327,18 +444,33 @@ public class VentanaFicha extends javax.swing.JFrame {
         btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458532674_floppy_disk_save.png"))); // NOI18N
         btnGuardar.setText("GUARDAR");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent evt){
+        		btnGuardarActionPerformed(evt);
+        	}
+        });
         jPanel1.add(btnGuardar);
         btnGuardar.setBounds(10, 500, 150, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/modify.png"))); // NOI18N
         btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent evt){
+        		btnModificarActionPerformed(evt);
+        	}
+        });
         jPanel1.add(btnModificar);
         btnModificar.setBounds(190, 500, 163, 40);
 
         btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458532731_trash.png"))); // NOI18N
         btnBorrar.setText("BORRAR");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent evt){
+        		btnBorrarActionPerformed(evt);
+        	}
+        });
         jPanel1.add(btnBorrar);
         btnBorrar.setBounds(410, 500, 140, 40);
 
@@ -359,19 +491,23 @@ public class VentanaFicha extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    protected void btnMostrarActionPerformed(ActionEvent evt) {
+    protected void btnBorrarActionPerformed(ActionEvent evt) {
+		eliminar();
+	}
+
+	protected void btnModificarActionPerformed(ActionEvent evt) {
+		modificar();
+	}
+
+	protected void btnGuardarActionPerformed(ActionEvent evt) {
+		guardar();
+	}
+
+	protected void btnMostrarActionPerformed(ActionEvent evt) {
 		VentanaFichaMedica miVFM= new VentanaFichaMedica();
 		miVFM.setVisible(true);
 	}
-	/**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -413,6 +549,7 @@ public class VentanaFicha extends javax.swing.JFrame {
     private javax.swing.JTextField campoEdad;
     private javax.swing.JTextField campoNom;
     private javax.swing.JTextField campoTel;
+    private javax.swing.JTextField campoCod;
     private javax.swing.JComboBox<String> comboAnticuagulado;
     private javax.swing.JComboBox<String> comboCardiacas;
     private javax.swing.JComboBox<String> comboDbt;
@@ -435,6 +572,7 @@ public class VentanaFicha extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JLabel labelCod;
     private javax.swing.JLabel labelAnticuagulado;
     private javax.swing.JLabel labelApe;
     private javax.swing.JLabel labelCardiacas;
