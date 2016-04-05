@@ -5,21 +5,68 @@
  */
 package Vistas;
 
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import Conector.Conexion;
+
 /**
  *
  * @author Enzo
  */
 public class VentanaFichaMedica extends javax.swing.JFrame {
-
+	DefaultTableModel model;
     /**
      * Creates new form VentanaFichaMedica2
      */
     public VentanaFichaMedica() {
         initComponents();
-        setSize(932, 550);
+        setSize(1200, 550);
         setLocationRelativeTo(null);
+        cargar("");
+        setTitle("LISTA DE FICHAS MÉDICAS");
     }
-
+    private void cargar(String valor){
+    	String [] titulos={"Codigo","Apellido","Nombre","Dire","Edad","Anticuagulado","DBT","Af.Cardiacas","Micosis","Onicocriptosis","T.Agrietado","Hiperqueratosis","Edema","D.Clínicos","Otras Pat.","Tratamiento","Evolución"};
+    	String [] registros= new String[18];
+    	String sql="SELECT * FROM fichasmedicas WHERE fich_ap LIKE '"+valor+"' ORDER BY fich_ap ASC";
+    	model= new DefaultTableModel(null,titulos);
+    	Conexion cc= new Conexion();
+    	Connection cn= cc.conexion();
+    	try {
+			Statement st= cn.createStatement();
+			ResultSet rs= st.executeQuery(sql);
+			while(rs.next()){
+				registros[0]=rs.getString("fich_cod");
+				registros[1]=rs.getString("fich_ap");
+				registros[2]=rs.getString("fich_nom");
+				registros[3]=rs.getString("fich_dire");
+				registros[4]=rs.getString("fich_edad");
+				registros[5]=rs.getString("fich_anticua");
+				registros[6]=rs.getString("fich_dbt");
+				registros[7]=rs.getString("fich_afcard");
+				registros[8]=rs.getString("fich_micosis");
+				registros[9]=rs.getString("fich_onicocri");
+				registros[10]=rs.getString("fich_talonagri");
+				registros[11]=rs.getString("fich_hiperquera");
+				registros[12]=rs.getString("fich_hiperhidro");
+				registros[13]=rs.getString("fich_edema");
+				registros[14]=rs.getString("fich_datoscli");
+				registros[15]=rs.getString("fich_otraspato");
+				registros[16]=rs.getString("fich_tratam");
+				registros[17]=rs.getString("fich_evolucion");
+				model.addRow(registros);				
+			}
+			tablaFichaMedica.setModel(model);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,"ERROR :"+e,"ERROR", JOptionPane.ERROR_MESSAGE);
+		}
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,6 +90,11 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter(){
+        	public void keyReleased(java.awt.event.KeyEvent evt){
+        		campoBuscarKeyReleased(evt);
+        	}
+        });
         jPanel1.add(campoBuscar);
         campoBuscar.setBounds(160, 20, 140, 30);
 
@@ -67,7 +119,7 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tablaFichaMedica);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(10, 64, 890, 440);
+        jScrollPane2.setBounds(10, 64, 1165, 440);
 
         btnMostrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458516970_medical-06.png"))); // NOI18N
@@ -76,12 +128,15 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         btnMostrar.setBounds(360, 13, 220, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 910, 510);
+        jPanel1.setBounds(0, 0, 1180, 510);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
+    protected void campoBuscarKeyReleased(KeyEvent evt) {
+		cargar(campoBuscar.getText());
+	}
+	/**
      * @param args the command line arguments
      */
     public static void main(String args[]) {

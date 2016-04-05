@@ -22,12 +22,28 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
-    
+
     public VentanaPrincipal() {
         initComponents();
         setSize(800, 600);
         setLocationRelativeTo(this);
         setResizable(false);
+        addWindowListener(new WindowAdapter() {
+        	
+        	@Override
+        	public void windowClosing(WindowEvent e) {
+        		Object[] options = {"Continuar", "Cerrar"};
+            	int n = JOptionPane.showOptionDialog(null,
+                        "Si sale el sistema se Cerrara","Confirmación",JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,null,options,options[0]);
+		       
+            	if (n == JOptionPane.YES_OPTION){}
+		        else if (n == JOptionPane.NO_OPTION) 
+		        {
+		        	System.exit(0);//Cerrar todo el sistema
+		        }
+        	}
+        });
     }
     public class ImgUtils {
 
@@ -50,7 +66,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         btnFichMedica = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());

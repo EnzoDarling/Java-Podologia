@@ -25,6 +25,7 @@ DefaultTableModel model;
         initComponents();
         setSize(1190, 455);
         setLocationRelativeTo(null);
+        setTitle("PACIENTES");
         cargar("");
         limpiar();
     }
@@ -82,7 +83,7 @@ DefaultTableModel model;
         String cel= campoTel.getText();
         String sql= "DELETE FROM pacientes WHERE cli_cod=?";
         int resp;
-        resp=JOptionPane.showConfirmDialog(null,"¬øEST√Å SEGURA DE ELIMINAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
+        resp=JOptionPane.showConfirmDialog(null,"øEST¡ SEGURA DE ELIMINAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
         if(resp== JOptionPane.YES_OPTION){
             try {
                 PreparedStatement psd=cn.prepareStatement(sql);
@@ -106,7 +107,7 @@ DefaultTableModel model;
         String dom= campoDom.getText();
         String sql= "UPDATE clientes SET pac_ap='"+ap+"', pac_nom='"+nom+"', pac_dom='"+dom+"' WHERE cli_cel='"+cel+"'";
         int resp;
-        resp= JOptionPane.showConfirmDialog(null,"¬øEST√Å SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
+        resp= JOptionPane.showConfirmDialog(null,"øEST¡ SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
         if(resp == JOptionPane.YES_OPTION){
             try {
                 PreparedStatement psd= cn.prepareStatement(sql);

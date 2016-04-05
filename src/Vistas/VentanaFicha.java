@@ -5,6 +5,11 @@
  */
 package Vistas;
 
+import java.awt.event.ActionEvent;
+import java.sql.Connection;
+
+import Conector.Conexion;
+
 /**
  *
  * @author Enzo
@@ -19,7 +24,18 @@ public class VentanaFicha extends javax.swing.JFrame {
         setSize(1125, 600);
         setLocationRelativeTo(null);
     }
-
+    
+    private void guardar(){
+    	Conexion cc= new Conexion();
+    	Connection cn= cc.conexion();
+    	String sql="INSERT INTO fichasmedicas (fich_ap, fich_nom, fich_dire, fich_edad, fich_anticua, fich_dbt, fich_afcard, fich_micosis, fich_onicocri, fich_talonagri, fich_hiperquera, fich_hiperhidro, fich_edema, fich_datoscli, fich_otraspato, fich_tratam, fich_evolucion) VALUES ()";
+    }
+    private void modificar(){
+    	
+    }
+    private void eliminar(){
+    	
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,9 +116,9 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelNom.setBounds(300, 30, 80, 22);
 
         labelDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelDire.setText("DirecciÃ³n");
+        labelDire.setText("Dirección");
         jPanel1.add(labelDire);
-        labelDire.setBounds(550, 40, 60, 22);
+        labelDire.setBounds(550, 40, 75, 22);
 
         labelTel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTel.setText("Tel/Cel");
@@ -129,7 +145,7 @@ public class VentanaFicha extends javax.swing.JFrame {
 
         campoDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoDire);
-        campoDire.setBounds(640, 40, 110, 30);
+        campoDire.setBounds(645, 35, 115, 30);
 
         campoTel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoTel);
@@ -146,9 +162,9 @@ public class VentanaFicha extends javax.swing.JFrame {
 
         labelCardiacas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelCardiacas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelCardiacas.setText("Afecciones CardÃ­acas");
+        labelCardiacas.setText("Afecciones Cardíacas");
         jPanel1.add(labelCardiacas);
-        labelCardiacas.setBounds(830, 100, 130, 22);
+        labelCardiacas.setBounds(808, 105, 165, 22);
 
         labelAnticuagulado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelAnticuagulado.setText("Anticuagulado");
@@ -163,7 +179,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         comboCardiacas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboCardiacas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
         jPanel1.add(comboCardiacas);
-        comboCardiacas.setBounds(970, 100, 110, 30);
+        comboCardiacas.setBounds(979, 100, 110, 30);
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel1.add(jSeparator1);
@@ -183,7 +199,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelMicosis.setBounds(10, 150, 80, 22);
 
         comboMicosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboMicosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inter Digital", "Ungueal", "Plantar", " " }));
+        comboMicosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inter Digital", "Ungueal", "Plantar"}));
         jPanel1.add(comboMicosis);
         comboMicosis.setBounds(130, 150, 110, 30);
 
@@ -198,7 +214,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         comboAnticuagulado.setBounds(420, 90, 100, 30);
 
         labelTalon1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelTalon1.setText("TalÃ³n");
+        labelTalon1.setText("Talón");
         jPanel1.add(labelTalon1);
         labelTalon1.setBounds(550, 170, 60, 22);
 
@@ -210,7 +226,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelHiperquratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelHiperquratosis.setText("Hiperqueratosis");
         jPanel1.add(labelHiperquratosis);
-        labelHiperquratosis.setBounds(830, 170, 100, 22);
+        labelHiperquratosis.setBounds(815, 178, 125, 22);
 
         comboHiperqueratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboHiperqueratosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lateral", "Superior", "Metatarsal" }));
@@ -241,7 +257,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jPanel2.setLayout(null);
 
         labelDClinicos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelDClinicos.setText("Datos ClÃ­nicos");
+        labelDClinicos.setText("Datos Clínicos");
         jPanel2.add(labelDClinicos);
         labelDClinicos.setBounds(20, 10, 130, 22);
 
@@ -253,7 +269,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jScrollPane1.setBounds(10, 40, 200, 160);
 
         labelPatologias.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelPatologias.setText("Otras PatologÃ­as");
+        labelPatologias.setText("Otras Patologías");
         jPanel2.add(labelPatologias);
         labelPatologias.setBounds(250, 10, 140, 22);
 
@@ -284,7 +300,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jScrollPane4.setBounds(470, 40, 210, 160);
 
         labelEvolucion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelEvolucion.setText("EvoluciÃ³n");
+        labelEvolucion.setText("Evolución");
         jPanel2.add(labelEvolucion);
         labelEvolucion.setBounds(720, 10, 90, 22);
 
@@ -318,7 +334,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/modify.png"))); // NOI18N
         btnModificar.setText("MODIFICAR");
         jPanel1.add(btnModificar);
-        btnModificar.setBounds(190, 500, 170, 40);
+        btnModificar.setBounds(190, 500, 163, 40);
 
         btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458532731_trash.png"))); // NOI18N
@@ -328,9 +344,14 @@ public class VentanaFicha extends javax.swing.JFrame {
 
         btnMostrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458516970_medical-06.png"))); // NOI18N
+        btnMostrar.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent evt){
+        		btnMostrarActionPerformed(evt);
+        	}
+        });
         btnMostrar.setText("MOSTRAR FICHAS");
         jPanel1.add(btnMostrar);
-        btnMostrar.setBounds(710, 500, 230, 40);
+        btnMostrar.setBounds(850, 500, 215, 40);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1100, 560);
@@ -338,7 +359,11 @@ public class VentanaFicha extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
+    protected void btnMostrarActionPerformed(ActionEvent evt) {
+		VentanaFichaMedica miVFM= new VentanaFichaMedica();
+		miVFM.setVisible(true);
+	}
+	/**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
