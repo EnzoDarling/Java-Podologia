@@ -27,7 +27,7 @@ DefaultTableModel model;
      */
     public VentanaTurnos() {
         initComponents();
-        setSize(1019, 520);
+        setSize(1002, 520);
         setLocationRelativeTo(null);
         setTitle("TURNOS");
         cargarTurnos("");
@@ -123,7 +123,7 @@ DefaultTableModel model;
        String dire= campoDire.getText();
        String sql="UPDATE turnos SET turn_ape='"+ape+"', turn_nom='"+nom+"', turn_fecha='"+fecha+"', turn_dire='"+dire+"', turn_hora='"+hora+"', turn_min='"+minu+"' WHERE turn_cel='"+cel+"' ";
        int resp;
-       resp= JOptionPane.showConfirmDialog(null,"¿ESTÁ SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA", JOptionPane.YES_NO_OPTION);
+       resp= JOptionPane.showConfirmDialog(null,"Â¿ESTA SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA", JOptionPane.YES_NO_OPTION);
        if(resp == JOptionPane.YES_OPTION){
     	   try {
 			PreparedStatement psd= cn.prepareStatement(sql);
@@ -142,7 +142,7 @@ DefaultTableModel model;
     	String cel=campoCel.getText();
     	String sql="DELETE FROM turnos WHERE turn_cel=?";
     	int resp;
-    	resp=JOptionPane.showConfirmDialog(null,"¿ESTÁ SEGURA DE ELIMINAR EL REGISTRO?","ALERTA", JOptionPane.YES_NO_OPTION);
+    	resp=JOptionPane.showConfirmDialog(null,"Â¿ESTA SEGURA DE ELIMINAR EL REGISTRO?","ALERTA", JOptionPane.YES_NO_OPTION);
     	if(resp== JOptionPane.YES_OPTION){
     		try {
 				PreparedStatement psd= cn.prepareStatement(sql);
@@ -194,7 +194,7 @@ DefaultTableModel model;
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPacientes = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -250,33 +250,18 @@ DefaultTableModel model;
         btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatsave.png"))); // NOI18N
         btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener(){
-        	public void actionPerformed(java.awt.event.ActionEvent evt){
-        		btnGuardarActionPerformed(evt);
-        	}
-        });
         jPanel3.add(btnGuardar);
         btnGuardar.setBounds(10, 430, 140, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatedit.png"))); // NOI18N
         btnModificar.setText("Modificar");
-        btnModificar.addActionListener(new java.awt.event.ActionListener(){
-        	public void actionPerformed(java.awt.event.ActionEvent evt){
-        		btnModificarActionPerformed(evt);
-        	}
-        });
         jPanel3.add(btnModificar);
         btnModificar.setBounds(200, 370, 140, 40);
 
         btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatdelete.png"))); // NOI18N
         btnBorrar.setText("Borrar");
-        btnBorrar.addActionListener(new java.awt.event.ActionListener(){
-        	public void actionPerformed(java.awt.event.ActionEvent evt){
-        		btnBorrarActionPerfomed(evt);
-        	}
-        });
         jPanel3.add(btnBorrar);
         btnBorrar.setBounds(200, 430, 140, 40);
 
@@ -315,14 +300,11 @@ DefaultTableModel model;
         jLabel10.setBounds(20, 10, 70, 30);
 
         campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoBuscarKeyReleased(evt);
-            }
-        });
         jPanel1.add(campoBuscar);
         campoBuscar.setBounds(100, 10, 160, 30);
-        
+
+        jTabbedPane1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
         tablaTurnos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tablaTurnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -343,8 +325,7 @@ DefaultTableModel model;
         jScrollPane2.setViewportView(tablaTurnos);
 
         jTabbedPane1.addTab("Turnos", jScrollPane2);
-        
-        tablaPacientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
         tablaPacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -369,7 +350,7 @@ DefaultTableModel model;
         jTabbedPane1.setBounds(0, 60, 600, 400);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(380, 0, 620, 480);
+        jPanel1.setBounds(380, 0, 600, 460);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

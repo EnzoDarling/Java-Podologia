@@ -23,7 +23,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
 	DefaultTableModel model;
     public VentanaVademecum() {
         initComponents();
-        setSize(1050, 700);
+        setSize(977, 548);
         setLocationRelativeTo(null);
         setResizable(false);
         setTitle("VADEMECUM");
@@ -32,7 +32,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
         campoCod.setVisible(false);
     }
     private void cargar(String valor){
-    	String [] titulos= {"C�digo","Nombre","Posolog�a","Indicaciones"};    	
+    	String [] titulos= {"Código","Nombre","Posología","Indicaciones"};    	
     	String [] registros= new String [4];
     	String sql="SELECT * FROM vademecum WHERE vad_nom LIKE '%"+valor+"%' ORDER BY vad_nom ASC" ;
     	model= new DefaultTableModel (null, titulos);
@@ -81,7 +81,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
 	    String poso= comboPoso.getSelectedItem().toString();
 	    String sql="UPDATE vademecum SET vade_nom='"+nom+"', vade_ind='"+indi+"', vade_poso='"+poso+"' WHERE vad_cod";
 	    int resp;
-	    resp= JOptionPane.showConfirmDialog(null,"¿ESTÁ SEGURA DE MODIFICAR ESTE REGISTRO?","AVISO",JOptionPane.YES_NO_OPTION);
+	    resp= JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE MODIFICAR ESTE REGISTRO?","AVISO",JOptionPane.YES_NO_OPTION);
 	    if(resp == JOptionPane.YES_OPTION){
 	    	try {
 				PreparedStatement psd= cn.prepareStatement(sql);
@@ -100,8 +100,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
     	String cod= campoCod.getText();
     	String sql="DELETE FROM vademecum WHERE vad_cod=?";
     	int resp;
-    	resp=JOptionPane.showConfirmDialog(null,"�EST� SEGURA DE ELIMINAR EL REGISTRO?","PREGUNTA", JOptionPane.YES_NO_OPTION);
-    	if(resp == JOptionPane.YES_OPTION){
+    	resp=JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE ELIMINAR EL REGISTRO?","PREGUNTA", JOptionPane.YES_NO_OPTION);    	if(resp == JOptionPane.YES_OPTION){
     		try {
 				PreparedStatement psd= cn.prepareStatement(sql);
 				psd.setString(1,cod);
@@ -128,130 +127,104 @@ public class VentanaVademecum extends javax.swing.JFrame {
         labelPoso = new javax.swing.JLabel();
         labelNom = new javax.swing.JLabel();
         labelIndi = new javax.swing.JLabel();
-        labelCod = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         areaIndi = new javax.swing.JTextArea();
         comboPoso = new javax.swing.JComboBox<>();
         campoNom = new javax.swing.JTextField();
-        campoCod = new javax.swing.JTextField();
         btnEliminar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        btnLimpiar = new javax.swing.JButton();
+        labelCod = new javax.swing.JLabel();
+        campoCod = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         labelBuscar = new javax.swing.JLabel();
         campoBuscar = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaVade = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(null);
 
         labelPoso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelPoso.setText("Posolog�a");
+        labelPoso.setText("Posología");
         jPanel1.add(labelPoso);
-        labelPoso.setBounds(20, 92, 80, 21);
-        
-        labelCod.setFont(new java.awt.Font("Tahoma", 0, 18));
-        labelCod.setText("Codigo");
-        jPanel1.add(labelCod);
-        labelCod.setBounds(20,5,70,21);
+        labelPoso.setBounds(10, 120, 80, 22);
 
         labelNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelNom.setText("Nombre");
         jPanel1.add(labelNom);
-        labelNom.setBounds(20, 40, 70, 21);
+        labelNom.setBounds(10, 60, 70, 22);
 
         labelIndi.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelIndi.setText("Indicaciones");
         jPanel1.add(labelIndi);
-        labelIndi.setBounds(20, 140, 100, 21);
-        
-        areaIndi.setFont(new java.awt.Font("Tahoma", 0, 18));
-        areaIndi.setColumns(30);
-        areaIndi.setRows(10);
+        labelIndi.setBounds(10, 160, 100, 22);
+
+        areaIndi.setColumns(20);
+        areaIndi.setRows(5);
         jScrollPane1.setViewportView(areaIndi);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 180, 380, 350);
+        jScrollPane1.setBounds(10, 190, 380, 200);
 
         comboPoso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboPoso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 vez al d�a", "2 veces al d�a", "3 veces al d�a", "cada 24 hs", "1 vez por semana" }));
+        comboPoso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 vez al día", "2 veces al día", "3 veces al día", "cada 24 hs", "1 vez por semana" }));
         jPanel1.add(comboPoso);
-        comboPoso.setBounds(130, 92, 140, 30);
-        
-        campoCod.setFont(new java.awt.Font("Tahoma", 0 , 18));
-        jPanel1.add(campoCod);
-        campoCod.setBounds(130,5, 140,30);
+        comboPoso.setBounds(120, 120, 140, 20);
+
         campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoNom);
-        campoNom.setBounds(130, 40, 140, 30);
+        campoNom.setBounds(120, 60, 140, 30);
 
         btnEliminar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatdelete.png")));
-        btnEliminar.addActionListener(new java.awt.event.ActionListener(){
-        	public void actionPerformed(java.awt.event.ActionEvent evt){
-        		btnEliminarActionPerformed(evt);
-        	}
-        });
-        btnEliminar.setText("Eliminar");
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatdelete.png"))); // NOI18N
+        btnEliminar.setText("ELIMINAR");
         jPanel1.add(btnEliminar);
-        btnEliminar.setBounds(240, 540, 150, 40);
-        
-        btnLimpiar.setFont(new java.awt.Font("Tahoma", 0, 18));
-        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/broom.png")));
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener(){
-        	public void actionPerformed(java.awt.event.ActionEvent evt){
-        	btnLimpiarActionPerformed(evt);	
-        	}
-        });
-        btnLimpiar.setText("Limpiar");
-        jPanel1.add(btnLimpiar);
-        btnLimpiar.setBounds(20, 590, 130, 40);
-        
+        btnEliminar.setBounds(10, 470, 160, 40);
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatsave.png")));
-        btnGuardar.addActionListener(new java.awt.event.ActionListener(){
-        	public void actionPerformed(java.awt.event.ActionEvent evt){
-        		btnGuardarActionPerformed(evt);
-        	}
-        });
-        btnGuardar.setText("Guardar");
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatsave.png"))); // NOI18N
+        btnGuardar.setText("GUARDAR");
         jPanel1.add(btnGuardar);
-        btnGuardar.setBounds(20, 540, 130, 40);
+        btnGuardar.setBounds(10, 410, 160, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatedit.png")));
-        btnModificar.addActionListener(new java.awt.event.ActionListener(){
-        	public void actionPerformed(java.awt.event.ActionEvent evt){
-        		btnModificarActionPerformed(evt);
-        	}
-        });
-        btnModificar.setText("Modificar");
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatedit.png"))); // NOI18N
+        btnModificar.setText("MODIFICAR");
         jPanel1.add(btnModificar);
-        btnModificar.setBounds(240, 590, 150, 40);
+        btnModificar.setBounds(180, 410, 170, 40);
+
+        labelCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        labelCod.setText("Codigo");
+        jPanel1.add(labelCod);
+        labelCod.setBounds(10, 10, 70, 22);
+
+        campoCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(campoCod);
+        campoCod.setBounds(120, 10, 140, 30);
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/broom.png"))); // NOI18N
+        jButton1.setText("LIMPIAR");
+        jPanel1.add(jButton1);
+        jButton1.setBounds(180, 470, 140, 40);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(5, 10, 470, 660);
+        jPanel1.setBounds(0, 0, 410, 520);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setLayout(null);
 
-        labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         labelBuscar.setText("Buscar");
         jPanel2.add(labelBuscar);
         labelBuscar.setBounds(10, 10, 70, 30);
         jPanel2.add(campoBuscar);
         campoBuscar.setBounds(100, 10, 180, 30);
-        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter(){
-        	public void keyReleased(java.awt.event.KeyEvent evt){
-        		campoBuscarKeyReleased(evt);
-        	}
-        });
 
         tablaVade.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tablaVade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -266,18 +239,13 @@ public class VentanaVademecum extends javax.swing.JFrame {
 
             }
         ));
-        tablaVade.addMouseListener(new java.awt.event.MouseAdapter(){
-        	public void mouseClicked(java.awt.event.MouseEvent evt){
-        		tablaPacientesMouseClicked(evt);
-        	}
-        });
         jScrollPane2.setViewportView(tablaVade);
 
         jPanel2.add(jScrollPane2);
-        jScrollPane2.setBounds(10, 60, 530, 530);
+        jScrollPane2.setBounds(10, 60, 530, 450);
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(480, 10, 550, 660);
+        jPanel2.setBounds(410, 0, 550, 520);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -348,17 +316,17 @@ public class VentanaVademecum extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnLimpiar;
     private javax.swing.JTextField campoBuscar;
     private javax.swing.JTextField campoCod;
     private javax.swing.JTextField campoNom;
     private javax.swing.JComboBox<String> comboPoso;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel labelCod;
     private javax.swing.JLabel labelBuscar;
+    private javax.swing.JLabel labelCod;
     private javax.swing.JLabel labelIndi;
     private javax.swing.JLabel labelNom;
     private javax.swing.JLabel labelPoso;

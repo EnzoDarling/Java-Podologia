@@ -23,7 +23,7 @@ DefaultTableModel model;
      */
     public VentanaPacientes() {
         initComponents();
-        setSize(1190, 455);
+        setSize(961, 450);
         setLocationRelativeTo(null);
         setTitle("PACIENTES");
         cargar("");
@@ -83,7 +83,7 @@ DefaultTableModel model;
         String cel= campoTel.getText();
         String sql= "DELETE FROM pacientes WHERE cli_cod=?";
         int resp;
-        resp=JOptionPane.showConfirmDialog(null,"¿ESTÁ SEGURA DE ELIMINAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
+        resp=JOptionPane.showConfirmDialog(null,"Â¿ESTA SEGURA DE ELIMINAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
         if(resp== JOptionPane.YES_OPTION){
             try {
                 PreparedStatement psd=cn.prepareStatement(sql);
@@ -107,7 +107,7 @@ DefaultTableModel model;
         String dom= campoDom.getText();
         String sql= "UPDATE clientes SET pac_ap='"+ap+"', pac_nom='"+nom+"', pac_dom='"+dom+"' WHERE cli_cel='"+cel+"'";
         int resp;
-        resp= JOptionPane.showConfirmDialog(null,"¿ESTÁ SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
+        resp= JOptionPane.showConfirmDialog(null,"Â¿ESTA SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
         if(resp == JOptionPane.YES_OPTION){
             try {
                 PreparedStatement psd= cn.prepareStatement(sql);
@@ -140,13 +140,7 @@ DefaultTableModel model;
         campoBuscar = new javax.swing.JTextField();
         labelBuscar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaPacientes = new javax.swing.JTable(){
-            private static final long serialVersionUID = 1L;
-
-            public boolean isCellEditable(int row, int column) {                
-                return false;               
-            };
-        };
+        tablaPacientes = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         labelNombre = new javax.swing.JLabel();
         labelApellido = new javax.swing.JLabel();
@@ -161,7 +155,7 @@ DefaultTableModel model;
         btnModificar = new javax.swing.JButton();
         campoLimpiar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -201,10 +195,10 @@ DefaultTableModel model;
         jScrollPane1.setViewportView(tablaPacientes);
 
         jPanel2.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 50, 720, 350);
+        jScrollPane1.setBounds(10, 50, 500, 350);
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(430, 0, 740, 410);
+        jPanel2.setBounds(430, 0, 520, 410);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(null);
