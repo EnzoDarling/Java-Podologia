@@ -536,29 +536,29 @@ public class VentanaFicha extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea areaDClinicos;
-    private javax.swing.JTextArea areaEvolucion;
-    private javax.swing.JTextArea areaPatologias;
-    private javax.swing.JTextArea areaTratamiento;
+    public static javax.swing.JTextArea areaDClinicos;
+    public static javax.swing.JTextArea areaEvolucion;
+    public static javax.swing.JTextArea areaPatologias;
+    public static javax.swing.JTextArea areaTratamiento;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnMostrar;
-    private javax.swing.JTextField campoApe;
-    private javax.swing.JTextField campoDire;
-    private javax.swing.JTextField campoEdad;
-    private javax.swing.JTextField campoNom;
-    private javax.swing.JTextField campoTel;
-    private javax.swing.JTextField campoCod;
-    private javax.swing.JComboBox<String> comboAnticuagulado;
-    private javax.swing.JComboBox<String> comboCardiacas;
-    private javax.swing.JComboBox<String> comboDbt;
-    private javax.swing.JComboBox<String> comboEdema;
-    private javax.swing.JComboBox<String> comboHiperhidrosis;
-    private javax.swing.JComboBox<String> comboHiperqueratosis;
-    private javax.swing.JComboBox<String> comboMicosis;
-    private javax.swing.JComboBox<String> comboOnicocriptosis;
-    private javax.swing.JComboBox<String> comboTalon;
+    public static javax.swing.JTextField campoApe;
+    public static javax.swing.JTextField campoDire;
+    public static javax.swing.JTextField campoEdad;
+    public static javax.swing.JTextField campoNom;
+    public static javax.swing.JTextField campoTel;
+    public static javax.swing.JTextField campoCod;
+    public static javax.swing.JComboBox<String> comboAnticuagulado;
+    public static javax.swing.JComboBox<String> comboCardiacas;
+    public static javax.swing.JComboBox<String> comboDbt;
+    public static javax.swing.JComboBox<String> comboEdema;
+    public static javax.swing.JComboBox<String> comboHiperhidrosis;
+    public static javax.swing.JComboBox<String> comboHiperqueratosis;
+    public static javax.swing.JComboBox<String> comboMicosis;
+    public static javax.swing.JComboBox<String> comboOnicocriptosis;
+    public static javax.swing.JComboBox<String> comboTalon;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

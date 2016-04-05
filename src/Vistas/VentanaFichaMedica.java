@@ -6,6 +6,7 @@
 package Vistas;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -29,10 +30,10 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         setSize(1200, 550);
         setLocationRelativeTo(null);
         cargar("");
-        setTitle("LISTA DE FICHAS MÉDICAS");
+        setTitle("LISTA DE FICHAS Mï¿½DICAS");
     }
     private void cargar(String valor){
-    	String [] titulos={"Codigo","Apellido","Nombre","Dire","Edad","Anticuagulado","DBT","Af.Cardiacas","Micosis","Onicocriptosis","T.Agrietado","Hiperqueratosis","Edema","D.Clínicos","Otras Pat.","Tratamiento","Evolución"};
+    	String [] titulos={"Codigo","Apellido","Nombre","Dire","Edad","Anticuagulado","DBT","Af.Cardiacas","Micosis","Onicocriptosis","T.Agrietado","Hiperqueratosis","Edema","D.Clï¿½nicos","Otras Pat.","Tratamiento","Evoluciï¿½n"};
     	String [] registros= new String[18];
     	String sql="SELECT * FROM fichasmedicas WHERE fich_ap LIKE '"+valor+"' ORDER BY fich_ap ASC";
     	model= new DefaultTableModel(null,titulos);
@@ -116,6 +117,11 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
 
             }
         ));
+        tablaFichaMedica.addMouseListener(new java.awt.event.MouseAdapter(){
+        	public void mouseClicked(java.awt.event.MouseEvent evt){
+        		tablaFichaMedicaMouseClicked(evt);
+        	}
+        });
         jScrollPane2.setViewportView(tablaFichaMedica);
 
         jPanel1.add(jScrollPane2);
@@ -133,7 +139,15 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    protected void campoBuscarKeyReleased(KeyEvent evt) {
+    protected void tablaFichaMedicaMouseClicked(MouseEvent evt) {
+    	VentanaFicha miVF= new VentanaFicha();
+    	int fila=tablaFichaMedica.getSelectedRow();
+    	if(fila>=0){   		
+//    		miVF.campoCod.setText(tablaFichaMedica.getValueAt(fila,0));
+    		miVF.campoApe.setText(tablaFichaMedica.getValueAt(fila, 1).toString());
+    	}
+    }
+	protected void campoBuscarKeyReleased(KeyEvent evt) {
 		cargar(campoBuscar.getText());
 	}
 	/**
