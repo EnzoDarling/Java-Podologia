@@ -5,7 +5,9 @@
  */
 package Vistas;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -21,21 +23,39 @@ import Conector.Conexion;
 
 public class VentanaVademecum extends javax.swing.JFrame {
 	DefaultTableModel model;
+	DiseñoLetraFondo diseño;
+	Mensajeria mensaje;
     public VentanaVademecum() {
         initComponents();
+        diseño = new DiseñoLetraFondo();
+        mensaje = new Mensajeria();
         setSize(977, 548);
+        setIcon();
         setLocationRelativeTo(null);
         setResizable(false);
         setTitle("VADEMECUM");
         cargar("");
+        iniciar();
         labelCod.setVisible(false);
         campoCod.setVisible(false);
     }
-    private void cargar(String valor){
+    private void setIcon() {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("podologia32x32.png")));		
+	}
+    public void iniciar(){
+        diseño.Mensaje(campoBuscar,mensaje.getNombre(), 0);
+    }  
+	private void cargar(String valor){
     	String [] titulos= {"Código","Nombre","Posología","Indicaciones"};    	
     	String [] registros= new String [4];
     	String sql="SELECT * FROM vademecum WHERE vad_nom LIKE '%"+valor+"%' ORDER BY vad_nom ASC" ;
-    	model= new DefaultTableModel (null, titulos);
+    	model= new DefaultTableModel (null, titulos){
+    	    @Override
+    	    public boolean isCellEditable(int row, int column) {
+    	       //all cells false
+    	       return false;
+    	    }
+    	};
     	Conexion cc= new Conexion();
     	Connection cn= cc.conexion();
     	try {
@@ -79,7 +99,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
 	    String nom= campoNom.getText();
 	    String indi=areaIndi.getText();
 	    String poso= comboPoso.getSelectedItem().toString();
-	    String sql="UPDATE vademecum SET vade_nom='"+nom+"', vade_ind='"+indi+"', vade_poso='"+poso+"' WHERE vad_cod";
+	    String sql="UPDATE vademecum SET vade_nom='"+nom+"', vade_ind='"+indi+"', vade_poso='"+poso+"' WHERE vad_cod=";
 	    int resp;
 	    resp= JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE MODIFICAR ESTE REGISTRO?","AVISO",JOptionPane.YES_NO_OPTION);
 	    if(resp == JOptionPane.YES_OPTION){
@@ -100,7 +120,8 @@ public class VentanaVademecum extends javax.swing.JFrame {
     	String cod= campoCod.getText();
     	String sql="DELETE FROM vademecum WHERE vad_cod=?";
     	int resp;
-    	resp=JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE ELIMINAR EL REGISTRO?","PREGUNTA", JOptionPane.YES_NO_OPTION);    	if(resp == JOptionPane.YES_OPTION){
+    	resp=JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE ELIMINAR EL REGISTRO?","PREGUNTA", JOptionPane.YES_NO_OPTION);    	
+    	if(resp == JOptionPane.YES_OPTION){
     		try {
 				PreparedStatement psd= cn.prepareStatement(sql);
 				psd.setString(1,cod);
@@ -143,7 +164,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaVade = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -181,20 +202,35 @@ public class VentanaVademecum extends javax.swing.JFrame {
         campoNom.setBounds(120, 60, 140, 30);
 
         btnEliminar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatdelete.png"))); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnEliminar);
         btnEliminar.setBounds(10, 470, 160, 40);
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatsave.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tick.png"))); // NOI18N
         btnGuardar.setText("GUARDAR");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnGuardar);
         btnGuardar.setBounds(10, 410, 160, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatedit.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil.png"))); // NOI18N
         btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnModificar);
         btnModificar.setBounds(180, 410, 170, 40);
 
@@ -208,8 +244,13 @@ public class VentanaVademecum extends javax.swing.JFrame {
         campoCod.setBounds(120, 10, 140, 30);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/broom.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit-clear.png"))); // NOI18N
         jButton1.setText("LIMPIAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1);
         jButton1.setBounds(180, 470, 140, 40);
 
@@ -223,8 +264,19 @@ public class VentanaVademecum extends javax.swing.JFrame {
         labelBuscar.setText("Buscar");
         jPanel2.add(labelBuscar);
         labelBuscar.setBounds(10, 10, 70, 30);
+        campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 18));
         jPanel2.add(campoBuscar);
         campoBuscar.setBounds(100, 10, 180, 30);
+        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoBuscarFocusLost(evt);
+            }
+        });
+        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoBuscarMouseClicked(evt);
+            }
+        });
 
         tablaVade.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tablaVade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -239,6 +291,11 @@ public class VentanaVademecum extends javax.swing.JFrame {
 
             }
         ));
+        tablaVade.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaVadeMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaVade);
 
         jPanel2.add(jScrollPane2);
@@ -250,7 +307,13 @@ public class VentanaVademecum extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    protected void campoBuscarKeyReleased(KeyEvent evt) {
+    protected void campoBuscarMouseClicked(MouseEvent evt) {
+    	diseño.Clic(campoBuscar, mensaje.getNombre());		
+	}
+	protected void campoBuscarFocusLost(FocusEvent evt) {
+		diseño.Mensaje(campoBuscar, mensaje.getNombre(), campoBuscar.getText().trim().length());
+	}
+	protected void campoBuscarKeyReleased(KeyEvent evt) {
 		cargar(campoBuscar.getText());
 	}
 	protected void btnModificarActionPerformed(ActionEvent evt) {
@@ -265,7 +328,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
 	protected void btnEliminarActionPerformed(ActionEvent evt) {
 		eliminar();
 	}
-	protected void tablaPacientesMouseClicked(MouseEvent evt) {
+	protected void tablaVadeMouseClicked(MouseEvent evt) {
 		labelCod.setVisible(true);
 		campoCod.setVisible(true);
     	int fila= tablaVade.getSelectedRow();

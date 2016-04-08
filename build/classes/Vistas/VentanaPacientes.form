@@ -227,7 +227,7 @@
               <Font name="Tahoma" size="18" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/imagenes/flatsave.png"/>
+              <Image iconType="3" name="/imagenes/tick.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="GUARDAR"/>
           </Properties>
@@ -246,7 +246,7 @@
               <Font name="Tahoma" size="18" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/imagenes/flatdelete.png"/>
+              <Image iconType="3" name="/imagenes/delete.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="BORRAR"/>
           </Properties>
@@ -265,7 +265,7 @@
               <Font name="Tahoma" size="18" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/imagenes/flatedit.png"/>
+              <Image iconType="3" name="/imagenes/pencil.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="MODIFICAR"/>
           </Properties>
@@ -284,7 +284,7 @@
               <Font name="Tahoma" size="18" style="0"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/imagenes/broom.png"/>
+              <Image iconType="3" name="/imagenes/edit-clear.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="LIMPIAR"/>
           </Properties>

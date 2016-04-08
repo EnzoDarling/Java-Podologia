@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import Conector.Conexion;
+import java.awt.Toolkit;
 
 /**
  *
@@ -22,21 +24,36 @@ import Conector.Conexion;
  */
 public class VentanaFichaMedica extends javax.swing.JFrame {
 	DefaultTableModel model;
+	DiseñoLetraFondo diseño;
+	Mensajeria mensaje;
     /**
      * Creates new form VentanaFichaMedica2
      */
     public VentanaFichaMedica() {
         initComponents();
+        diseño = new DiseñoLetraFondo();
+        mensaje = new Mensajeria();
         setSize(1200, 550);
+        setIcon();
         setLocationRelativeTo(null);
         cargar("");
         setTitle("LISTA DE FICHAS MÉDICAS");
+        inicar();
     }
-    private void cargar(String valor){
+    private void inicar() {
+    	diseño.Mensaje(campoBuscar,mensaje.getApellido(), 0);
+	}
+	private void cargar(String valor){
     	String [] titulos={"Codigo","Apellido","Nombre","Dire","Edad","Anticuagulado","DBT","Af.Cardiacas","Micosis","Onicocriptosis","T.Agrietado","Hiperqueratosis","Edema","D.Clinicos","Otras Pat.","Tratamiento","Evolucion"};
     	String [] registros= new String[18];
-    	String sql="SELECT * FROM fichasmedicas WHERE fich_ap LIKE '"+valor+"' ORDER BY fich_ap ASC";
-    	model= new DefaultTableModel(null,titulos);
+    	String sql="SELECT * FROM fichasmedicas WHERE fich_ap LIKE '%"+valor+"%' ORDER BY fich_ap ASC";
+    	model= new DefaultTableModel(null,titulos){
+    	    @Override
+    	    public boolean isCellEditable(int row, int column) {
+    	       //all cells false
+    	       return false;
+    	    }
+    	};
     	Conexion cc= new Conexion();
     	Connection cn= cc.conexion();
     	try {
@@ -82,18 +99,26 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         labelBuscar = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaFichaMedica = new javax.swing.JTable();
-        btnMostrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(null);
 
-        campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoBuscar);
-        campoBuscar.setBounds(160, 20, 140, 30);
-
+        campoBuscar.setBounds(160, 20, 170, 40);
+        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoBuscarMouseClicked(evt);
+            }
+        });
+        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoBuscarFocusLost(evt);
+            }
+        });
         labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelBuscar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelBuscar.setText("Buscar");
@@ -115,21 +140,21 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tablaFichaMedica);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(10, 64, 890, 390);
-
-        btnMostrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458516970_medical-06.png"))); // NOI18N
-        btnMostrar.setText("MOSTRAR TODO");
-        jPanel1.add(btnMostrar);
-        btnMostrar.setBounds(360, 13, 220, 40);
+        jScrollPane2.setBounds(5, 64, 1169, 443);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 910, 460);
+        jPanel1.setBounds(0, 0, 1184, 510);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    protected void tablaFichaMedicaMouseClicked(MouseEvent evt) {
+    protected void campoBuscarFocusLost(FocusEvent evt) {
+    	diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
+	}
+	protected void campoBuscarMouseClicked(MouseEvent evt) {
+		diseño.Clic(campoBuscar, mensaje.getApellido());		
+	}
+	protected void tablaFichaMedicaMouseClicked(MouseEvent evt) {
     	VentanaFicha miVF= new VentanaFicha();
     	int fila=tablaFichaMedica.getSelectedRow();
     	if(fila>=0){   		
@@ -193,11 +218,14 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMostrar;
     private javax.swing.JTextField campoBuscar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelBuscar;
     private javax.swing.JTable tablaFichaMedica;
     // End of variables declaration//GEN-END:variables
+
+    private void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("podologia32x32.png")));
+    }
 }

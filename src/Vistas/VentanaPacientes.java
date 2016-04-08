@@ -3,6 +3,9 @@
  */
 package Vistas;
 import Conector.Conexion;
+import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,33 +21,47 @@ import javax.swing.table.DefaultTableModel;
 
 public class VentanaPacientes extends javax.swing.JFrame {
 DefaultTableModel model;
+DiseñoLetraFondo diseño;
+Mensajeria mensaje;
     /**
      * Creates new form VentanaPacientes2
      */
     public VentanaPacientes() {
         initComponents();
+        diseño = new DiseñoLetraFondo();
+        mensaje = new Mensajeria();
         setSize(961, 450);
+        setIcon();
         setLocationRelativeTo(null);
         setTitle("PACIENTES");
         cargar("");
-        limpiar();
+        deshabilitar();
+        iniciar();
     }
-    
+    public void iniciar(){
+        diseño.Mensaje(campoBuscar,mensaje.getApellido(), 0);
+    }    
     private void cargar(String valor){
         String [] titulos= {"Tel/Cel","Apellido", "Nombre", "Domicilio"};
         String [] registros = new String[5];
         String sql="SELECT * FROM pacientes WHERE pac_ap LIKE '%"+valor+"%' ORDER BY pac_ap ASC";
-        model= new DefaultTableModel (null,titulos);
+        model= new DefaultTableModel (null,titulos){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+               //all cells false
+               return false;
+            }
+        };
         Conexion cc= new Conexion();
         Connection cn= cc.conexion();
         try {
             Statement st= cn.createStatement();
             ResultSet rs= st.executeQuery(sql);
             while(rs.next()){
-            registros[0]=rs.getString("pac_ap");
-            registros[1]=rs.getString("pac_nom");
-            registros[2]=rs.getString("pac_dom");
-            registros[3]=rs.getString("pac_cel");
+            registros[0]=rs.getString("pac_cel");
+            registros[1]=rs.getString("pac_ap");
+            registros[2]=rs.getString("pac_nom");
+            registros[3]=rs.getString("pac_dom");
             model.addRow(registros);
             }            
             tablaPacientes.setModel(model);
@@ -52,8 +69,7 @@ DefaultTableModel model;
             JOptionPane.showMessageDialog(null,"Error:"+e);
         }
         
-    }
-    
+    }    
     private void guardar(){
         Conexion cc= new Conexion();
         Connection cn= cc.conexion();
@@ -105,7 +121,7 @@ DefaultTableModel model;
         String ap= campoApe.getText();
         String nom= campoNom.getText();
         String dom= campoDom.getText();
-        String sql= "UPDATE clientes SET pac_ap='"+ap+"', pac_nom='"+nom+"', pac_dom='"+dom+"' WHERE cli_cel='"+cel+"'";
+        String sql= "UPDATE pacientes SET pac_ap='"+ap+"', pac_nom='"+nom+"', pac_dom='"+dom+"' WHERE pac_cel='"+cel+"'";
         int resp;
         resp= JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
         if(resp == JOptionPane.YES_OPTION){
@@ -125,8 +141,18 @@ DefaultTableModel model;
         campoTel.setText("");
         campoDom.setText("");
     }
-    
-    
+    private void habilitar(){
+    	campoApe.setEnabled(true);
+        campoNom.setEnabled(true);
+        campoTel.setEnabled(true);
+        campoDom.setEnabled(true);
+    }
+    private void deshabilitar(){
+    	campoApe.setEnabled(false);
+        campoNom.setEnabled(false);
+        campoTel.setEnabled(false);
+        campoDom.setEnabled(false);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -153,9 +179,9 @@ DefaultTableModel model;
         btnGuardar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        campoLimpiar = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -169,6 +195,16 @@ DefaultTableModel model;
         });
         jPanel2.add(campoBuscar);
         campoBuscar.setBounds(90, 10, 160, 30);
+        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoBuscarFocusLost(evt);
+            }
+        });
+        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoBuscarMouseClicked(evt);
+            }
+        });
 
         labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelBuscar.setText("Buscar");
@@ -240,7 +276,7 @@ DefaultTableModel model;
         campoDom.setBounds(130, 200, 190, 30);
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatsave.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tick.png"))); // NOI18N
         btnGuardar.setText("GUARDAR");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -251,7 +287,7 @@ DefaultTableModel model;
         btnGuardar.setBounds(10, 350, 160, 40);
 
         btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatdelete.png"))); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
         btnBorrar.setText("BORRAR");
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -262,7 +298,7 @@ DefaultTableModel model;
         btnBorrar.setBounds(250, 350, 160, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatedit.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil.png"))); // NOI18N
         btnModificar.setText("MODIFICAR");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -272,41 +308,56 @@ DefaultTableModel model;
         jPanel1.add(btnModificar);
         btnModificar.setBounds(240, 280, 170, 40);
 
-        campoLimpiar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        campoLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/broom.png"))); // NOI18N
-        campoLimpiar.setText("LIMPIAR");
-        campoLimpiar.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
+        btnNuevo.setText("NUEVO");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoLimpiarActionPerformed(evt);
+                btnNuevoActionPerformed(evt);
             }
         });
-        jPanel1.add(campoLimpiar);
-        campoLimpiar.setBounds(10, 280, 160, 40);
+        jPanel1.add(btnNuevo);
+        btnNuevo.setBounds(10, 280, 160, 40);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 420, 410);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void campoLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLimpiarActionPerformed
-        limpiar();
+    protected void campoBuscarMouseClicked(MouseEvent evt) {
+    	diseño.Clic(campoBuscar, mensaje.getApellido());
+	}
+	protected void campoBuscarFocusLost(FocusEvent evt) {
+		diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
+	}
+	private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLimpiarActionPerformed
+        habilitar();
     }//GEN-LAST:event_campoLimpiarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         modificar();
+        limpiar();
+        deshabilitar();
+        cargar("");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardar();
+        limpiar();
+        deshabilitar();
+        cargar("");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         eliminar();
+        limpiar();
+        deshabilitar();
+        cargar("");
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void tablaPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPacientesMouseClicked
-        int fila=tablaPacientes.getSelectedRow();
+        habilitar();
+    	int fila=tablaPacientes.getSelectedRow();
         if(fila>=0){
             campoTel.setText(tablaPacientes.getValueAt(fila,0).toString());
             campoApe.setText(tablaPacientes.getValueAt(fila,1).toString());
@@ -362,7 +413,7 @@ DefaultTableModel model;
     private javax.swing.JTextField campoApe;
     private javax.swing.JTextField campoBuscar;
     private javax.swing.JTextField campoDom;
-    private javax.swing.JButton campoLimpiar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JTextField campoNom;
     private javax.swing.JTextField campoTel;
     private javax.swing.JPanel jPanel1;
@@ -375,4 +426,8 @@ DefaultTableModel model;
     private javax.swing.JLabel labelTel;
     private javax.swing.JTable tablaPacientes;
     // End of variables declaration//GEN-END:variables
+
+    private void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("podologia32x32.png")));
+    }
 }

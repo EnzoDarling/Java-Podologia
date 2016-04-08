@@ -7,12 +7,15 @@ import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
 import Conector.Conexion;
+import java.awt.Toolkit;
 
 public class VentanaFicha extends javax.swing.JFrame {
 
     public VentanaFicha() {
         initComponents();
         setSize(610, 610);
+        setIcon();
+        setTitle("FICHAS MÉDICAS");
         setLocationRelativeTo(null);
         campoCod.setVisible(false);
         labelCod.setVisible(false);
@@ -209,7 +212,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         btnModificar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jTabbedPane2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -421,7 +424,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jScrollPane3.setBounds(250, 240, 210, 160);
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458532674_floppy_disk_save.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tick.png"))); // NOI18N
         btnGuardar.setText("GUARDAR");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -432,7 +435,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         btnGuardar.setBounds(10, 410, 150, 40);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/broom.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit-clear.png"))); // NOI18N
         jButton1.setText("LIMPIAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -443,7 +446,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jButton1.setBounds(10, 480, 140, 40);
 
         btnMostrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458516970_medical-06.png"))); // NOI18N
+        btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tablaexcel.png"))); // NOI18N
         btnMostrar.setText("MOSTRAR FICHAS");
         btnMostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -454,7 +457,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         btnMostrar.setBounds(180, 480, 230, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/modify.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil.png"))); // NOI18N
         btnModificar.setText("MODIFICAR");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -465,7 +468,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         btnModificar.setBounds(180, 410, 170, 40);
 
         btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458532731_trash.png"))); // NOI18N
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
         btnBorrar.setText("BORRAR");
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -586,4 +589,8 @@ public class VentanaFicha extends javax.swing.JFrame {
     private javax.swing.JLabel labelTel;
     private javax.swing.JLabel labelTratamiento;
     // End of variables declaration//GEN-END:variables
+
+    private void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("podologia32x32.png")));
+    }
 }
