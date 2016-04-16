@@ -2,7 +2,7 @@ package Vistas;
 
 public class Mensajeria {
 		String Apellido="Ingrese el apellido";
-		String Nombre="Ingrese el nombre";
+		String Nombre="Ingrese el nombre";		
 	    public String getApellido(){
 	    return Apellido;
 	    }

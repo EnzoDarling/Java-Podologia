@@ -27,6 +27,7 @@ public class VentanaTurnos extends javax.swing.JFrame {
 DefaultTableModel model;
 DiseñoLetraFondo diseño;
 Mensajeria mensaje;
+CustomErrorDialog CustomError;
     /**
      * Creates new form VentanaTurnos2
      */
@@ -34,7 +35,8 @@ Mensajeria mensaje;
         initComponents();
         diseño = new DiseñoLetraFondo();
         mensaje = new Mensajeria();
-        setSize(1002, 520);
+        CustomError = new CustomErrorDialog();
+        setSize(1045, 520);
         setTitle("TURNOS");
         setIcon();
         setLocationRelativeTo(null);        
@@ -59,7 +61,7 @@ Mensajeria mensaje;
             }
         };
         Conexion cc= new Conexion();
-        Connection cn= cc.conexion();
+        Connection cn= cc.conexion();        
         try {
             Statement st= cn.createStatement();
             ResultSet rs= st.executeQuery(sql);
@@ -76,7 +78,8 @@ Mensajeria mensaje;
             }
             tablaTurnos.setModel(model);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Error:" +e);
+            CustomError.showDialog("<html>Ocurrió un error al cargar, contacte al personal adecuado sobre este error</html>", 
+                            "<html>'"+e+"'</html>");
         }
     } 
     private void cargarPacientes(){
@@ -104,9 +107,11 @@ Mensajeria mensaje;
             }
             tablaPacientes.setModel(model);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Error:" +e);
+            CustomError.showDialog("<html>Ocurrió un error al cargar, contacte al personal adecuado sobre este error</html>", 
+                            "<html>'"+e+"'</html>");
         }
     } 
+    
     private void guardar(){
     Conexion cc= new Conexion();
     Connection cn= cc.conexion();
@@ -118,22 +123,27 @@ Mensajeria mensaje;
     String fecha= campoFecha.getText();
     String dire= campoDire.getText();
     String sql= "INSERT INTO turnos (turn_cel, turn_ape, turn_nom, turn_fecha, turn_dire, turn_hora, turn_min)VALUES(?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement psd= cn.prepareStatement(sql);
-            psd.setString(1, cel);
-            psd.setString(2, ape);
-            psd.setString(3, nom);
-            psd.setString(4, fecha);
-            psd.setString(5, dire);
-            psd.setString(6, hora);
-            psd.setString(7, minu);
-            int n= psd.executeUpdate();
-            if(n>0){
-                JOptionPane.showMessageDialog(null, "SE HA GUARDADO EL REGISTRO","AVISO", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"ERROR:" +e);
-        }        
+    if(cel.equals("") || cel==null || ape.equals("") || ape==null || nom.equals("") || nom==null || fecha.equals("") || fecha==null || dire.equals("")|| dire==null || hora.equals("") || hora==null ||  minu.equals("") || minu==null){
+        JOptionPane.showMessageDialog(null,"Existen campos vacíos, rellene los campos e intente nuevamente","Error", JOptionPane.ERROR_MESSAGE);
+    }else{
+            try {
+                PreparedStatement psd= cn.prepareStatement(sql);
+                psd.setString(1, cel);
+                psd.setString(2, ape);
+                psd.setString(3, nom);
+                psd.setString(4, fecha);
+                psd.setString(5, dire);
+                psd.setString(6, hora);
+                psd.setString(7, minu);
+                int n= psd.executeUpdate();
+                if(n>0){
+                    JOptionPane.showMessageDialog(null, "SE HA GUARDADO EL REGISTRO","AVISO", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception e) {
+                CustomError.showDialog("<html>Ocurrió un error al guardar, contacte al personal adecuado sobre este error</html>", 
+                            "<html>'"+e+"'</html>");
+            }        
+        }
     }
     private void modificar(){
        Conexion cc= new Conexion();
@@ -146,6 +156,9 @@ Mensajeria mensaje;
        String fecha= campoFecha.getText();
        String dire= campoDire.getText();
        String sql="UPDATE turnos SET turn_ape='"+ape+"', turn_nom='"+nom+"', turn_fecha='"+fecha+"', turn_dire='"+dire+"', turn_hora='"+hora+"', turn_min='"+minu+"' WHERE turn_cel='"+cel+"' ";
+       if(cel.equals("") || cel==null || ape.equals("") || ape==null || nom.equals("") || nom==null || fecha.equals("") || fecha==null || dire.equals("")|| dire==null || hora.equals("") || hora==null ||  minu.equals("") || minu==null){
+           JOptionPane.showMessageDialog(null,"Existen campos vacíos, rellene los campos vacíos e intente nuevamente","Error", JOptionPane.ERROR_MESSAGE);
+       }else{
        int resp;
        resp= JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA", JOptionPane.YES_NO_OPTION);
        if(resp == JOptionPane.YES_OPTION){
@@ -156,29 +169,36 @@ Mensajeria mensaje;
 				JOptionPane.showMessageDialog(null,"SE HA MODIFICADO EL REGISTRO");
 			}
 		} catch (Exception e) {
-				JOptionPane.showMessageDialog(null,"ERROR :" +e);
+                        CustomError.showDialog("<html>Ocurrió un error al modificar, contacte al personal adecuado sobre este error</html>", 
+                    "<html>'"+e+"'</html>");
 		}
        }
-    }
+    }}
     private void eliminar(){ 
     	Conexion cc= new Conexion();
     	Connection cn= cc.conexion();
     	String cel=campoCel.getText();
     	String sql="DELETE FROM turnos WHERE turn_cel=?";
-    	int resp;
-    	resp=JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE ELIMINAR EL REGISTRO?","ALERTA", JOptionPane.YES_NO_OPTION);
-    	if(resp== JOptionPane.YES_OPTION){
-    		try {
-				PreparedStatement psd= cn.prepareStatement(sql);
-				psd.setString(1,cel);
-				int x= psd.executeUpdate();
-				if(x>0){
-					JOptionPane.showMessageDialog(null,"SE HA ELIMINADO EL REGISTRO","AVISO", JOptionPane.INFORMATION_MESSAGE);
-				}
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null,"Error :" +e);
-			}
-    	}
+    	
+        if(cel.equals("") || cel==null){
+            JOptionPane.showMessageDialog(null,"No ingresó un número de celular para eliminar, ingrese un número de celular e intente nuevamente");
+        }else{
+            int resp;
+            resp=JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE ELIMINAR EL REGISTRO?","ALERTA", JOptionPane.YES_NO_OPTION);
+            if(resp== JOptionPane.YES_OPTION){
+                try {
+                    PreparedStatement psd= cn.prepareStatement(sql);
+                    psd.setString(1,cel);
+                    int x= psd.executeUpdate();
+                    if(x>0){
+                            JOptionPane.showMessageDialog(null,"SE HA ELIMINADO EL REGISTRO","AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                        CustomError.showDialog("<html>Ocurrió un error al eliminar, contacte al personal adecuado sobre este error</html>", 
+                    "<html>'"+e+"'</html>");
+                }
+            }
+        }
     }
     private void limpiar(){
     	campoAp.setText("");
@@ -226,7 +246,7 @@ Mensajeria mensaje;
         btnModificar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         campoFecha = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         campoAp = new javax.swing.JTextField();
         campoHora = new javax.swing.JTextField();
@@ -240,7 +260,7 @@ Mensajeria mensaje;
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPacientes = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -307,12 +327,17 @@ Mensajeria mensaje;
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil.png"))); // NOI18N
         btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnModificar);
         btnModificar.setBounds(190, 370, 170, 40);
 
         btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
-        btnBorrar.setText("ELIMINAR");
+        btnBorrar.setText("BORRAR");
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBorrarActionPerformed(evt);
@@ -325,16 +350,16 @@ Mensajeria mensaje;
         jPanel3.add(campoFecha);
         campoFecha.setBounds(110, 240, 210, 30);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
-        jButton1.setText("NUEVO");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit-clear.png"))); // NOI18N
+        btnNuevo.setText("NUEVO");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1);
-        jButton1.setBounds(10, 370, 160, 40);
+        jPanel3.add(btnNuevo);
+        btnNuevo.setBounds(10, 370, 160, 40);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("Apellido");
@@ -344,8 +369,12 @@ Mensajeria mensaje;
         campoAp.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoAp);
         campoAp.setBounds(110, 80, 210, 30);
+
+        campoHora.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoHora);
         campoHora.setBounds(110, 180, 50, 30);
+
+        campoMin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoMin);
         campoMin.setBounds(200, 180, 60, 30);
 
@@ -361,8 +390,6 @@ Mensajeria mensaje;
         jLabel10.setBounds(20, 10, 70, 30);
 
         campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jPanel1.add(campoBuscar);
-        campoBuscar.setBounds(100, 10, 160, 30);
         campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 campoBuscarFocusLost(evt);
@@ -373,6 +400,8 @@ Mensajeria mensaje;
                 campoBuscarMouseClicked(evt);
             }
         });
+        jPanel1.add(campoBuscar);
+        campoBuscar.setBounds(100, 10, 160, 30);
 
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
@@ -388,6 +417,7 @@ Mensajeria mensaje;
 
             }
         ));
+        tablaTurnos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tablaTurnos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaTurnosMouseClicked(evt);
@@ -396,7 +426,8 @@ Mensajeria mensaje;
         jScrollPane2.setViewportView(tablaTurnos);
 
         jTabbedPane1.addTab("Turnos", jScrollPane2);
-        tablaPacientes.setFont(new java.awt.Font("Tahoma", 0, 18));
+
+        tablaPacientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tablaPacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -418,43 +449,17 @@ Mensajeria mensaje;
         jTabbedPane1.addTab("Pacientes", jScrollPane1);
 
         jPanel1.add(jTabbedPane1);
-        jTabbedPane1.setBounds(0, 60, 600, 400);
+        jTabbedPane1.setBounds(0, 60, 630, 410);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(380, 0, 600, 460);
+        jPanel1.setBounds(380, 0, 640, 480);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    protected void campoBuscarMouseClicked(MouseEvent evt) {
-    	diseño.Clic(campoBuscar, mensaje.getApellido());
-	}
-	protected void campoBuscarFocusLost(FocusEvent evt) {
-		diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
-	}
-	protected void btnNuevoActionPerformed(ActionEvent evt) {
-		habilitar();
-	}
-	protected void btnBorrarActionPerformed(ActionEvent evt) {
-		eliminar();
-		limpiar();
-		deshabilitar();
-		cargarTurnos("");
-	}
-	protected void campoBuscarKeyReleased(KeyEvent evt) {
+    	protected void campoBuscarKeyReleased(KeyEvent evt) {
 		cargarTurnos(campoBuscar.getText());		
 	}	
-	protected void btnModificarActionPerformed(ActionEvent evt) {
-		modificar();
-		limpiar();
-		deshabilitar();
-		cargarTurnos("");		
-	}
-	protected void btnGuardarActionPerformed(ActionEvent evt) {
-		guardar();
-		limpiar();
-		deshabilitar();
-		cargarTurnos("");
-	}
+		
     private void tablaTurnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTurnosMouseClicked
         habilitar();
     	int fila=tablaTurnos.getSelectedRow();
@@ -478,6 +483,40 @@ Mensajeria mensaje;
         campoNom.setText(tablaPacientes.getValueAt(fila2,3).toString());
         }
     }//GEN-LAST:event_tablaPacientesMouseClicked
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        limpiar();
+        habilitar();   
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        modificar();
+        limpiar();
+        deshabilitar();
+        cargarTurnos("");
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+        limpiar();
+        deshabilitar();
+        cargarTurnos("");
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        eliminar();
+        limpiar();
+        deshabilitar();
+        cargarTurnos("");
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void campoBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoBuscarMouseClicked
+        diseño.Clic(campoBuscar, mensaje.getApellido());	
+    }//GEN-LAST:event_campoBuscarMouseClicked
+
+    private void campoBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarFocusLost
+        diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
+    }//GEN-LAST:event_campoBuscarFocusLost
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -515,6 +554,7 @@ Mensajeria mensaje;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JTextField campoAp;
     private javax.swing.JTextField campoBuscar;
     private javax.swing.JTextField campoCel;
@@ -523,7 +563,6 @@ Mensajeria mensaje;
     private javax.swing.JTextField campoHora;
     private javax.swing.JTextField campoMin;
     private javax.swing.JTextField campoNom;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

@@ -33,15 +33,16 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         initComponents();
         diseño = new DiseñoLetraFondo();
         mensaje = new Mensajeria();
-        setSize(1200, 550);
+        setSize(1195, 545);
         setIcon();
         setLocationRelativeTo(null);
+        setResizable(false);
         cargar("");
         setTitle("LISTA DE FICHAS MÉDICAS");
         inicar();
     }
     private void inicar() {
-    	diseño.Mensaje(campoBuscar,mensaje.getApellido(), 0);
+    	diseño.Mensaje(campoBuscar,mensaje.getNombre(), 0);
 	}
 	private void cargar(String valor){
     	String [] titulos={"Codigo","Apellido","Nombre","Dire","Edad","Anticuagulado","DBT","Af.Cardiacas","Micosis","Onicocriptosis","T.Agrietado","Hiperqueratosis","Edema","D.Clinicos","Otras Pat.","Tratamiento","Evolucion"};
@@ -149,10 +150,10 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     protected void campoBuscarFocusLost(FocusEvent evt) {
-    	diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
+    	diseño.Mensaje(campoBuscar, mensaje.getNombre(), campoBuscar.getText().trim().length());
 	}
 	protected void campoBuscarMouseClicked(MouseEvent evt) {
-		diseño.Clic(campoBuscar, mensaje.getApellido());		
+            diseño.Clic(campoBuscar, mensaje.getNombre());		
 	}
 	protected void tablaFichaMedicaMouseClicked(MouseEvent evt) {
     	VentanaFicha miVF= new VentanaFicha();

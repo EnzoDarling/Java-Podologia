@@ -27,7 +27,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public VentanaPrincipal() {
         initComponents();
         setTitle("SISTEMA PODOLÓGICO v1.0");
-        setSize(715, 428);
+        setSize(718, 455);
         setResizable(false);
         setLocationRelativeTo(null);
         setIcon();
@@ -37,7 +37,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         	public void windowClosing(WindowEvent e) {
         		Object[] options = {"CANCELAR", "ACEPTAR"};
             	int n = JOptionPane.showOptionDialog(null,
-                        "Si sale el sistema se cerrara �Desea salir?","AVISO",JOptionPane.YES_NO_OPTION,
+                        "Si sale el sistema se cerrara ¿Desea salir?","AVISO",JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE,null,options,options[0]);
 		       
             	if (n == JOptionPane.YES_OPTION){}
@@ -71,8 +71,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         btnTurnos = new javax.swing.JButton();
         btnPacientes = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         btnFichMedica.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -96,7 +97,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnVade);
-        btnVade.setBounds(10, 90, 210, 50);
+        btnVade.setBounds(10, 130, 210, 50);
 
         btnTurnos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnTurnos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/turnos.png"))); // NOI18N
@@ -107,7 +108,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTurnos);
-        btnTurnos.setBounds(10, 160, 210, 50);
+        btnTurnos.setBounds(10, 240, 210, 50);
 
         btnPacientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnPacientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458530871_PatientMale.png"))); // NOI18N
@@ -118,11 +119,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPacientes);
-        btnPacientes.setBounds(10, 230, 210, 50);
+        btnPacientes.setBounds(10, 350, 210, 50);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/podologia.png"))); // NOI18N
+        jLabel1.setToolTipText("");
+        jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 710, 420);
+        jLabel1.setBounds(0, 0, 720, 430);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/podologia-original.png"))); // NOI18N
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(640, 350, 80, 80);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -193,5 +200,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnTurnos;
     private javax.swing.JButton btnVade;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

@@ -23,6 +23,7 @@ public class VentanaPacientes extends javax.swing.JFrame {
 DefaultTableModel model;
 DiseñoLetraFondo diseño;
 Mensajeria mensaje;
+CustomErrorDialog CustomError;
     /**
      * Creates new form VentanaPacientes2
      */
@@ -30,6 +31,7 @@ Mensajeria mensaje;
         initComponents();
         diseño = new DiseñoLetraFondo();
         mensaje = new Mensajeria();
+        CustomError = new CustomErrorDialog();
         setSize(961, 450);
         setIcon();
         setLocationRelativeTo(null);
@@ -66,7 +68,8 @@ Mensajeria mensaje;
             }            
             tablaPacientes.setModel(model);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Error:"+e);
+            CustomError.showDialog("<html>Ocurrió un error al cargar, contacte al personal adecuado sobre este error</html>", 
+                            "<html>'"+e+"'</html>");
         }
         
     }    
@@ -78,18 +81,23 @@ Mensajeria mensaje;
         String tel= campoTel.getText();
         String dom= campoDom.getText();        
         String sql="INSERT INTO pacientes (pac_cel, pac_ap, pac_nom, pac_dom) VALUES(?,?,?,?)";
-        try {
-            PreparedStatement psd= cn.prepareStatement(sql);
-            psd.setString(1,tel);
-            psd.setString(2,ape);
-            psd.setString(3,nom);
-            psd.setString(4,dom);
-            int n=psd.executeUpdate();            
-            if(n>0){
-                JOptionPane.showMessageDialog(null,"SE HA GUARDADO EL REGISTRO","AVISO",JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"ERROR:" +e);
+        if(ape.equals("") || ape==null || nom.equals("") || nom==null || tel.equals("") || tel==null || dom.equals("") || dom==null){
+	        JOptionPane.showMessageDialog(null,"Existen campos vacíos, rellene los campos y intente nuevamente");
+        }else{
+        	try {
+	            PreparedStatement psd= cn.prepareStatement(sql);
+	            psd.setString(1,tel);
+	            psd.setString(2,ape);
+	            psd.setString(3,nom);
+	            psd.setString(4,dom);
+	            int n=psd.executeUpdate();            
+	            if(n>0){
+	                JOptionPane.showMessageDialog(null,"SE HA GUARDADO EL REGISTRO","AVISO",JOptionPane.INFORMATION_MESSAGE);
+	            }
+	        } catch (Exception e) {
+	        		CustomError.showDialog("<html>Ocurrió un error al guardar, contacte al personal adecuado sobre este error</html>", 
+                            "<html>'"+e+"'</html>");
+	        }
         }
         cargar("");
     }
@@ -97,19 +105,25 @@ Mensajeria mensaje;
         Conexion cc= new Conexion();
         Connection cn=cc.conexion();
         String cel= campoTel.getText();
-        String sql= "DELETE FROM pacientes WHERE cli_cod=?";
-        int resp;
-        resp=JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE ELIMINAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
-        if(resp== JOptionPane.YES_OPTION){
-            try {
-                PreparedStatement psd=cn.prepareStatement(sql);
-                psd.setString(1,cel);
-                int x= psd.executeUpdate();
-                if(x>0){
-                    JOptionPane.showMessageDialog(null,"SE HA ELIMNADO EL REGISTRO","AVISO", JOptionPane.INFORMATION_MESSAGE);
+        String sql= "DELETE FROM pacientes WHERE pac_cel=?";
+        
+        if(cel.equals("") || cel==null){
+	        JOptionPane.showMessageDialog(null,"No se ingresó un número de celular, ingrese un número de celular e intente nuevamente");
+        }else {
+        	int resp;
+            resp=JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE ELIMINAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
+        	if(resp== JOptionPane.YES_OPTION){
+                try {
+                    PreparedStatement psd=cn.prepareStatement(sql);
+                    psd.setString(1,cel);
+                    int x= psd.executeUpdate();
+                    if(x>0){
+                        JOptionPane.showMessageDialog(null,"SE HA ELIMNADO EL REGISTRO","AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    CustomError.showDialog("<html>Ocurrió un error en la base de datos al eliminar, contacte al personal adecuado sobre este error</html>", 
+                            "<html>'"+e+"'</html>");
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,"ERROR:" +e);
             }
         }
         cargar("");
@@ -121,19 +135,23 @@ Mensajeria mensaje;
         String ap= campoApe.getText();
         String nom= campoNom.getText();
         String dom= campoDom.getText();
-        String sql= "UPDATE pacientes SET pac_ap='"+ap+"', pac_nom='"+nom+"', pac_dom='"+dom+"' WHERE pac_cel='"+cel+"'";
-        int resp;
-        resp= JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);
-        if(resp == JOptionPane.YES_OPTION){
-            try {
-                PreparedStatement psd= cn.prepareStatement(sql);
-                int x= psd.executeUpdate();
-                if(x==1){
-                    JOptionPane.showMessageDialog(null,"SE HA MODIFICADO EL REGISTRO");                }   
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,"ERROR:" +e);
+        String sql= "UPDATE pacientes SET pac_ap='"+ap+"', pac_nom='"+nom+"', pac_dom='"+dom+"' WHERE pac_cel='"+cel+"'";        
+        if(ap.equals("") || ap==null || nom.equals("") || nom==null || cel.equals("") || cel==null || dom.equals("") || dom==null){
+	        JOptionPane.showMessageDialog(null,"Existen campos vacíos, debe rellenar para continuar");
+        }else{
+        	int resp = JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE MODIFICAR ESTE REGISTRO?","ALERTA",JOptionPane.YES_NO_OPTION);	
+        	if(resp == JOptionPane.YES_OPTION){
+                try {
+                    PreparedStatement psd= cn.prepareStatement(sql);
+                    int x= psd.executeUpdate();
+                    if(x==1){
+                        JOptionPane.showMessageDialog(null,"SE HA MODIFICADO EL REGISTRO");                }   
+                } catch (Exception e) {
+                    CustomError.showDialog("<html>Ocurrió un error al modificar los datos, contacte al personala adecuado sobre este error</html>", 
+                            "<html>'"+e+"'</html>");
+                }
             }
-        }
+        } 
     }
     private void limpiar(){
         campoApe.setText("");
@@ -181,7 +199,7 @@ Mensajeria mensaje;
         btnModificar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -195,16 +213,6 @@ Mensajeria mensaje;
         });
         jPanel2.add(campoBuscar);
         campoBuscar.setBounds(90, 10, 160, 30);
-        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                campoBuscarFocusLost(evt);
-            }
-        });
-        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                campoBuscarMouseClicked(evt);
-            }
-        });
 
         labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelBuscar.setText("Buscar");
@@ -295,7 +303,7 @@ Mensajeria mensaje;
             }
         });
         jPanel1.add(btnBorrar);
-        btnBorrar.setBounds(250, 350, 160, 40);
+        btnBorrar.setBounds(240, 350, 170, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil.png"))); // NOI18N
@@ -331,6 +339,7 @@ Mensajeria mensaje;
 		diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
 	}
 	private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLimpiarActionPerformed
+        limpiar();
         habilitar();
     }//GEN-LAST:event_campoLimpiarActionPerformed
 
@@ -363,6 +372,8 @@ Mensajeria mensaje;
             campoApe.setText(tablaPacientes.getValueAt(fila,1).toString());
             campoNom.setText(tablaPacientes.getValueAt(fila,2).toString());
             campoDom.setText(tablaPacientes.getValueAt(fila,3).toString());
+        }else{
+        	JOptionPane.showMessageDialog(null,"No se seleccionó ninguna fila", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tablaPacientesMouseClicked
 
@@ -410,10 +421,10 @@ Mensajeria mensaje;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JTextField campoApe;
     private javax.swing.JTextField campoBuscar;
     private javax.swing.JTextField campoDom;
-    private javax.swing.JButton btnNuevo;
     private javax.swing.JTextField campoNom;
     private javax.swing.JTextField campoTel;
     private javax.swing.JPanel jPanel1;
