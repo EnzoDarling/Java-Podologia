@@ -206,6 +206,16 @@ CustomErrorDialog CustomError;
         jPanel2.setLayout(null);
 
         campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoBuscarFocusLost(evt);
+            }
+        });
+        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoBuscarMouseClicked(evt);
+            }
+        });
         campoBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 campoBuscarKeyReleased(evt);
@@ -332,12 +342,7 @@ CustomErrorDialog CustomError;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    protected void campoBuscarMouseClicked(MouseEvent evt) {
-    	diseño.Clic(campoBuscar, mensaje.getApellido());
-	}
-	protected void campoBuscarFocusLost(FocusEvent evt) {
-		diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
-	}
+   
 	private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoLimpiarActionPerformed
         limpiar();
         habilitar();
@@ -380,6 +385,14 @@ CustomErrorDialog CustomError;
     private void campoBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscarKeyReleased
         cargar(campoBuscar.getText());
     }//GEN-LAST:event_campoBuscarKeyReleased
+
+    private void campoBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarFocusLost
+        diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
+    }//GEN-LAST:event_campoBuscarFocusLost
+
+    private void campoBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoBuscarMouseClicked
+        diseño.Clic(campoBuscar, mensaje.getApellido());
+    }//GEN-LAST:event_campoBuscarMouseClicked
 
     /**
      * @param args the command line arguments

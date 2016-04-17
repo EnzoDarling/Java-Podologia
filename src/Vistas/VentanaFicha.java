@@ -46,10 +46,10 @@ public class VentanaFicha extends javax.swing.JFrame {
                 + " fich_anticua, fich_dbt, fich_afcard, fich_micosis,"
                 + " fich_onicocri, fich_talonagri, fich_hiperquera, fich_hiperhidro,"
                 + " fich_edema, fich_datoscli, fich_otraspato, fich_tratam, fich_evolucion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        if(campoApe.equals("") || campoApe==null || campoNom.equals("") || campoNom==null || campoDire.equals("") || campoDire==null || campoEdad.equals("") 
-                || campoEdad==null || comboAnticuagulado.equals("") || comboAnticuagulado==null || comboDbt.equals("") || comboDbt==null || comboCardiacas.equals("") 
-                || comboCardiacas==null || comboMicosis.equals("") || comboMicosis==null || comboOnicocriptosis.equals("") || comboOnicocriptosis==null || comboTalon.equals("") 
-                || comboTalon==null || comboHiperqueratosis.equals("") || comboHiperqueratosis==null || comboHiperhidrosis.equals("") || comboHiperhidrosis==null || comboEdema.equals("") || comboEdema==null 
+                if(campoApe.equals("") || campoApe==null || campoNom.equals("") || campoNom==null || campoDire.equals("") || campoDire==null || campoEdad.equals("") 
+                || campoEdad==null || comboAnticuagulado.equals("Seleccione") || comboAnticuagulado==null || comboDbt.equals("Seleccione") || comboDbt==null || comboCardiacas.equals("Seleccione") 
+                || comboCardiacas==null || comboMicosis.equals("Seleccione") || comboMicosis==null || comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis==null || comboTalon.equals("Seleccione") 
+                || comboTalon==null || comboHiperqueratosis.equals("Seleccione") || comboHiperqueratosis==null || comboHiperhidrosis.equals("Seleccione") || comboHiperhidrosis==null || comboEdema.equals("Seleccione") || comboEdema==null 
                 || areaDClinicos.equals("") || areaDClinicos==null || areaPatologias.equals("") || areaPatologias==null || areaTratamiento.equals("") || areaTratamiento==null || areaEvolucion.equals("") 
                 || areaEvolucion==null){
             JOptionPane.showMessageDialog(null,"Existen campos vacíos, rellene los campos e intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
@@ -108,9 +108,9 @@ public class VentanaFicha extends javax.swing.JFrame {
                 + " fich_onicocri='" + onicocri + "', fich_talonagri='" + talonagri + "', fich_hiperquera='" + hiperquera + "', fich_hiperhidro='" + hiperhidro + "',"
                 + " fich_edema='" + edema + "', fich_datoscli='" + datoscli + "', fich_otraspato='" + otraspato + "', fich_tratam='" + tratam + "', fich_evolucion='" + evol + "' WHERE fich_cod";        
         if(campoApe.equals("") || campoApe==null || campoNom.equals("") || campoNom==null || campoDire.equals("") || campoDire==null || campoEdad.equals("") 
-                || campoEdad==null || comboAnticuagulado.equals("") || comboAnticuagulado==null || comboDbt.equals("") || comboDbt==null || comboCardiacas.equals("") 
-                || comboCardiacas==null || comboMicosis.equals("") || comboMicosis==null || comboOnicocriptosis.equals("") || comboOnicocriptosis==null || comboTalon.equals("") 
-                || comboTalon==null || comboHiperqueratosis.equals("") || comboHiperqueratosis==null || comboHiperhidrosis.equals("") || comboHiperhidrosis==null || comboEdema.equals("") || comboEdema==null 
+                || campoEdad==null || comboAnticuagulado.equals("Seleccione") || comboAnticuagulado==null || comboDbt.equals("Seleccione") || comboDbt==null || comboCardiacas.equals("Seleccione") 
+                || comboCardiacas==null || comboMicosis.equals("Seleccione") || comboMicosis==null || comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis==null || comboTalon.equals("Seleccione") 
+                || comboTalon==null || comboHiperqueratosis.equals("Seleccione") || comboHiperqueratosis==null || comboHiperhidrosis.equals("Seleccione") || comboHiperhidrosis==null || comboEdema.equals("Seleccione") || comboEdema==null 
                 || areaDClinicos.equals("") || areaDClinicos==null || areaPatologias.equals("") || areaPatologias==null || areaTratamiento.equals("") || areaTratamiento==null || areaEvolucion.equals("") 
                 || areaEvolucion==null){
             JOptionPane.showMessageDialog(null,"Existen campos vacíos, rellene los campos e intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
@@ -325,7 +325,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         campoEdad.setBounds(120, 100, 110, 30);
 
         comboHiperhidrosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboHiperhidrosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
+        comboHiperhidrosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboHiperhidrosis);
         comboHiperhidrosis.setBounds(690, 110, 120, 30);
 
@@ -334,7 +334,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelCardiacas.setText("Afecciones");
         labelCardiacas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(labelCardiacas);
-        labelCardiacas.setBounds(20, 370, 100, 30);
+        labelCardiacas.setBounds(10, 370, 90, 30);
 
         labelAnticuagulado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelAnticuagulado.setText("Anticuagulado");
@@ -342,14 +342,14 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelAnticuagulado.setBounds(270, 190, 120, 22);
 
         comboTalon.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboTalon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
+        comboTalon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboTalon);
         comboTalon.setBounds(690, 280, 120, 30);
 
         comboCardiacas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboCardiacas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
+        comboCardiacas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboCardiacas);
-        comboCardiacas.setBounds(140, 380, 90, 30);
+        comboCardiacas.setBounds(120, 380, 110, 30);
 
         labelMicosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelMicosis.setText("Micosis");
@@ -357,19 +357,19 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelMicosis.setBounds(10, 190, 80, 22);
 
         comboMicosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboMicosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inter Digital", "Ungueal", "Plantar" }));
+        comboMicosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Inter Digital", "Ungueal", "Plantar" }));
         jPanel1.add(comboMicosis);
-        comboMicosis.setBounds(110, 190, 120, 30);
+        comboMicosis.setBounds(100, 190, 130, 30);
 
         labelOnicocriptosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelOnicocriptosis.setText("Onicocriptosis");
         jPanel1.add(labelOnicocriptosis);
-        labelOnicocriptosis.setBounds(10, 290, 120, 22);
+        labelOnicocriptosis.setBounds(10, 290, 110, 22);
 
         comboAnticuagulado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboAnticuagulado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
+        comboAnticuagulado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboAnticuagulado);
-        comboAnticuagulado.setBounds(400, 190, 100, 30);
+        comboAnticuagulado.setBounds(400, 190, 120, 30);
 
         labelTalon1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTalon1.setText("Talón Agrietado");
@@ -377,19 +377,19 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelTalon1.setBounds(540, 280, 130, 22);
 
         comboDbt.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboDbt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
+        comboDbt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboDbt);
         comboDbt.setBounds(690, 190, 120, 30);
 
         labelHiperquratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelHiperquratosis.setText("Hiperqueratosis");
         jPanel1.add(labelHiperquratosis);
-        labelHiperquratosis.setBounds(250, 380, 130, 22);
+        labelHiperquratosis.setBounds(260, 380, 130, 22);
 
         comboHiperqueratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboHiperqueratosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lateral", "Superior", "Metatarsal" }));
+        comboHiperqueratosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Lateral", "Superior", "Metatarsal" }));
         jPanel1.add(comboHiperqueratosis);
-        comboHiperqueratosis.setBounds(400, 380, 100, 30);
+        comboHiperqueratosis.setBounds(410, 380, 120, 30);
 
         labelHiperhidrosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelHiperhidrosis.setText("HiperHidrosis");
@@ -397,9 +397,9 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelHiperhidrosis.setBounds(560, 110, 110, 22);
 
         comboEdema.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboEdema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
+        comboEdema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboEdema);
-        comboEdema.setBounds(400, 280, 100, 30);
+        comboEdema.setBounds(400, 280, 120, 30);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel16.setText("Edema");
@@ -407,9 +407,9 @@ public class VentanaFicha extends javax.swing.JFrame {
         jLabel16.setBounds(260, 280, 60, 22);
 
         comboOnicocriptosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboOnicocriptosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SI", "NO" }));
+        comboOnicocriptosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboOnicocriptosis);
-        comboOnicocriptosis.setBounds(140, 290, 90, 30);
+        comboOnicocriptosis.setBounds(130, 290, 110, 30);
         jPanel1.add(jTabbedPane1);
         jTabbedPane1.setBounds(-30, -30, 5, 5);
 
@@ -425,7 +425,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Cardíacas");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(30, 400, 90, 30);
+        jLabel1.setBounds(20, 400, 80, 30);
 
         jTabbedPane2.addTab("Página 1", jPanel1);
 

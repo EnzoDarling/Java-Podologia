@@ -400,6 +400,11 @@ CustomErrorDialog CustomError;
                 campoBuscarMouseClicked(evt);
             }
         });
+        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoBuscarKeyReleased(evt);
+            }
+        });
         jPanel1.add(campoBuscar);
         campoBuscar.setBounds(100, 10, 160, 30);
 
@@ -456,10 +461,7 @@ CustomErrorDialog CustomError;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    	protected void campoBuscarKeyReleased(KeyEvent evt) {
-		cargarTurnos(campoBuscar.getText());		
-	}	
-		
+    			
     private void tablaTurnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTurnosMouseClicked
         habilitar();
     	int fila=tablaTurnos.getSelectedRow();
@@ -510,14 +512,19 @@ CustomErrorDialog CustomError;
         cargarTurnos("");
     }//GEN-LAST:event_btnBorrarActionPerformed
 
+    private void campoBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscarKeyReleased
+        cargarTurnos(campoBuscar.getText());
+    }//GEN-LAST:event_campoBuscarKeyReleased
+
     private void campoBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoBuscarMouseClicked
-        diseño.Clic(campoBuscar, mensaje.getApellido());	
+        diseño.Clic(campoBuscar, mensaje.getApellido());
     }//GEN-LAST:event_campoBuscarMouseClicked
 
     private void campoBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarFocusLost
         diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
     }//GEN-LAST:event_campoBuscarFocusLost
-    public static void main(String args[]) {
+
+   public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

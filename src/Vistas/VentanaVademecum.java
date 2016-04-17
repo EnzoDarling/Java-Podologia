@@ -38,6 +38,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
         setTitle("VADEMECUM");
         cargar("");
         iniciar();
+        deshabilitar();
         labelCod.setVisible(false);
         campoCod.setVisible(false);
     }
@@ -105,10 +106,12 @@ public class VentanaVademecum extends javax.swing.JFrame {
         Conexion cc= new Conexion();
         Connection cn=cc.conexion();
         String nom= campoNom.getText();
-        String indi=areaIndi.getText();
+        String indi= areaIndi.getText();
         String poso= comboPoso.getSelectedItem().toString();
-        String sql="UPDATE vademecum SET vade_nom='"+nom+"', vade_ind='"+indi+"', vade_poso='"+poso+"' WHERE vad_cod=";
-        if(nom.equals("") || nom==null || poso.equals("") || poso==null || indi.equals("") || indi==null){
+        String cod = campoCod.getText();
+        Integer codint= Integer.parseInt(cod);
+        String sql="UPDATE vademecum SET vad_nom='"+nom+"', vad_ind='"+indi+"', vad_poso='"+poso+"' WHERE vad_cod='"+codint+"'";
+        if(nom.equals("") || nom==null || poso.equals("Seleccione") || poso==null || indi.equals("") || indi==null){
             JOptionPane.showMessageDialog(null,"Existen campos vacíos, rellene los campos e intente nuevamente","Error",JOptionPane.ERROR_MESSAGE);
         }else{
             int resp;
@@ -131,6 +134,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
     	Conexion cc= new Conexion();
     	Connection cn= cc.conexion();
     	String cod= campoCod.getText();
+        Integer codint = Integer.parseInt(cod);
     	String sql="DELETE FROM vademecum WHERE vad_cod=?";
     	int resp;
     	resp=JOptionPane.showConfirmDialog(null,"¿ESTA SEGURA DE ELIMINAR EL REGISTRO?","PREGUNTA", JOptionPane.YES_NO_OPTION);    	
@@ -140,7 +144,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
             if(resp == JOptionPane.YES_OPTION){
                 try {
                     PreparedStatement psd= cn.prepareStatement(sql);
-                    psd.setString(1,cod);
+                    psd.setInt(1,codint);
                     int x= psd.executeUpdate();
                     if(x>0){
                             JOptionPane.showMessageDialog(null,"SE HA ELIMINADO EL REGISTRO","AVISO",JOptionPane.INFORMATION_MESSAGE);
@@ -153,12 +157,21 @@ public class VentanaVademecum extends javax.swing.JFrame {
         }
     }
     private void limpiar(){
+        campoCod.setText("");
     	campoNom.setText("");
     	areaIndi.setText("");
     	comboPoso.setSelectedIndex(0);
     }
-    private void habilitar(){}
-    private void deshabilitar(){}
+    private void habilitar(){
+        campoNom.setEnabled(true);
+    	areaIndi.setEnabled(true);
+    	comboPoso.setEnabled(true);
+    }
+    private void deshabilitar(){
+        campoNom.setEnabled(false);
+    	areaIndi.setEnabled(false);
+    	comboPoso.setEnabled(false);
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -177,7 +190,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
         btnModificar = new javax.swing.JButton();
         labelCod = new javax.swing.JLabel();
         campoCod = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         labelBuscar = new javax.swing.JLabel();
         campoBuscar = new javax.swing.JTextField();
@@ -213,31 +226,46 @@ public class VentanaVademecum extends javax.swing.JFrame {
         jScrollPane1.setBounds(10, 190, 380, 200);
 
         comboPoso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboPoso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 vez al día", "2 veces al día", "3 veces al día", "cada 24 hs", "1 vez por semana" }));
+        comboPoso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1 vez al día", "2 veces al día", "3 veces al día", "cada 24 hs", "1 vez por semana" }));
         jPanel1.add(comboPoso);
-        comboPoso.setBounds(120, 120, 140, 30);
+        comboPoso.setBounds(120, 120, 170, 30);
 
         campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoNom);
         campoNom.setBounds(120, 60, 140, 30);
 
         btnEliminar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatdelete.png"))); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnEliminar);
-        btnEliminar.setBounds(10, 470, 160, 40);
+        btnEliminar.setBounds(220, 470, 160, 40);
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatsave.png"))); // NOI18N
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tick.png"))); // NOI18N
         btnGuardar.setText("GUARDAR");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnGuardar);
-        btnGuardar.setBounds(10, 410, 160, 40);
+        btnGuardar.setBounds(220, 410, 160, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/flatedit.png"))); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil.png"))); // NOI18N
         btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnModificar);
-        btnModificar.setBounds(180, 410, 170, 40);
+        btnModificar.setBounds(10, 470, 170, 40);
 
         labelCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelCod.setText("Codigo");
@@ -248,11 +276,16 @@ public class VentanaVademecum extends javax.swing.JFrame {
         jPanel1.add(campoCod);
         campoCod.setBounds(120, 10, 140, 30);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/broom.png"))); // NOI18N
-        jButton1.setText("LIMPIAR");
-        jPanel1.add(jButton1);
-        jButton1.setBounds(180, 470, 140, 40);
+        btnNuevo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
+        btnNuevo.setText("NUEVO");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnNuevo);
+        btnNuevo.setBounds(10, 410, 170, 40);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 410, 520);
@@ -264,6 +297,23 @@ public class VentanaVademecum extends javax.swing.JFrame {
         labelBuscar.setText("Buscar");
         jPanel2.add(labelBuscar);
         labelBuscar.setBounds(10, 10, 70, 30);
+
+        campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoBuscarFocusLost(evt);
+            }
+        });
+        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoBuscarMouseClicked(evt);
+            }
+        });
+        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoBuscarKeyReleased(evt);
+            }
+        });
         jPanel2.add(campoBuscar);
         campoBuscar.setBounds(100, 10, 180, 30);
 
@@ -280,6 +330,11 @@ public class VentanaVademecum extends javax.swing.JFrame {
 
             }
         ));
+        tablaVade.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaVadeMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaVade);
 
         jPanel2.add(jScrollPane2);
@@ -291,43 +346,61 @@ public class VentanaVademecum extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    protected void campoBuscarMouseClicked(MouseEvent evt) {
-    	diseño.Clic(campoBuscar, mensaje.getNombre());		
-	}
-	protected void campoBuscarFocusLost(FocusEvent evt) {
-		diseño.Mensaje(campoBuscar, mensaje.getNombre(), campoBuscar.getText().trim().length());
-	}
-	protected void campoBuscarKeyReleased(KeyEvent evt) {
-		cargar(campoBuscar.getText());
-	}
-	protected void btnModificarActionPerformed(ActionEvent evt) {
-            modificar();
-            cargar("");
-	}
-    protected void btnGuardarActionPerformed(ActionEvent evt) {
-            guardar();
-            cargar("");
-	}
-	protected void btnLimpiarActionPerformed(ActionEvent evt) {
-		limpiar();
-	}
-	protected void btnEliminarActionPerformed(ActionEvent evt) {
-		eliminar();
-                cargar("");
-	}
-	protected void tablaVadeMouseClicked(MouseEvent evt) {
-		labelCod.setVisible(true);
-		campoCod.setVisible(true);
-    	int fila= tablaVade.getSelectedRow();
-		if(fila>=0){
-			campoCod.setText(tablaVade.getValueAt(fila, 0).toString());
-			campoNom.setText(tablaVade.getValueAt(fila,1).toString());
-			comboPoso.setSelectedItem(tablaVade.getValueAt(fila, 2).toString());
-			areaIndi.setText(tablaVade.getValueAt(fila, 3).toString());
-			
-		}
-	}
-	
+    private void campoBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscarKeyReleased
+        cargar(campoBuscar.getText());
+    }//GEN-LAST:event_campoBuscarKeyReleased
+
+    private void campoBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarFocusLost
+        diseño.Mensaje(campoBuscar, mensaje.getNombre(), campoBuscar.getText().trim().length());
+    }//GEN-LAST:event_campoBuscarFocusLost
+
+    private void campoBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoBuscarMouseClicked
+        diseño.Clic(campoBuscar, mensaje.getNombre());
+    }//GEN-LAST:event_campoBuscarMouseClicked
+
+    private void tablaVadeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVadeMouseClicked
+        labelCod.setVisible(true);
+        campoCod.setVisible(true);
+        habilitar();
+        int fila= tablaVade.getSelectedRow();
+        if(fila>=0){
+            campoCod.setText(tablaVade.getValueAt(fila, 0).toString());
+            campoNom.setText(tablaVade.getValueAt(fila,1).toString());
+            comboPoso.setSelectedItem(tablaVade.getValueAt(fila, 2).toString());
+            areaIndi.setText(tablaVade.getValueAt(fila, 3).toString());
+
+        }
+    }//GEN-LAST:event_tablaVadeMouseClicked
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        limpiar();
+        habilitar();
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        guardar();
+        limpiar();
+        deshabilitar();
+        cargar("");
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        modificar();
+        limpiar();
+        deshabilitar();
+        cargar("");
+        campoCod.setVisible(false);
+        labelCod.setVisible(false);
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+       eliminar();
+       limpiar();
+       deshabilitar();
+       cargar("");
+       campoCod.setVisible(false);
+       labelCod.setVisible(false);
+    }//GEN-LAST:event_btnEliminarActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -366,11 +439,11 @@ public class VentanaVademecum extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JTextField campoBuscar;
     private javax.swing.JTextField campoCod;
     private javax.swing.JTextField campoNom;
     private javax.swing.JComboBox<String> comboPoso;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
