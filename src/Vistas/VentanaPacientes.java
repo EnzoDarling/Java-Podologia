@@ -35,6 +35,7 @@ CustomErrorDialog CustomError;
         setSize(961, 450);
         setIcon();
         setLocationRelativeTo(null);
+        setResizable(false);
         setTitle("PACIENTES");
         cargar("");
         deshabilitar();
@@ -199,7 +200,7 @@ CustomErrorDialog CustomError;
         btnModificar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -222,7 +223,7 @@ CustomErrorDialog CustomError;
             }
         });
         jPanel2.add(campoBuscar);
-        campoBuscar.setBounds(90, 10, 160, 30);
+        campoBuscar.setBounds(90, 10, 180, 30);
 
         labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelBuscar.setText("Buscar");
@@ -260,12 +261,12 @@ CustomErrorDialog CustomError;
         labelNombre.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelNombre.setText("Nombre");
         jPanel1.add(labelNombre);
-        labelNombre.setBounds(20, 140, 70, 30);
+        labelNombre.setBounds(20, 140, 80, 30);
 
         labelApellido.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelApellido.setText("Apellido");
         jPanel1.add(labelApellido);
-        labelApellido.setBounds(20, 80, 70, 30);
+        labelApellido.setBounds(20, 80, 80, 30);
 
         labelTel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTel.setText("Tel/Cel");
@@ -275,7 +276,7 @@ CustomErrorDialog CustomError;
         labelDomicilio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDomicilio.setText("Domicilio");
         jPanel1.add(labelDomicilio);
-        labelDomicilio.setBounds(20, 200, 80, 30);
+        labelDomicilio.setBounds(20, 200, 90, 30);
 
         campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoNom);

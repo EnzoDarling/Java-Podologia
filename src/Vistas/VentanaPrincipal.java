@@ -73,7 +73,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(null);
 
         btnFichMedica.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -85,7 +85,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnFichMedica);
-        btnFichMedica.setBounds(10, 10, 210, 50);
+        btnFichMedica.setBounds(10, 10, 220, 50);
 
         btnVade.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnVade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/book.png"))); // NOI18N

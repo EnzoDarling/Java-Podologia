@@ -269,7 +269,7 @@ CustomErrorDialog CustomError;
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Celular");
         jPanel3.add(jLabel1);
-        jLabel1.setBounds(20, 30, 60, 20);
+        jLabel1.setBounds(20, 30, 80, 20);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Hora");
@@ -279,39 +279,39 @@ CustomErrorDialog CustomError;
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Nombre");
         jPanel3.add(jLabel3);
-        jLabel3.setBounds(20, 130, 70, 30);
+        jLabel3.setBounds(20, 130, 80, 30);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Direccion");
         jPanel3.add(jLabel4);
-        jLabel4.setBounds(10, 290, 80, 30);
+        jLabel4.setBounds(10, 290, 90, 30);
 
         campoCel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoCel);
-        campoCel.setBounds(110, 30, 210, 30);
+        campoCel.setBounds(130, 30, 210, 30);
 
         campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoNom);
-        campoNom.setBounds(110, 130, 210, 30);
+        campoNom.setBounds(130, 130, 210, 30);
 
         campoDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoDire);
-        campoDire.setBounds(110, 290, 210, 30);
+        campoDire.setBounds(130, 290, 210, 30);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Fecha");
         jPanel3.add(jLabel7);
-        jLabel7.setBounds(30, 240, 50, 30);
+        jLabel7.setBounds(20, 240, 60, 30);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("Hs");
         jPanel3.add(jLabel8);
-        jLabel8.setBounds(170, 180, 30, 30);
+        jLabel8.setBounds(190, 180, 30, 30);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setText("Mins");
         jPanel3.add(jLabel9);
-        jLabel9.setBounds(280, 180, 40, 30);
+        jLabel9.setBounds(300, 180, 40, 30);
 
         btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tick.png"))); // NOI18N
@@ -348,7 +348,7 @@ CustomErrorDialog CustomError;
 
         campoFecha.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoFecha);
-        campoFecha.setBounds(110, 240, 210, 30);
+        campoFecha.setBounds(130, 240, 210, 30);
 
         btnNuevo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/edit-clear.png"))); // NOI18N
@@ -368,15 +368,15 @@ CustomErrorDialog CustomError;
 
         campoAp.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoAp);
-        campoAp.setBounds(110, 80, 210, 30);
+        campoAp.setBounds(130, 80, 210, 30);
 
         campoHora.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoHora);
-        campoHora.setBounds(110, 180, 50, 30);
+        campoHora.setBounds(130, 180, 50, 30);
 
         campoMin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoMin);
-        campoMin.setBounds(200, 180, 60, 30);
+        campoMin.setBounds(220, 180, 60, 30);
 
         getContentPane().add(jPanel3);
         jPanel3.setBounds(0, 0, 370, 480);
@@ -406,7 +406,7 @@ CustomErrorDialog CustomError;
             }
         });
         jPanel1.add(campoBuscar);
-        campoBuscar.setBounds(100, 10, 160, 30);
+        campoBuscar.setBounds(100, 10, 190, 30);
 
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 

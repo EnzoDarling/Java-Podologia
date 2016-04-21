@@ -24,22 +24,20 @@ import java.awt.Toolkit;
  */
 public class VentanaFichaMedica extends javax.swing.JFrame {
 	DefaultTableModel model;
-	DiseñoLetraFondo diseño;
-	Mensajeria mensaje;
+	DiseñoLetraFondo diseño = new DiseñoLetraFondo();    
+	Mensajeria mensaje = new Mensajeria();
     /**
      * Creates new form VentanaFichaMedica2
      */
     public VentanaFichaMedica() {
-        initComponents();
-        diseño = new DiseñoLetraFondo();
-        mensaje = new Mensajeria();
+        initComponents();        
         setSize(1195, 545);
         setIcon();
         setLocationRelativeTo(null);
         setResizable(false);
         cargar("");
         setTitle("LISTA DE FICHAS MÉDICAS");
-        inicar();
+        inicar();        
     }
     private void inicar() {
     	diseño.Mensaje(campoBuscar,mensaje.getNombre(), 0);
@@ -101,25 +99,16 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaFichaMedica = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setLayout(null);
 
-        campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        campoBuscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jPanel1.add(campoBuscar);
-        campoBuscar.setBounds(160, 20, 170, 40);
-        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                campoBuscarMouseClicked(evt);
-            }
-        });
-        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                campoBuscarFocusLost(evt);
-            }
-        });
+        campoBuscar.setBounds(160, 20, 140, 30);
+
         labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelBuscar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelBuscar.setText("Buscar");
@@ -138,47 +127,55 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
 
             }
         ));
+        tablaFichaMedica.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaFichaMedicaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaFichaMedica);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(5, 64, 1169, 443);
+        jScrollPane2.setBounds(10, 64, 890, 390);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 1184, 510);
+        jPanel1.setBounds(0, 0, 910, 460);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tablaFichaMedicaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFichaMedicaMouseClicked
+        VentanaFicha miVF= new VentanaFicha();
+    	miVF.campoCod.setVisible(false);
+        miVF.etiqCod.setVisible(false);
+    	int fila=tablaFichaMedica.getSelectedRow();
+    	if(fila>=0){   		
+            miVF.campoCod.setText(tablaFichaMedica.getValueAt(fila,0).toString());
+            miVF.campoApe.setText(tablaFichaMedica.getValueAt(fila,1).toString());
+            miVF.campoNom.setText(tablaFichaMedica.getValueAt(fila,2).toString());
+            miVF.campoDire.setText(tablaFichaMedica.getValueAt(fila,3).toString());
+            miVF.campoEdad.setText(tablaFichaMedica.getValueAt(fila,4).toString());
+            miVF.comboAnticuagulado.setSelectedItem(tablaFichaMedica.getValueAt(fila,5).toString());
+            miVF.comboDbt.setSelectedItem(tablaFichaMedica.getValueAt(fila,6).toString());
+            miVF.comboCardiacas.setSelectedItem(tablaFichaMedica.getValueAt(fila,7).toString());
+            miVF.comboMicosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,8).toString());
+            miVF.comboOnicocriptosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,9).toString());
+            miVF.comboTalon.setSelectedItem(tablaFichaMedica.getValueAt(fila,10).toString());
+            miVF.comboHiperqueratosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,11).toString());
+            miVF.comboHiperhidrosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,12).toString());
+            miVF.comboEdema.setSelectedItem(tablaFichaMedica.getValueAt(fila,13).toString());
+            miVF.areaDClinicos.setText(tablaFichaMedica.getValueAt(fila,14).toString());
+            miVF.areaPatologias.setText(tablaFichaMedica.getValueAt(fila,15).toString());
+            miVF.areaTratamiento.setText(tablaFichaMedica.getValueAt(fila,16).toString());
+            miVF.areaEvolucion.setText(tablaFichaMedica.getValueAt(fila,17).toString());
+        }
+    }//GEN-LAST:event_tablaFichaMedicaMouseClicked
 
     protected void campoBuscarFocusLost(FocusEvent evt) {
     	diseño.Mensaje(campoBuscar, mensaje.getNombre(), campoBuscar.getText().trim().length());
 	}
 	protected void campoBuscarMouseClicked(MouseEvent evt) {
             diseño.Clic(campoBuscar, mensaje.getNombre());		
-	}
-	protected void tablaFichaMedicaMouseClicked(MouseEvent evt) {
-    	VentanaFicha miVF= new VentanaFicha();
-    	int fila=tablaFichaMedica.getSelectedRow();
-    	if(fila>=0){   		
-    		/*miVF.campoCod.setText(tablaFichaMedica.getValueAt(fila,0).toString());
-    		miVF.campoApe.setText(tablaFichaMedica.getValueAt(fila,1).toString());
-                miVF.campoNom.setText(tablaFichaMedica.getValueAt(fila,2).toString());
-                miVF.campoDire.setText(tablaFichaMedica.getValueAt(fila,3).toString());
-                miVF.campoEdad.setText(tablaFichaMedica.getValueAt(fila,4).toString());
-                miVF.comboAnticuagulado.setSelectedItem(tablaFichaMedica.getValueAt(fila,5).toString());
-                miVF.comboDbt.setSelectedItem(tablaFichaMedica.getValueAt(fila,6).toString());
-                miVF.comboCardiacas.setSelectedItem(tablaFichaMedica.getValueAt(fila,7).toString());
-                miVF.comboMicosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,8).toString());
-                miVF.comboOnicocriptosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,9).toString());
-                miVF.comboTalon.setSelectedItem(tablaFichaMedica.getValueAt(fila,10).toString());
-                miVF.comboHiperqueratosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,11).toString());
-                miVF.comboHiperhidrosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,12).toString());
-                miVF.comboEdema.setSelectedItem(tablaFichaMedica.getValueAt(fila,13).toString());
-                miVF.areaDClinicos.setText(tablaFichaMedica.getValueAt(fila,14).toString());
-                miVF.areaPatologias.setText(tablaFichaMedica.getValueAt(fila,15).toString());
-                miVF.areaTratamiento.setText(tablaFichaMedica.getValueAt(fila,16).toString());
-                miVF.areaEvolucion.setText(tablaFichaMedica.getValueAt(fila,17).toString());*/
-    	}       
-    }
+	}	
 	protected void campoBuscarKeyReleased(KeyEvent evt) {
 		cargar(campoBuscar.getText());
 	}
@@ -220,7 +217,7 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField campoBuscar;
-    private javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelBuscar;
     private javax.swing.JTable tablaFichaMedica;

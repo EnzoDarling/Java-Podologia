@@ -161,6 +161,8 @@ public class VentanaVademecum extends javax.swing.JFrame {
     	campoNom.setText("");
     	areaIndi.setText("");
     	comboPoso.setSelectedIndex(0);
+    	labelCod.setVisible(false);
+        campoCod.setVisible(false);
     }
     private void habilitar(){
         campoNom.setEnabled(true);
@@ -197,7 +199,7 @@ public class VentanaVademecum extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaVade = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -206,17 +208,17 @@ public class VentanaVademecum extends javax.swing.JFrame {
         labelPoso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelPoso.setText("Posología");
         jPanel1.add(labelPoso);
-        labelPoso.setBounds(10, 120, 80, 22);
+        labelPoso.setBounds(10, 120, 90, 22);
 
         labelNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelNom.setText("Nombre");
         jPanel1.add(labelNom);
-        labelNom.setBounds(10, 60, 70, 22);
+        labelNom.setBounds(10, 60, 80, 22);
 
         labelIndi.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelIndi.setText("Indicaciones");
         jPanel1.add(labelIndi);
-        labelIndi.setBounds(10, 160, 100, 22);
+        labelIndi.setBounds(10, 160, 110, 22);
 
         areaIndi.setColumns(20);
         areaIndi.setRows(5);

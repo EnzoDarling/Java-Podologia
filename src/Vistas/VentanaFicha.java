@@ -1,6 +1,5 @@
 package Vistas;
 
-import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -8,19 +7,103 @@ import javax.swing.JOptionPane;
 
 import Conector.Conexion;
 import java.awt.Toolkit;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
 
 public class VentanaFicha extends javax.swing.JFrame {
+
     CustomErrorDialog CustomError;
-    public VentanaFicha() {
+    DefaultTableModel model;
+    DiseñoLetraFondo diseño = new DiseñoLetraFondo();    
+    Mensajeria mensaje = new Mensajeria();
+    Integer convCod=0;
+    public VentanaFicha() {        
         CustomError = new CustomErrorDialog();
         initComponents();
-        setSize(900, 520);
+        setSize(941, 520);
         setIcon();
         setTitle("FICHAS MÉDICAS");
         setLocationRelativeTo(null);
         setResizable(false);
+        deshabilitar();
         campoCod.setVisible(false);
-        labelCod.setVisible(false);
+        etiqCod.setVisible(false);
+        iniciar();
+        cargar("");
+    }
+    private void iniciar() {
+       diseño.Mensaje(campoBuscar,mensaje.getApellido(), 0);
+    }
+    private void cargar(String valor){
+        String [] titulos={"Codigo","Apellido","Nombre","Dire","Edad","Anticuagulado","DBT","Af.Cardiacas","Micosis","Onicocriptosis","T.Agrietado","Hiperqueratosis","Hiperhidrosis","Edema","D.Clinicos","Otras Pat.","Tratamiento","Evolucion"};
+        String [] registros= new String[18];
+        String sql="SELECT * FROM fichasmedicas WHERE fich_ap LIKE '%"+valor+"%' ORDER BY fich_ap ASC";
+        model= new DefaultTableModel(null,titulos){
+    	    @Override
+    	    public boolean isCellEditable(int row, int column) {
+    	       //all cells false
+    	       return false;
+    	    }
+    	};
+        Conexion cc= new Conexion();
+        Connection cn= cc.conexion();
+        try {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sql);
+            while(rs.next()){
+                registros[0]=rs.getString("fich_cod");
+                registros[1]=rs.getString("fich_ap");
+                registros[2]=rs.getString("fich_nom");
+                registros[3]=rs.getString("fich_dire");
+                registros[4]=rs.getString("fich_edad");
+                registros[5]=rs.getString("fich_anticua");
+                registros[6]=rs.getString("fich_dbt");
+                registros[7]=rs.getString("fich_afcard");
+                registros[8]=rs.getString("fich_micosis");
+                registros[9]=rs.getString("fich_onicocri");
+                registros[10]=rs.getString("fich_talonagri");
+                registros[11]=rs.getString("fich_hiperquera");
+                registros[12]=rs.getString("fich_hiperhidro");
+                registros[13]=rs.getString("fich_edema");
+                registros[14]=rs.getString("fich_datoscli");
+                registros[15]=rs.getString("fich_otraspato");
+                registros[16]=rs.getString("fich_tratam");
+                registros[17]=rs.getString("fich_evolucion");
+                model.addRow(registros);				
+            }
+            tablaFichaMedica.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"ERROR :"+e,"ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void cargarPacientes(String valor){
+        String [] titulos= {"Tel/Cel","Apellido", "Nombre", "Domicilio"};
+        String [] registros = new String[3];
+        String sql="SELECT * FROM pacientes WHERE pac_ap LIKE '%"+valor+"%' ORDER BY pac_ap ASC";
+        model= new DefaultTableModel (null,titulos){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+               //all cells false
+               return false;
+            }
+        };
+        Conexion cc= new Conexion();
+        Connection cn= cc.conexion();
+        try {
+            Statement st= cn.createStatement();
+            ResultSet rs= st.executeQuery(sql);
+            while(rs.next()){
+            registros[1]=rs.getString("pac_ap");
+            registros[2]=rs.getString("pac_nom");
+            registros[3]=rs.getString("pac_dom");
+            model.addRow(registros);
+            }            
+            tablaPacientes.setModel(model);
+        } catch (Exception e) {
+            CustomError.showDialog("<html>Ocurrió un error al cargar, contacte al personal adecuado sobre este error</html>", 
+                            "<html>'"+e+"'</html>");
+        }
     }
     private void guardar() {
         Conexion cc = new Conexion();
@@ -46,14 +129,14 @@ public class VentanaFicha extends javax.swing.JFrame {
                 + " fich_anticua, fich_dbt, fich_afcard, fich_micosis,"
                 + " fich_onicocri, fich_talonagri, fich_hiperquera, fich_hiperhidro,"
                 + " fich_edema, fich_datoscli, fich_otraspato, fich_tratam, fich_evolucion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                if(campoApe.equals("") || campoApe==null || campoNom.equals("") || campoNom==null || campoDire.equals("") || campoDire==null || campoEdad.equals("") 
-                || campoEdad==null || comboAnticuagulado.equals("Seleccione") || comboAnticuagulado==null || comboDbt.equals("Seleccione") || comboDbt==null || comboCardiacas.equals("Seleccione") 
-                || comboCardiacas==null || comboMicosis.equals("Seleccione") || comboMicosis==null || comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis==null || comboTalon.equals("Seleccione") 
-                || comboTalon==null || comboHiperqueratosis.equals("Seleccione") || comboHiperqueratosis==null || comboHiperhidrosis.equals("Seleccione") || comboHiperhidrosis==null || comboEdema.equals("Seleccione") || comboEdema==null 
-                || areaDClinicos.equals("") || areaDClinicos==null || areaPatologias.equals("") || areaPatologias==null || areaTratamiento.equals("") || areaTratamiento==null || areaEvolucion.equals("") 
-                || areaEvolucion==null){
-            JOptionPane.showMessageDialog(null,"Existen campos vacíos, rellene los campos e intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
+        if (campoApe.equals("") || campoApe == null || campoNom.equals("") || campoNom == null || campoDire.equals("") || campoDire == null || campoEdad.equals("")
+                || campoEdad == null || comboAnticuagulado.equals("Seleccione") || comboAnticuagulado == null || comboDbt.equals("Seleccione") || comboDbt == null || comboCardiacas.equals("Seleccione")
+                || comboCardiacas == null || comboMicosis.equals("Seleccione") || comboMicosis == null || comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis == null || comboTalon.equals("Seleccione")
+                || comboTalon == null || comboHiperqueratosis.equals("Seleccione") || comboHiperqueratosis == null || comboHiperhidrosis.equals("Seleccione") || comboHiperhidrosis == null || comboEdema.equals("Seleccione") || comboEdema == null
+                || areaDClinicos.equals("") || areaDClinicos == null || areaPatologias.equals("") || areaPatologias == null || areaTratamiento.equals("") || areaTratamiento == null || areaEvolucion.equals("")
+                || areaEvolucion == null) {
+            JOptionPane.showMessageDialog(null, "Existen campos vacíos, rellene los campos e intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
             try {
                 PreparedStatement psd = cn.prepareStatement(sql);
                 psd.setString(1, ape);
@@ -78,14 +161,16 @@ public class VentanaFicha extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "SE HA GUARDADO EL REGISTRO", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (Exception e) {
-                CustomError.showDialog("<html>Ocurrió un error al guardar, contacte al personal adecuado sobre este error</html>", 
-                                "<html>'"+e+"'</html>");
+                CustomError.showDialog("<html>Ocurrió un error al guardar, contacte al personal adecuado sobre este error</html>",
+                        "<html>'" + e + "'</html>");
             }
         }
     }
+
     private void modificar() {
         Conexion cc = new Conexion();
         Connection cn = cc.conexion();
+        String cod =campoCod.getText();
         String ape = campoApe.getText();
         String nom = campoNom.getText();
         String dire = campoDire.getText();
@@ -103,18 +188,19 @@ public class VentanaFicha extends javax.swing.JFrame {
         String otraspato = areaPatologias.getText();
         String tratam = areaTratamiento.getText();
         String evol = areaEvolucion.getText();
+        convCod= Integer.parseInt(cod);
         String sql = "UPDATE fichasmedicas SET fich_ap='" + ape + "',fich_nom='" + nom + "',fich_dire='" + dire + "', fich_edad='" + edad + "',"
                 + " fich_anticua='" + anticua + "', fich_dbt='" + dbt + "', fich_afcard='" + afcard + "', fich_micosis='" + micosis + "',"
                 + " fich_onicocri='" + onicocri + "', fich_talonagri='" + talonagri + "', fich_hiperquera='" + hiperquera + "', fich_hiperhidro='" + hiperhidro + "',"
-                + " fich_edema='" + edema + "', fich_datoscli='" + datoscli + "', fich_otraspato='" + otraspato + "', fich_tratam='" + tratam + "', fich_evolucion='" + evol + "' WHERE fich_cod";        
-        if(campoApe.equals("") || campoApe==null || campoNom.equals("") || campoNom==null || campoDire.equals("") || campoDire==null || campoEdad.equals("") 
-                || campoEdad==null || comboAnticuagulado.equals("Seleccione") || comboAnticuagulado==null || comboDbt.equals("Seleccione") || comboDbt==null || comboCardiacas.equals("Seleccione") 
-                || comboCardiacas==null || comboMicosis.equals("Seleccione") || comboMicosis==null || comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis==null || comboTalon.equals("Seleccione") 
-                || comboTalon==null || comboHiperqueratosis.equals("Seleccione") || comboHiperqueratosis==null || comboHiperhidrosis.equals("Seleccione") || comboHiperhidrosis==null || comboEdema.equals("Seleccione") || comboEdema==null 
-                || areaDClinicos.equals("") || areaDClinicos==null || areaPatologias.equals("") || areaPatologias==null || areaTratamiento.equals("") || areaTratamiento==null || areaEvolucion.equals("") 
-                || areaEvolucion==null){
-            JOptionPane.showMessageDialog(null,"Existen campos vacíos, rellene los campos e intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
+                + " fich_edema='" + edema + "', fich_datoscli='" + datoscli + "', fich_otraspato='" + otraspato + "', fich_tratam='" + tratam + "', fich_evolucion='" + evol + "' WHERE fich_cod='"+convCod+"'";
+        if (campoApe.equals("") || campoApe == null || campoNom.equals("") || campoNom == null || campoDire.equals("") || campoDire == null || campoEdad.equals("")
+                || campoEdad == null || comboAnticuagulado.equals("Seleccione") || comboAnticuagulado == null || comboDbt.equals("Seleccione") || comboDbt == null || comboCardiacas.equals("Seleccione")
+                || comboCardiacas == null || comboMicosis.equals("Seleccione") || comboMicosis == null || comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis == null || comboTalon.equals("Seleccione")
+                || comboTalon == null || comboHiperqueratosis.equals("Seleccione") || comboHiperqueratosis == null || comboHiperhidrosis.equals("Seleccione") || comboHiperhidrosis == null || comboEdema.equals("Seleccione") || comboEdema == null
+                || areaDClinicos.equals("") || areaDClinicos == null || areaPatologias.equals("") || areaPatologias == null || areaTratamiento.equals("") || areaTratamiento == null || areaEvolucion.equals("")
+                || areaEvolucion == null) {
+            JOptionPane.showMessageDialog(null, "Existen campos vacíos, rellene los campos e intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
             int resp;
             resp = JOptionPane.showConfirmDialog(null, "¿ESTÁ SEGURA DE MODIFICAR EL REGISTRO?", "AVISO", JOptionPane.YES_NO_OPTION);
             if (resp == JOptionPane.YES_OPTION) {
@@ -125,40 +211,39 @@ public class VentanaFicha extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "SE HA MODIFICADO EL REGISTRO", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (Exception e) {
-                    CustomError.showDialog("<html>Ocurrió un error al modificar, contacte al personal adecuado sobre este error</html>", 
-                                "<html>'"+e+"'</html>");
+                    CustomError.showDialog("<html>Ocurrió un error al modificar, contacte al personal adecuado sobre este error</html>",
+                            "<html>'" + e + "'</html>");
                 }
             }
         }
     }
+
     private void eliminar() {
         Conexion cc = new Conexion();
         Connection cn = cc.conexion();
         String cod = campoCod.getText();
+        convCod= Integer.parseInt(cod);
         String sql = "DELETE FROM fichasmedicas WHERE fich_cod=?";
         int resp;
         resp = JOptionPane.showConfirmDialog(null, "¿ESTÁ SEGURA DE ELIMINAR EL REGISTRO?", "AVISO", JOptionPane.YES_NO_OPTION);
-        if(cod.equals("") || cod==null){
-            JOptionPane.showMessageDialog(null,"No ha ingresado un código de ficha médica, ingrese un código de ficha médica e intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-            if (resp == JOptionPane.YES_OPTION) {
-                try {
-                    PreparedStatement psd = cn.prepareStatement(sql);
-                    psd.setString(1, cod);
-                    int x = psd.executeUpdate();
-                    if (x > 0) {
-                        JOptionPane.showMessageDialog(null, "EL REGISTRO SE HA ELIMINADO", "AVISO", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (Exception e) {
-                    CustomError.showDialog("<html>Ocurrió un error al cargar, contacte al personal adecuado sobre este error</html>", 
-                                "<html>'"+e+"'</html>");
+        if (cod.equals("") || cod == null) {
+            JOptionPane.showMessageDialog(null, "No ha ingresado un código de ficha médica, ingrese un código de ficha médica e intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (resp == JOptionPane.YES_OPTION) {
+            try {
+                PreparedStatement psd = cn.prepareStatement(sql);
+                psd.setInt(1,convCod);
+                int x = psd.executeUpdate();
+                if (x > 0) {
+                    JOptionPane.showMessageDialog(null, "EL REGISTRO SE HA ELIMINADO", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                 }
+            } catch (Exception e) {
+                CustomError.showDialog("<html>Ocurrió un error al cargar, contacte al personal adecuado sobre este error</html>",
+                        "<html>'" + e + "'</html>");
             }
         }
     }
-    private void limpiar() {
-        campoCod.setVisible(false);
-        labelCod.setVisible(false);
+
+    private void limpiar() {        
         campoApe.setText("");
         campoNom.setText("");
         campoDire.setText("");
@@ -176,10 +261,12 @@ public class VentanaFicha extends javax.swing.JFrame {
         areaPatologias.setText("");
         areaTratamiento.setText("");
         areaEvolucion.setText("");
+        campoCod.setText("");
     }
-    private void deshabilitar(){
+
+    private void deshabilitar() {
         campoCod.setVisible(false);
-        labelCod.setVisible(false);
+        etiqCod.setVisible(false);
         campoApe.setEnabled(false);
         campoNom.setEnabled(false);
         campoDire.setEnabled(false);
@@ -198,9 +285,8 @@ public class VentanaFicha extends javax.swing.JFrame {
         areaTratamiento.setEnabled(false);
         areaEvolucion.setEnabled(false);
     }
-    private void habilitar(){
-        campoCod.setVisible(true);
-        labelCod.setVisible(true);
+
+    private void habilitar() {      
         campoApe.setEnabled(true);
         campoNom.setEnabled(true);
         campoDire.setEnabled(true);
@@ -253,7 +339,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         comboOnicocriptosis = new javax.swing.JComboBox<>();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        labelCod = new javax.swing.JLabel();
+        etiqCod = new javax.swing.JLabel();
         campoCod = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -270,10 +356,19 @@ public class VentanaFicha extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         areaEvolucion = new javax.swing.JTextArea();
         btnGuardar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        btnMostrar = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaFichaMedica = new javax.swing.JTable();
+        labelCodigo = new javax.swing.JLabel();
+        campoBuscar = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaPacientes = new javax.swing.JTable();
+        campoBuscarPacientes = new javax.swing.JTextField();
+        labelBuscarPacientes = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -286,17 +381,17 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelApe.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelApe.setText("Apellido");
         jPanel1.add(labelApe);
-        labelApe.setBounds(280, 20, 70, 22);
+        labelApe.setBounds(320, 20, 80, 22);
 
         labelNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelNom.setText("Nombre");
         jPanel1.add(labelNom);
-        labelNom.setBounds(570, 20, 80, 22);
+        labelNom.setBounds(630, 20, 80, 22);
 
         labelDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDire.setText("Dirección");
         jPanel1.add(labelDire);
-        labelDire.setBounds(280, 100, 80, 22);
+        labelDire.setBounds(320, 100, 100, 22);
 
         labelEdad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelEdad.setText("Edad");
@@ -306,50 +401,50 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelDbt.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDbt.setText("DBT");
         jPanel1.add(labelDbt);
-        labelDbt.setBounds(570, 190, 50, 22);
+        labelDbt.setBounds(650, 190, 50, 22);
 
         campoApe.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoApe);
-        campoApe.setBounds(390, 20, 110, 30);
+        campoApe.setBounds(440, 20, 130, 30);
 
         campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoNom);
-        campoNom.setBounds(690, 20, 120, 30);
+        campoNom.setBounds(760, 20, 140, 30);
 
         campoDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoDire);
-        campoDire.setBounds(390, 100, 110, 30);
+        campoDire.setBounds(440, 100, 130, 30);
 
         campoEdad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoEdad);
-        campoEdad.setBounds(120, 100, 110, 30);
+        campoEdad.setBounds(120, 100, 140, 30);
 
         comboHiperhidrosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboHiperhidrosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboHiperhidrosis);
-        comboHiperhidrosis.setBounds(690, 110, 120, 30);
+        comboHiperhidrosis.setBounds(770, 110, 140, 30);
 
         labelCardiacas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelCardiacas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelCardiacas.setText("Afecciones");
         labelCardiacas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(labelCardiacas);
-        labelCardiacas.setBounds(10, 370, 90, 30);
+        labelCardiacas.setBounds(10, 370, 100, 30);
 
         labelAnticuagulado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelAnticuagulado.setText("Anticuagulado");
         jPanel1.add(labelAnticuagulado);
-        labelAnticuagulado.setBounds(270, 190, 120, 22);
+        labelAnticuagulado.setBounds(290, 190, 140, 22);
 
         comboTalon.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboTalon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboTalon);
-        comboTalon.setBounds(690, 280, 120, 30);
+        comboTalon.setBounds(770, 280, 140, 30);
 
         comboCardiacas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboCardiacas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboCardiacas);
-        comboCardiacas.setBounds(120, 380, 110, 30);
+        comboCardiacas.setBounds(140, 380, 140, 30);
 
         labelMicosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelMicosis.setText("Micosis");
@@ -359,75 +454,75 @@ public class VentanaFicha extends javax.swing.JFrame {
         comboMicosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboMicosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Inter Digital", "Ungueal", "Plantar" }));
         jPanel1.add(comboMicosis);
-        comboMicosis.setBounds(100, 190, 130, 30);
+        comboMicosis.setBounds(110, 190, 140, 30);
 
         labelOnicocriptosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelOnicocriptosis.setText("Onicocriptosis");
         jPanel1.add(labelOnicocriptosis);
-        labelOnicocriptosis.setBounds(10, 290, 110, 22);
+        labelOnicocriptosis.setBounds(10, 290, 130, 22);
 
         comboAnticuagulado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboAnticuagulado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboAnticuagulado);
-        comboAnticuagulado.setBounds(400, 190, 120, 30);
+        comboAnticuagulado.setBounds(440, 190, 150, 30);
 
         labelTalon1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTalon1.setText("Talón Agrietado");
         jPanel1.add(labelTalon1);
-        labelTalon1.setBounds(540, 280, 130, 22);
+        labelTalon1.setBounds(610, 280, 150, 22);
 
         comboDbt.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboDbt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboDbt);
-        comboDbt.setBounds(690, 190, 120, 30);
+        comboDbt.setBounds(770, 190, 140, 30);
 
         labelHiperquratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelHiperquratosis.setText("Hiperqueratosis");
         jPanel1.add(labelHiperquratosis);
-        labelHiperquratosis.setBounds(260, 380, 130, 22);
+        labelHiperquratosis.setBounds(300, 380, 150, 22);
 
         comboHiperqueratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboHiperqueratosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Lateral", "Superior", "Metatarsal" }));
         jPanel1.add(comboHiperqueratosis);
-        comboHiperqueratosis.setBounds(410, 380, 120, 30);
+        comboHiperqueratosis.setBounds(450, 380, 140, 30);
 
         labelHiperhidrosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelHiperhidrosis.setText("HiperHidrosis");
         jPanel1.add(labelHiperhidrosis);
-        labelHiperhidrosis.setBounds(560, 110, 110, 22);
+        labelHiperhidrosis.setBounds(620, 110, 130, 22);
 
         comboEdema.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboEdema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboEdema);
-        comboEdema.setBounds(400, 280, 120, 30);
+        comboEdema.setBounds(440, 280, 150, 30);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel16.setText("Edema");
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(260, 280, 60, 22);
+        jLabel16.setBounds(350, 290, 60, 22);
 
         comboOnicocriptosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboOnicocriptosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboOnicocriptosis);
-        comboOnicocriptosis.setBounds(130, 290, 110, 30);
+        comboOnicocriptosis.setBounds(150, 290, 140, 30);
         jPanel1.add(jTabbedPane1);
-        jTabbedPane1.setBounds(-30, -30, 5, 5);
+        jTabbedPane1.setBounds(-30, -30, 8, 8);
 
-        labelCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelCod.setText("Código");
-        jPanel1.add(labelCod);
-        labelCod.setBounds(10, 20, 70, 22);
+        etiqCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiqCod.setText("Código");
+        jPanel1.add(etiqCod);
+        etiqCod.setBounds(10, 20, 70, 22);
 
         campoCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoCod);
-        campoCod.setBounds(120, 20, 110, 30);
+        campoCod.setBounds(120, 20, 140, 30);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Cardíacas");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(20, 400, 80, 30);
+        jLabel1.setBounds(20, 400, 100, 30);
 
-        jTabbedPane2.addTab("Página 1", jPanel1);
+        jTabbedPane2.addTab("Formulario Pág. 1", jPanel1);
 
         jPanel3.setLayout(null);
 
@@ -446,7 +541,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelPatologias.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelPatologias.setText("Otras Patologías");
         jPanel3.add(labelPatologias);
-        labelPatologias.setBounds(440, 10, 140, 22);
+        labelPatologias.setBounds(440, 10, 160, 22);
 
         areaPatologias.setColumns(20);
         areaPatologias.setRows(5);
@@ -488,29 +583,18 @@ public class VentanaFicha extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnGuardar);
-        btnGuardar.setBounds(160, 410, 150, 40);
+        btnGuardar.setBounds(190, 410, 160, 40);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
-        jButton1.setText("NUEVO");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/nuevo.png"))); // NOI18N
+        btnNuevo.setText("NUEVO");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNuevoActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1);
-        jButton1.setBounds(10, 410, 140, 40);
-
-        btnMostrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnMostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/tablaexcel.png"))); // NOI18N
-        btnMostrar.setText("MOSTRAR FICHAS");
-        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMostrarActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnMostrar);
-        btnMostrar.setBounds(650, 410, 230, 40);
+        jPanel3.add(btnNuevo);
+        btnNuevo.setBounds(10, 410, 140, 40);
 
         btnModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pencil.png"))); // NOI18N
@@ -521,7 +605,7 @@ public class VentanaFicha extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnModificar);
-        btnModificar.setBounds(320, 410, 170, 40);
+        btnModificar.setBounds(400, 410, 170, 40);
 
         btnBorrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/delete.png"))); // NOI18N
@@ -532,44 +616,224 @@ public class VentanaFicha extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnBorrar);
-        btnBorrar.setBounds(500, 410, 140, 40);
+        btnBorrar.setBounds(630, 410, 150, 40);
 
-        jTabbedPane2.addTab("Página 2", jPanel3);
+        jTabbedPane2.addTab("Formulario Pág. 2", jPanel3);
+
+        jPanel2.setLayout(null);
+
+        tablaFichaMedica.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tablaFichaMedica.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaFichaMedica.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaFichaMedicaMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tablaFichaMedica);
+
+        jPanel2.add(jScrollPane5);
+        jScrollPane5.setBounds(10, 60, 910, 390);
+
+        labelCodigo.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        labelCodigo.setText("Buscar");
+        jPanel2.add(labelCodigo);
+        labelCodigo.setBounds(20, 20, 70, 21);
+
+        campoBuscar.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                campoBuscarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoBuscarFocusLost(evt);
+            }
+        });
+        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoBuscarMouseClicked(evt);
+            }
+        });
+        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoBuscarKeyReleased(evt);
+            }
+        });
+        jPanel2.add(campoBuscar);
+        campoBuscar.setBounds(120, 20, 180, 31);
+
+        jTabbedPane2.addTab("Lista Fichas", jPanel2);
+
+        jPanel4.setLayout(null);
+
+        tablaPacientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPacientesMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tablaPacientes);
+
+        jPanel4.add(jScrollPane6);
+        jScrollPane6.setBounds(10, 62, 910, 390);
+
+        campoBuscarPacientes.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                campoBuscarPacientesFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoBuscarPacientesFocusLost(evt);
+            }
+        });
+        campoBuscarPacientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoBuscarPacientesMouseClicked(evt);
+            }
+        });
+        campoBuscarPacientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoBuscarPacientesKeyReleased(evt);
+            }
+        });
+        jPanel4.add(campoBuscarPacientes);
+        campoBuscarPacientes.setBounds(140, 20, 180, 30);
+
+        labelBuscarPacientes.setText("Buscar");
+        jPanel4.add(labelBuscarPacientes);
+        labelBuscarPacientes.setBounds(10, 20, 90, 20);
+
+        jTabbedPane2.addTab("Lista Pacientes", jPanel4);
 
         getContentPane().add(jTabbedPane2);
-        jTabbedPane2.setBounds(0, 0, 900, 500);
+        jTabbedPane2.setBounds(0, 0, 940, 500);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
-       VentanaFichaMedica miVFM = new VentanaFichaMedica();
-        miVFM.setVisible(true);
-    }//GEN-LAST:event_btnMostrarActionPerformed
-
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-       eliminar();
-       limpiar();
-       deshabilitar();
+        eliminar();
+        cargar("");
+        limpiar();
+        deshabilitar();
+        campoCod.setVisible(false);
+        etiqCod.setVisible(false);
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         modificar();
+        cargar("");
         limpiar();
-        deshabilitar();        
+        deshabilitar();
+        campoCod.setVisible(false);
+        etiqCod.setVisible(false);
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardar();
+        cargar("");
         limpiar();
         deshabilitar();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        limpiar();
+        habilitar();
+        campoCod.setVisible(false);
+        etiqCod.setVisible(false);
+        
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void campoBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoBuscarMouseClicked
+        diseño.Clic(campoBuscar, mensaje.getApellido());
+    }//GEN-LAST:event_campoBuscarMouseClicked
+
+    private void campoBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarFocusLost
+        diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
+    }//GEN-LAST:event_campoBuscarFocusLost
+
+    private void tablaFichaMedicaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFichaMedicaMouseClicked
+        campoCod.setVisible(true);
+        etiqCod.setVisible(true);
         habilitar();
         limpiar();
-    }//GEN-LAST:event_jButton1ActionPerformed
- 
+    	int fila=tablaFichaMedica.getSelectedRow();
+    	if(fila>=0){   		
+            campoCod.setText(tablaFichaMedica.getValueAt(fila,0).toString());
+            campoApe.setText(tablaFichaMedica.getValueAt(fila,1).toString());
+            campoNom.setText(tablaFichaMedica.getValueAt(fila,2).toString());
+            campoDire.setText(tablaFichaMedica.getValueAt(fila,3).toString());
+            campoEdad.setText(tablaFichaMedica.getValueAt(fila,4).toString());
+            comboAnticuagulado.setSelectedItem(tablaFichaMedica.getValueAt(fila,5).toString());
+            comboDbt.setSelectedItem(tablaFichaMedica.getValueAt(fila,6).toString());
+            comboCardiacas.setSelectedItem(tablaFichaMedica.getValueAt(fila,7).toString());
+            comboMicosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,8).toString());
+            comboOnicocriptosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,9).toString());            
+            comboTalon.setSelectedItem(tablaFichaMedica.getValueAt(fila,10).toString());
+            comboHiperqueratosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,11).toString());
+            comboHiperhidrosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,12).toString());
+            comboEdema.setSelectedItem(tablaFichaMedica.getValueAt(fila,13).toString());
+            areaDClinicos.setText(tablaFichaMedica.getValueAt(fila,14).toString());
+            areaPatologias.setText(tablaFichaMedica.getValueAt(fila,15).toString());
+            areaTratamiento.setText(tablaFichaMedica.getValueAt(fila,16).toString());
+            areaEvolucion.setText(tablaFichaMedica.getValueAt(fila,17).toString());
+        }
+    }//GEN-LAST:event_tablaFichaMedicaMouseClicked
+
+    private void campoBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarFocusGained
+        diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
+    }//GEN-LAST:event_campoBuscarFocusGained
+
+    private void campoBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscarKeyReleased
+        cargar(campoBuscar.getText());
+    }//GEN-LAST:event_campoBuscarKeyReleased
+
+    private void campoBuscarPacientesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoBuscarPacientesKeyReleased
+        cargarPacientes(campoBuscarPacientes.getText());
+    }//GEN-LAST:event_campoBuscarPacientesKeyReleased
+
+    private void campoBuscarPacientesFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarPacientesFocusLost
+        diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
+    }//GEN-LAST:event_campoBuscarPacientesFocusLost
+
+    private void campoBuscarPacientesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarPacientesFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoBuscarPacientesFocusGained
+
+    private void campoBuscarPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoBuscarPacientesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoBuscarPacientesMouseClicked
+
+    private void tablaPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPacientesMouseClicked
+        habilitar();
+    	int fila=tablaPacientes.getSelectedRow();
+        if(fila>=0){            
+            campoApe.setText(tablaPacientes.getValueAt(fila,1).toString());
+            campoNom.setText(tablaPacientes.getValueAt(fila,2).toString());
+            campoDire.setText(tablaPacientes.getValueAt(fila,3).toString());
+        }else{
+        	JOptionPane.showMessageDialog(null,"No se seleccionó ninguna fila", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_tablaPacientesMouseClicked
+
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -599,43 +863,50 @@ public class VentanaFicha extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea areaDClinicos;
-    private javax.swing.JTextArea areaEvolucion;
-    private javax.swing.JTextArea areaPatologias;
-    private javax.swing.JTextArea areaTratamiento;
+    public javax.swing.JTextArea areaDClinicos;
+    public javax.swing.JTextArea areaEvolucion;
+    public javax.swing.JTextArea areaPatologias;
+    public javax.swing.JTextArea areaTratamiento;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnMostrar;
-    private javax.swing.JTextField campoApe;
-    private javax.swing.JTextField campoCod;
-    private javax.swing.JTextField campoDire;
-    private javax.swing.JTextField campoEdad;
-    private javax.swing.JTextField campoNom;
-    private javax.swing.JComboBox<String> comboAnticuagulado;
-    private javax.swing.JComboBox<String> comboCardiacas;
-    private javax.swing.JComboBox<String> comboDbt;
-    private javax.swing.JComboBox<String> comboEdema;
-    private javax.swing.JComboBox<String> comboHiperhidrosis;
-    private javax.swing.JComboBox<String> comboHiperqueratosis;
-    private javax.swing.JComboBox<String> comboMicosis;
-    private javax.swing.JComboBox<String> comboOnicocriptosis;
-    private javax.swing.JComboBox<String> comboTalon;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnNuevo;
+    public javax.swing.JTextField campoApe;
+    private javax.swing.JTextField campoBuscar;
+    private javax.swing.JTextField campoBuscarPacientes;
+    public javax.swing.JTextField campoCod;
+    public javax.swing.JTextField campoDire;
+    public javax.swing.JTextField campoEdad;
+    public javax.swing.JTextField campoNom;
+    public javax.swing.JComboBox<String> comboAnticuagulado;
+    public javax.swing.JComboBox<String> comboCardiacas;
+    public javax.swing.JComboBox<String> comboDbt;
+    public javax.swing.JComboBox<String> comboEdema;
+    public javax.swing.JComboBox<String> comboHiperhidrosis;
+    public javax.swing.JComboBox<String> comboHiperqueratosis;
+    public javax.swing.JComboBox<String> comboMicosis;
+    public javax.swing.JComboBox<String> comboOnicocriptosis;
+    public javax.swing.JComboBox<String> comboTalon;
+    public javax.swing.JLabel etiqCod;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel labelAnticuagulado;
     private javax.swing.JLabel labelApe;
+    private javax.swing.JLabel labelBuscarPacientes;
     private javax.swing.JLabel labelCardiacas;
-    private javax.swing.JLabel labelCod;
+    private javax.swing.JLabel labelCodigo;
     private javax.swing.JLabel labelDClinicos;
     private javax.swing.JLabel labelDbt;
     private javax.swing.JLabel labelDire;
@@ -649,6 +920,8 @@ public class VentanaFicha extends javax.swing.JFrame {
     private javax.swing.JLabel labelPatologias;
     private javax.swing.JLabel labelTalon1;
     private javax.swing.JLabel labelTratamiento;
+    private javax.swing.JTable tablaFichaMedica;
+    private javax.swing.JTable tablaPacientes;
     // End of variables declaration//GEN-END:variables
 
     private void setIcon() {
