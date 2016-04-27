@@ -31,9 +31,12 @@ public class VentanaFicha extends javax.swing.JFrame {
         etiqCod.setVisible(false);
         iniciar();
         cargar("");
+        cargarPacientes("");
+        deshabilitarbotones();
     }
     private void iniciar() {
        diseño.Mensaje(campoBuscar,mensaje.getApellido(), 0);
+       diseño.Mensaje(campoBuscarPacientes,mensaje.getApellido(), 0);
     }
     private void cargar(String valor){
         String [] titulos={"Codigo","Apellido","Nombre","Dire","Edad","Anticuagulado","DBT","Af.Cardiacas","Micosis","Onicocriptosis","T.Agrietado","Hiperqueratosis","Hiperhidrosis","Edema","D.Clinicos","Otras Pat.","Tratamiento","Evolucion"};
@@ -79,7 +82,7 @@ public class VentanaFicha extends javax.swing.JFrame {
     }
     private void cargarPacientes(String valor){
         String [] titulos= {"Tel/Cel","Apellido", "Nombre", "Domicilio"};
-        String [] registros = new String[3];
+        String [] registros = new String[4];
         String sql="SELECT * FROM pacientes WHERE pac_ap LIKE '%"+valor+"%' ORDER BY pac_ap ASC";
         model= new DefaultTableModel (null,titulos){
             @Override
@@ -94,6 +97,7 @@ public class VentanaFicha extends javax.swing.JFrame {
             Statement st= cn.createStatement();
             ResultSet rs= st.executeQuery(sql);
             while(rs.next()){
+            registros[0]=rs.getString("pac_cel");
             registros[1]=rs.getString("pac_ap");
             registros[2]=rs.getString("pac_nom");
             registros[3]=rs.getString("pac_dom");
@@ -129,11 +133,15 @@ public class VentanaFicha extends javax.swing.JFrame {
                 + " fich_anticua, fich_dbt, fich_afcard, fich_micosis,"
                 + " fich_onicocri, fich_talonagri, fich_hiperquera, fich_hiperhidro,"
                 + " fich_edema, fich_datoscli, fich_otraspato, fich_tratam, fich_evolucion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        if (campoApe.equals("") || campoApe == null || campoNom.equals("") || campoNom == null || campoDire.equals("") || campoDire == null || campoEdad.equals("")
-                || campoEdad == null || comboAnticuagulado.equals("Seleccione") || comboAnticuagulado == null || comboDbt.equals("Seleccione") || comboDbt == null || comboCardiacas.equals("Seleccione")
-                || comboCardiacas == null || comboMicosis.equals("Seleccione") || comboMicosis == null || comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis == null || comboTalon.equals("Seleccione")
-                || comboTalon == null || comboHiperqueratosis.equals("Seleccione") || comboHiperqueratosis == null || comboHiperhidrosis.equals("Seleccione") || comboHiperhidrosis == null || comboEdema.equals("Seleccione") || comboEdema == null
-                || areaDClinicos.equals("") || areaDClinicos == null || areaPatologias.equals("") || areaPatologias == null || areaTratamiento.equals("") || areaTratamiento == null || areaEvolucion.equals("")
+        if (campoApe.equals("") || campoApe == null || campoNom.equals("") || campoNom == null || campoDire.equals("") || 
+                campoDire == null || campoEdad.equals("") || campoEdad == null || comboAnticuagulado.equals("Seleccione") 
+                || comboAnticuagulado == null || comboDbt.equals("Seleccione") || comboDbt == null || comboCardiacas.equals("Seleccione")
+                || comboCardiacas == null || comboMicosis.equals("Seleccione") || comboMicosis == null || 
+                comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis == null || comboTalon.equals("Seleccione")
+                || comboTalon == null || comboHiperqueratosis.equals("Seleccione") || comboHiperqueratosis == null 
+                || comboHiperhidrosis.equals("Seleccione") || comboHiperhidrosis == null || comboEdema.equals("Seleccione") 
+                || comboEdema == null || areaDClinicos.equals("") || areaDClinicos == null || areaPatologias.equals("") 
+                || areaPatologias == null || areaTratamiento.equals("") || areaTratamiento == null || areaEvolucion.equals("")
                 || areaEvolucion == null) {
             JOptionPane.showMessageDialog(null, "Existen campos vacíos, rellene los campos e intente nuevamente", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -306,6 +314,16 @@ public class VentanaFicha extends javax.swing.JFrame {
         areaEvolucion.setEnabled(true);
     }
 
+    private void habilitarbotones(){
+    btnGuardar.setEnabled(true);
+    btnModificar.setEnabled(true);
+    btnBorrar.setEnabled(true);
+    }
+    private void deshabilitarbotones(){
+    btnModificar.setEnabled(false);
+    btnGuardar.setEnabled(false);
+    btnBorrar.setEnabled(false);
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -370,7 +388,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         campoBuscarPacientes = new javax.swing.JTextField();
         labelBuscarPacientes = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jTabbedPane2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -499,7 +517,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel16.setText("Edema");
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(350, 290, 60, 22);
+        jLabel16.setBounds(350, 280, 60, 22);
 
         comboOnicocriptosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboOnicocriptosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
@@ -675,6 +693,7 @@ public class VentanaFicha extends javax.swing.JFrame {
 
         jPanel4.setLayout(null);
 
+        tablaPacientes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         tablaPacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -696,6 +715,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jPanel4.add(jScrollPane6);
         jScrollPane6.setBounds(10, 62, 910, 390);
 
+        campoBuscarPacientes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         campoBuscarPacientes.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 campoBuscarPacientesFocusGained(evt);
@@ -715,11 +735,12 @@ public class VentanaFicha extends javax.swing.JFrame {
             }
         });
         jPanel4.add(campoBuscarPacientes);
-        campoBuscarPacientes.setBounds(140, 20, 180, 30);
+        campoBuscarPacientes.setBounds(120, 20, 180, 30);
 
+        labelBuscarPacientes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         labelBuscarPacientes.setText("Buscar");
         jPanel4.add(labelBuscarPacientes);
-        labelBuscarPacientes.setBounds(10, 20, 90, 20);
+        labelBuscarPacientes.setBounds(20, 20, 70, 20);
 
         jTabbedPane2.addTab("Lista Pacientes", jPanel4);
 
@@ -736,6 +757,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         deshabilitar();
         campoCod.setVisible(false);
         etiqCod.setVisible(false);
+        deshabilitarbotones();
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -745,6 +767,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         deshabilitar();
         campoCod.setVisible(false);
         etiqCod.setVisible(false);
+        deshabilitarbotones();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -752,6 +775,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         cargar("");
         limpiar();
         deshabilitar();
+        deshabilitarbotones();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -759,6 +783,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         habilitar();
         campoCod.setVisible(false);
         etiqCod.setVisible(false);
+        deshabilitarbotones();
         
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -772,7 +797,9 @@ public class VentanaFicha extends javax.swing.JFrame {
 
     private void tablaFichaMedicaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFichaMedicaMouseClicked
         campoCod.setVisible(true);
-        etiqCod.setVisible(true);
+        etiqCod.setVisible(true); 
+        btnModificar.setEnabled(true);
+        btnBorrar.setEnabled(true);
         habilitar();
         limpiar();
     	int fila=tablaFichaMedica.getSelectedRow();
@@ -811,19 +838,20 @@ public class VentanaFicha extends javax.swing.JFrame {
     }//GEN-LAST:event_campoBuscarPacientesKeyReleased
 
     private void campoBuscarPacientesFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarPacientesFocusLost
-        diseño.Mensaje(campoBuscar, mensaje.getApellido(), campoBuscar.getText().trim().length());
+        diseño.Mensaje(campoBuscarPacientes, mensaje.getApellido(), campoBuscarPacientes.getText().trim().length());
     }//GEN-LAST:event_campoBuscarPacientesFocusLost
 
     private void campoBuscarPacientesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_campoBuscarPacientesFocusGained
-        // TODO add your handling code here:
+    	diseño.Mensaje(campoBuscarPacientes, mensaje.getApellido(), campoBuscarPacientes.getText().trim().length());
     }//GEN-LAST:event_campoBuscarPacientesFocusGained
 
     private void campoBuscarPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoBuscarPacientesMouseClicked
-        // TODO add your handling code here:
+    	diseño.Clic(campoBuscarPacientes, mensaje.getApellido());
     }//GEN-LAST:event_campoBuscarPacientesMouseClicked
 
     private void tablaPacientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPacientesMouseClicked
         habilitar();
+        btnGuardar.setEnabled(true);
     	int fila=tablaPacientes.getSelectedRow();
         if(fila>=0){            
             campoApe.setText(tablaPacientes.getValueAt(fila,1).toString());

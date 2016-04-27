@@ -166,6 +166,16 @@ CustomErrorDialog CustomError;
         campoTel.setEnabled(true);
         campoDom.setEnabled(true);
     }
+    private void habilitarbotones(){
+        btnGuardar.setEnabled(true);
+        btnModificar.setEnabled(true);
+        btnBorrar.setEnabled(true);
+    }
+    private void deshabilitarbotones(){
+    btnBorrar.setEnabled(false);
+    btnModificar.setEnabled(false);
+    btnGuardar.setEnabled(false);
+    }
     private void deshabilitar(){
     	campoApe.setEnabled(false);
         campoNom.setEnabled(false);
@@ -223,7 +233,7 @@ CustomErrorDialog CustomError;
             }
         });
         jPanel2.add(campoBuscar);
-        campoBuscar.setBounds(90, 10, 180, 30);
+        campoBuscar.setBounds(110, 10, 220, 30);
 
         labelBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelBuscar.setText("Buscar");
@@ -261,12 +271,12 @@ CustomErrorDialog CustomError;
         labelNombre.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelNombre.setText("Nombre");
         jPanel1.add(labelNombre);
-        labelNombre.setBounds(20, 140, 80, 30);
+        labelNombre.setBounds(20, 140, 90, 30);
 
         labelApellido.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelApellido.setText("Apellido");
         jPanel1.add(labelApellido);
-        labelApellido.setBounds(20, 80, 80, 30);
+        labelApellido.setBounds(20, 80, 90, 30);
 
         labelTel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelTel.setText("Tel/Cel");
@@ -276,7 +286,7 @@ CustomErrorDialog CustomError;
         labelDomicilio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDomicilio.setText("Domicilio");
         jPanel1.add(labelDomicilio);
-        labelDomicilio.setBounds(20, 200, 90, 30);
+        labelDomicilio.setBounds(20, 200, 100, 30);
 
         campoNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoNom);

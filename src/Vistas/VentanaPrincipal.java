@@ -97,7 +97,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnVade);
-        btnVade.setBounds(10, 130, 210, 50);
+        btnVade.setBounds(10, 130, 220, 50);
 
         btnTurnos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnTurnos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/turnos.png"))); // NOI18N
@@ -108,7 +108,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnTurnos);
-        btnTurnos.setBounds(10, 240, 210, 50);
+        btnTurnos.setBounds(10, 240, 220, 50);
 
         btnPacientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnPacientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/1458530871_PatientMale.png"))); // NOI18N
@@ -119,7 +119,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPacientes);
-        btnPacientes.setBounds(10, 350, 210, 50);
+        btnPacientes.setBounds(10, 350, 220, 50);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/podologia.png"))); // NOI18N
         jLabel1.setToolTipText("");

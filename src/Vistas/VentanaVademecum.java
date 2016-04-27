@@ -213,12 +213,12 @@ public class VentanaVademecum extends javax.swing.JFrame {
         labelNom.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelNom.setText("Nombre");
         jPanel1.add(labelNom);
-        labelNom.setBounds(10, 60, 80, 22);
+        labelNom.setBounds(10, 60, 90, 22);
 
         labelIndi.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelIndi.setText("Indicaciones");
         jPanel1.add(labelIndi);
-        labelIndi.setBounds(10, 160, 110, 22);
+        labelIndi.setBounds(10, 160, 120, 22);
 
         areaIndi.setColumns(20);
         areaIndi.setRows(5);
