@@ -693,7 +693,7 @@ public class VentanaFicha extends javax.swing.JFrame {
 
         jPanel4.setLayout(null);
 
-        tablaPacientes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        tablaPacientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tablaPacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
