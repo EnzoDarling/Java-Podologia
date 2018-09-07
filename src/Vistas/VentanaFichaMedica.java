@@ -153,7 +153,6 @@ public class VentanaFichaMedica extends javax.swing.JFrame {
             miVF.campoApe.setText(tablaFichaMedica.getValueAt(fila,1).toString());
             miVF.campoNom.setText(tablaFichaMedica.getValueAt(fila,2).toString());
             miVF.campoDire.setText(tablaFichaMedica.getValueAt(fila,3).toString());
-            miVF.campoEdad.setText(tablaFichaMedica.getValueAt(fila,4).toString());
             miVF.comboAnticuagulado.setSelectedItem(tablaFichaMedica.getValueAt(fila,5).toString());
             miVF.comboDbt.setSelectedItem(tablaFichaMedica.getValueAt(fila,6).toString());
             miVF.comboCardiacas.setSelectedItem(tablaFichaMedica.getValueAt(fila,7).toString());

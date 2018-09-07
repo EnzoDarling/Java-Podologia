@@ -251,6 +251,7 @@ CustomErrorDialog CustomError;
         campoAp = new javax.swing.JTextField();
         campoHora = new javax.swing.JTextField();
         campoMin = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel1 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         campoBuscar = new javax.swing.JTextField();
@@ -284,7 +285,7 @@ CustomErrorDialog CustomError;
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Direccion");
         jPanel3.add(jLabel4);
-        jLabel4.setBounds(10, 290, 90, 30);
+        jLabel4.setBounds(10, 320, 90, 30);
 
         campoCel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoCel);
@@ -296,7 +297,7 @@ CustomErrorDialog CustomError;
 
         campoDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoDire);
-        campoDire.setBounds(130, 290, 210, 30);
+        campoDire.setBounds(130, 320, 210, 30);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Fecha");
@@ -377,6 +378,8 @@ CustomErrorDialog CustomError;
         campoMin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel3.add(campoMin);
         campoMin.setBounds(220, 180, 60, 30);
+        jPanel3.add(jDateChooser1);
+        jDateChooser1.setBounds(130, 280, 210, 30);
 
         getContentPane().add(jPanel3);
         jPanel3.setBounds(0, 0, 370, 480);
@@ -570,6 +573,7 @@ CustomErrorDialog CustomError;
     private javax.swing.JTextField campoHora;
     private javax.swing.JTextField campoMin;
     private javax.swing.JTextField campoNom;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

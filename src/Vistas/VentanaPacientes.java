@@ -96,7 +96,7 @@ CustomErrorDialog CustomError;
 	                JOptionPane.showMessageDialog(null,"SE HA GUARDADO EL REGISTRO","AVISO",JOptionPane.INFORMATION_MESSAGE);
 	            }
 	        } catch (Exception e) {
-	        		CustomError.showDialog("<html>Ocurrió un error al guardar, contacte al personal adecuado sobre este error</html>", 
+	        		CustomError.showDialog("<html>Ingreso un paciente que ya existe o ocurrió un error al guardar</html>", 
                             "<html>'"+e+"'</html>");
 	        }
         }

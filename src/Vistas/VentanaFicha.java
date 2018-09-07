@@ -15,6 +15,7 @@ public class VentanaFicha extends javax.swing.JFrame {
 
     CustomErrorDialog CustomError;
     DefaultTableModel model;
+    DefaultTableModel model2;
     DiseñoLetraFondo diseño = new DiseñoLetraFondo();    
     Mensajeria mensaje = new Mensajeria();
     Integer convCod=0;
@@ -39,8 +40,12 @@ public class VentanaFicha extends javax.swing.JFrame {
        diseño.Mensaje(campoBuscarPacientes,mensaje.getApellido(), 0);
     }
     private void cargar(String valor){
-        String [] titulos={"Codigo","Apellido","Nombre","Dire","Edad","Anticuagulado","DBT","Af.Cardiacas","Micosis","Onicocriptosis","T.Agrietado","Hiperqueratosis","Hiperhidrosis","Edema","D.Clinicos","Otras Pat.","Tratamiento","Evolucion"};
-        String [] registros= new String[18];
+        String [] titulos={"Codigo","Apellido","Nombre","Dire","Anticuagulado",
+            "DBT","Af.Cardiacas","Micosis"};
+        String [] titulos2 = {"Onicocriptosis","T.Agrietado","Hiperqueratosis",
+            "Hiperhidrosis","Edema","D.Clinicos","Otras Pat.","Tratamiento","Evolucion"};
+        String [] registros= new String[8];
+        String [] registros2= new String[10];
         String sql="SELECT * FROM fichasmedicas WHERE fich_ap LIKE '%"+valor+"%' ORDER BY fich_ap ASC";
         model= new DefaultTableModel(null,titulos){
     	    @Override
@@ -49,6 +54,12 @@ public class VentanaFicha extends javax.swing.JFrame {
     	       return false;
     	    }
     	};
+        model2 = new DefaultTableModel(null, titulos2){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
         Conexion cc= new Conexion();
         Connection cn= cc.conexion();
         try {
@@ -59,23 +70,25 @@ public class VentanaFicha extends javax.swing.JFrame {
                 registros[1]=rs.getString("fich_ap");
                 registros[2]=rs.getString("fich_nom");
                 registros[3]=rs.getString("fich_dire");
-                registros[4]=rs.getString("fich_edad");
-                registros[5]=rs.getString("fich_anticua");
-                registros[6]=rs.getString("fich_dbt");
-                registros[7]=rs.getString("fich_afcard");
-                registros[8]=rs.getString("fich_micosis");
-                registros[9]=rs.getString("fich_onicocri");
-                registros[10]=rs.getString("fich_talonagri");
-                registros[11]=rs.getString("fich_hiperquera");
-                registros[12]=rs.getString("fich_hiperhidro");
-                registros[13]=rs.getString("fich_edema");
-                registros[14]=rs.getString("fich_datoscli");
-                registros[15]=rs.getString("fich_otraspato");
-                registros[16]=rs.getString("fich_tratam");
-                registros[17]=rs.getString("fich_evolucion");
-                model.addRow(registros);				
+                registros[4]=rs.getString("fich_anticua");
+                registros[5]=rs.getString("fich_dbt");
+                registros[6]=rs.getString("fich_afcard");
+                registros[7]=rs.getString("fich_micosis");
+                model.addRow(registros);
+                /*CARGA DE REGISTROS PARA LA SEGUNDA TABLA DE FICHAS*/
+                registros2[0]=rs.getString("fich_onicocri");
+                registros2[1]=rs.getString("fich_talonagri");
+                registros2[2]=rs.getString("fich_hiperquera");
+                registros2[3]=rs.getString("fich_hiperhidro");
+                registros2[4]=rs.getString("fich_edema");
+                registros2[5]=rs.getString("fich_datoscli");
+                registros2[6]=rs.getString("fich_otraspato");
+                registros2[7]=rs.getString("fich_tratam");
+                registros2[8]=rs.getString("fich_evolucion");
+                model2.addRow(registros2);
             }
             tablaFichaMedica.setModel(model);
+            tablaFichaMedica2.setModel(model2);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"ERROR :"+e,"ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -115,7 +128,6 @@ public class VentanaFicha extends javax.swing.JFrame {
         String ape = campoApe.getText();
         String nom = campoNom.getText();
         String dire = campoDire.getText();
-        String edad = campoEdad.getText();
         String anticua = comboAnticuagulado.getSelectedItem().toString();
         String dbt = comboDbt.getSelectedItem().toString();
         String afcard = comboCardiacas.getSelectedItem().toString();
@@ -129,12 +141,12 @@ public class VentanaFicha extends javax.swing.JFrame {
         String otraspato = areaPatologias.getText();
         String tratam = areaTratamiento.getText();
         String evol = areaEvolucion.getText();
-        String sql = "INSERT INTO fichasmedicas (fich_ap, fich_nom, fich_dire, fich_edad,"
+        String sql = "INSERT INTO fichasmedicas (fich_ap, fich_nom, fich_dire,"
                 + " fich_anticua, fich_dbt, fich_afcard, fich_micosis,"
                 + " fich_onicocri, fich_talonagri, fich_hiperquera, fich_hiperhidro,"
-                + " fich_edema, fich_datoscli, fich_otraspato, fich_tratam, fich_evolucion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + " fich_edema, fich_datoscli, fich_otraspato, fich_tratam, fich_evolucion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         if (campoApe.equals("") || campoApe == null || campoNom.equals("") || campoNom == null || campoDire.equals("") || 
-                campoDire == null || campoEdad.equals("") || campoEdad == null || comboAnticuagulado.equals("Seleccione") 
+                campoDire == null ||  comboAnticuagulado.equals("Seleccione") 
                 || comboAnticuagulado == null || comboDbt.equals("Seleccione") || comboDbt == null || comboCardiacas.equals("Seleccione")
                 || comboCardiacas == null || comboMicosis.equals("Seleccione") || comboMicosis == null || 
                 comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis == null || comboTalon.equals("Seleccione")
@@ -150,20 +162,19 @@ public class VentanaFicha extends javax.swing.JFrame {
                 psd.setString(1, ape);
                 psd.setString(2, nom);
                 psd.setString(3, dire);
-                psd.setString(4, edad);
-                psd.setString(5, anticua);
-                psd.setString(6, dbt);
-                psd.setString(7, afcard);
-                psd.setString(8, micosis);
-                psd.setString(9, onicocri);
-                psd.setString(10, talonagri);
-                psd.setString(11, hiperquera);
-                psd.setString(12, hiperhidro);
-                psd.setString(13, edema);
-                psd.setString(14, datoscli);
-                psd.setString(15, otraspato);
-                psd.setString(16, tratam);
-                psd.setString(17, evol);
+                psd.setString(4, anticua);
+                psd.setString(5, dbt);
+                psd.setString(6, afcard);
+                psd.setString(7, micosis);
+                psd.setString(8, onicocri);
+                psd.setString(9, talonagri);
+                psd.setString(10, hiperquera);
+                psd.setString(11, hiperhidro);
+                psd.setString(12, edema);
+                psd.setString(13, datoscli);
+                psd.setString(14, otraspato);
+                psd.setString(15, tratam);
+                psd.setString(16, evol);
                 int n = psd.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "SE HA GUARDADO EL REGISTRO", "AVISO", JOptionPane.INFORMATION_MESSAGE);
@@ -182,7 +193,6 @@ public class VentanaFicha extends javax.swing.JFrame {
         String ape = campoApe.getText();
         String nom = campoNom.getText();
         String dire = campoDire.getText();
-        String edad = campoEdad.getText();
         String anticua = comboAnticuagulado.getSelectedItem().toString();
         String dbt = comboDbt.getSelectedItem().toString();
         String afcard = comboCardiacas.getSelectedItem().toString();
@@ -197,12 +207,10 @@ public class VentanaFicha extends javax.swing.JFrame {
         String tratam = areaTratamiento.getText();
         String evol = areaEvolucion.getText();
         convCod= Integer.parseInt(cod);
-        String sql = "UPDATE fichasmedicas SET fich_ap='" + ape + "',fich_nom='" + nom + "',fich_dire='" + dire + "', fich_edad='" + edad + "',"
-                + " fich_anticua='" + anticua + "', fich_dbt='" + dbt + "', fich_afcard='" + afcard + "', fich_micosis='" + micosis + "',"
+        String sql = "UPDATE fichasmedicas SET fich_ap='" + ape + "',fich_nom='" + nom + "',fich_dire='" + dire + "', fich_anticua='" + anticua + "', fich_dbt='" + dbt + "', fich_afcard='" + afcard + "', fich_micosis='" + micosis + "',"
                 + " fich_onicocri='" + onicocri + "', fich_talonagri='" + talonagri + "', fich_hiperquera='" + hiperquera + "', fich_hiperhidro='" + hiperhidro + "',"
                 + " fich_edema='" + edema + "', fich_datoscli='" + datoscli + "', fich_otraspato='" + otraspato + "', fich_tratam='" + tratam + "', fich_evolucion='" + evol + "' WHERE fich_cod='"+convCod+"'";
-        if (campoApe.equals("") || campoApe == null || campoNom.equals("") || campoNom == null || campoDire.equals("") || campoDire == null || campoEdad.equals("")
-                || campoEdad == null || comboAnticuagulado.equals("Seleccione") || comboAnticuagulado == null || comboDbt.equals("Seleccione") || comboDbt == null || comboCardiacas.equals("Seleccione")
+        if (campoApe.equals("") || campoApe == null || campoNom.equals("") || campoNom == null || campoDire.equals("") || campoDire == null || comboAnticuagulado.equals("Seleccione") || comboAnticuagulado == null || comboDbt.equals("Seleccione") || comboDbt == null || comboCardiacas.equals("Seleccione")
                 || comboCardiacas == null || comboMicosis.equals("Seleccione") || comboMicosis == null || comboOnicocriptosis.equals("Seleccione") || comboOnicocriptosis == null || comboTalon.equals("Seleccione")
                 || comboTalon == null || comboHiperqueratosis.equals("Seleccione") || comboHiperqueratosis == null || comboHiperhidrosis.equals("Seleccione") || comboHiperhidrosis == null || comboEdema.equals("Seleccione") || comboEdema == null
                 || areaDClinicos.equals("") || areaDClinicos == null || areaPatologias.equals("") || areaPatologias == null || areaTratamiento.equals("") || areaTratamiento == null || areaEvolucion.equals("")
@@ -255,7 +263,6 @@ public class VentanaFicha extends javax.swing.JFrame {
         campoApe.setText("");
         campoNom.setText("");
         campoDire.setText("");
-        campoEdad.setText("");
         comboAnticuagulado.setSelectedIndex(0);
         comboDbt.setSelectedIndex(0);
         comboCardiacas.setSelectedIndex(0);
@@ -278,7 +285,6 @@ public class VentanaFicha extends javax.swing.JFrame {
         campoApe.setEnabled(false);
         campoNom.setEnabled(false);
         campoDire.setEnabled(false);
-        campoEdad.setEnabled(false);
         comboAnticuagulado.setEnabled(false);
         comboDbt.setEnabled(false);
         comboCardiacas.setEnabled(false);
@@ -298,7 +304,6 @@ public class VentanaFicha extends javax.swing.JFrame {
         campoApe.setEnabled(true);
         campoNom.setEnabled(true);
         campoDire.setEnabled(true);
-        campoEdad.setEnabled(true);
         comboAnticuagulado.setEnabled(true);
         comboDbt.setEnabled(true);
         comboCardiacas.setEnabled(true);
@@ -333,12 +338,10 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelApe = new javax.swing.JLabel();
         labelNom = new javax.swing.JLabel();
         labelDire = new javax.swing.JLabel();
-        labelEdad = new javax.swing.JLabel();
         labelDbt = new javax.swing.JLabel();
         campoApe = new javax.swing.JTextField();
         campoNom = new javax.swing.JTextField();
         campoDire = new javax.swing.JTextField();
-        campoEdad = new javax.swing.JTextField();
         comboHiperhidrosis = new javax.swing.JComboBox<>();
         labelCardiacas = new javax.swing.JLabel();
         labelAnticuagulado = new javax.swing.JLabel();
@@ -377,16 +380,19 @@ public class VentanaFicha extends javax.swing.JFrame {
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tablaFichaMedica = new javax.swing.JTable();
-        labelCodigo = new javax.swing.JLabel();
-        campoBuscar = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaPacientes = new javax.swing.JTable();
         campoBuscarPacientes = new javax.swing.JTextField();
         labelBuscarPacientes = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        labelCodigo = new javax.swing.JLabel();
+        campoBuscar = new javax.swing.JTextField();
+        jTabbedPane3 = new javax.swing.JTabbedPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaFichaMedica = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablaFichaMedica2 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -409,12 +415,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDire.setText("Dirección");
         jPanel1.add(labelDire);
-        labelDire.setBounds(320, 100, 100, 22);
-
-        labelEdad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        labelEdad.setText("Edad");
-        jPanel1.add(labelEdad);
-        labelEdad.setBounds(20, 100, 50, 22);
+        labelDire.setBounds(10, 90, 100, 22);
 
         labelDbt.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelDbt.setText("DBT");
@@ -431,16 +432,12 @@ public class VentanaFicha extends javax.swing.JFrame {
 
         campoDire.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jPanel1.add(campoDire);
-        campoDire.setBounds(440, 100, 130, 30);
-
-        campoEdad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jPanel1.add(campoEdad);
-        campoEdad.setBounds(120, 100, 140, 30);
+        campoDire.setBounds(130, 90, 130, 30);
 
         comboHiperhidrosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboHiperhidrosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
         jPanel1.add(comboHiperhidrosis);
-        comboHiperhidrosis.setBounds(770, 110, 140, 30);
+        comboHiperhidrosis.setBounds(460, 90, 140, 30);
 
         labelCardiacas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelCardiacas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -497,17 +494,17 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelHiperquratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelHiperquratosis.setText("Hiperqueratosis");
         jPanel1.add(labelHiperquratosis);
-        labelHiperquratosis.setBounds(300, 380, 150, 22);
+        labelHiperquratosis.setBounds(620, 90, 150, 22);
 
         comboHiperqueratosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboHiperqueratosis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Lateral", "Superior", "Metatarsal" }));
         jPanel1.add(comboHiperqueratosis);
-        comboHiperqueratosis.setBounds(450, 380, 140, 30);
+        comboHiperqueratosis.setBounds(770, 90, 140, 30);
 
         labelHiperhidrosis.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelHiperhidrosis.setText("HiperHidrosis");
         jPanel1.add(labelHiperhidrosis);
-        labelHiperhidrosis.setBounds(620, 110, 130, 22);
+        labelHiperhidrosis.setBounds(310, 90, 130, 22);
 
         comboEdema.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboEdema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Si", "No" }));
@@ -524,7 +521,7 @@ public class VentanaFicha extends javax.swing.JFrame {
         jPanel1.add(comboOnicocriptosis);
         comboOnicocriptosis.setBounds(150, 290, 140, 30);
         jPanel1.add(jTabbedPane1);
-        jTabbedPane1.setBounds(-30, -30, 8, 8);
+        jTabbedPane1.setBounds(-30, -30, 5, 5);
 
         etiqCod.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         etiqCod.setText("Código");
@@ -638,62 +635,9 @@ public class VentanaFicha extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Formulario Pág. 2", jPanel3);
 
-        jPanel2.setLayout(null);
-
-        tablaFichaMedica.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        tablaFichaMedica.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        tablaFichaMedica.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaFichaMedicaMouseClicked(evt);
-            }
-        });
-        jScrollPane5.setViewportView(tablaFichaMedica);
-
-        jPanel2.add(jScrollPane5);
-        jScrollPane5.setBounds(10, 60, 910, 390);
-
-        labelCodigo.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        labelCodigo.setText("Buscar");
-        jPanel2.add(labelCodigo);
-        labelCodigo.setBounds(20, 20, 70, 21);
-
-        campoBuscar.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                campoBuscarFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                campoBuscarFocusLost(evt);
-            }
-        });
-        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                campoBuscarMouseClicked(evt);
-            }
-        });
-        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                campoBuscarKeyReleased(evt);
-            }
-        });
-        jPanel2.add(campoBuscar);
-        campoBuscar.setBounds(120, 20, 180, 31);
-
-        jTabbedPane2.addTab("Lista Fichas", jPanel2);
-
         jPanel4.setLayout(null);
 
-        tablaPacientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tablaPacientes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         tablaPacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -743,6 +687,84 @@ public class VentanaFicha extends javax.swing.JFrame {
         labelBuscarPacientes.setBounds(20, 20, 70, 20);
 
         jTabbedPane2.addTab("Lista Pacientes", jPanel4);
+
+        jPanel2.setLayout(null);
+
+        labelCodigo.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        labelCodigo.setText("Buscar");
+        jPanel2.add(labelCodigo);
+        labelCodigo.setBounds(20, 20, 70, 24);
+
+        campoBuscar.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        campoBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                campoBuscarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                campoBuscarFocusLost(evt);
+            }
+        });
+        campoBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                campoBuscarMouseClicked(evt);
+            }
+        });
+        campoBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                campoBuscarKeyReleased(evt);
+            }
+        });
+        jPanel2.add(campoBuscar);
+        campoBuscar.setBounds(120, 20, 180, 30);
+
+        tablaFichaMedica.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tablaFichaMedica.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaFichaMedica.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaFichaMedicaMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tablaFichaMedica);
+
+        jTabbedPane3.addTab("Lista 1", jScrollPane5);
+
+        jScrollPane7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        tablaFichaMedica2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tablaFichaMedica2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaFichaMedica2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaFichaMedica2MouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tablaFichaMedica2);
+
+        jTabbedPane3.addTab("Lista 2", jScrollPane7);
+
+        jPanel2.add(jTabbedPane3);
+        jTabbedPane3.setBounds(0, 60, 930, 400);
+
+        jTabbedPane2.addTab("Lista Fichas", jPanel2);
 
         getContentPane().add(jTabbedPane2);
         jTabbedPane2.setBounds(0, 0, 940, 500);
@@ -808,12 +830,12 @@ public class VentanaFicha extends javax.swing.JFrame {
             campoApe.setText(tablaFichaMedica.getValueAt(fila,1).toString());
             campoNom.setText(tablaFichaMedica.getValueAt(fila,2).toString());
             campoDire.setText(tablaFichaMedica.getValueAt(fila,3).toString());
-            campoEdad.setText(tablaFichaMedica.getValueAt(fila,4).toString());
-            comboAnticuagulado.setSelectedItem(tablaFichaMedica.getValueAt(fila,5).toString());
-            comboDbt.setSelectedItem(tablaFichaMedica.getValueAt(fila,6).toString());
-            comboCardiacas.setSelectedItem(tablaFichaMedica.getValueAt(fila,7).toString());
-            comboMicosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,8).toString());
-            comboOnicocriptosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,9).toString());            
+            comboAnticuagulado.setSelectedItem(tablaFichaMedica.getValueAt(fila,4).toString());
+            comboDbt.setSelectedItem(tablaFichaMedica.getValueAt(fila,5).toString());
+            comboCardiacas.setSelectedItem(tablaFichaMedica.getValueAt(fila,6).toString());
+            comboMicosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,7).toString());
+            /*CLICK PARA LA SEGUNDA TABLA*/
+            /*comboOnicocriptosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,9).toString());            
             comboTalon.setSelectedItem(tablaFichaMedica.getValueAt(fila,10).toString());
             comboHiperqueratosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,11).toString());
             comboHiperhidrosis.setSelectedItem(tablaFichaMedica.getValueAt(fila,12).toString());
@@ -821,7 +843,7 @@ public class VentanaFicha extends javax.swing.JFrame {
             areaDClinicos.setText(tablaFichaMedica.getValueAt(fila,14).toString());
             areaPatologias.setText(tablaFichaMedica.getValueAt(fila,15).toString());
             areaTratamiento.setText(tablaFichaMedica.getValueAt(fila,16).toString());
-            areaEvolucion.setText(tablaFichaMedica.getValueAt(fila,17).toString());
+            areaEvolucion.setText(tablaFichaMedica.getValueAt(fila,17).toString());*/
         }
     }//GEN-LAST:event_tablaFichaMedicaMouseClicked
 
@@ -861,6 +883,31 @@ public class VentanaFicha extends javax.swing.JFrame {
         	JOptionPane.showMessageDialog(null,"No se seleccionó ninguna fila", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_tablaPacientesMouseClicked
+
+    private void tablaFichaMedica2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaFichaMedica2MouseClicked
+       int fila=tablaFichaMedica2.getSelectedRow();
+    	if(fila>=0){   		
+            /*campoCod.setText(tablaFichaMedica2.getValueAt(fila,0).toString());
+            campoApe.setText(tablaFichaMedica2.getValueAt(fila,1).toString());
+            campoNom.setText(tablaFichaMedica2.getValueAt(fila,2).toString());
+            campoDire.setText(tablaFichaMedica2.getValueAt(fila,3).toString());
+            campoEdad.setText(tablaFichaMedica2.getValueAt(fila,4).toString());
+            comboAnticuagulado.setSelectedItem(tablaFichaMedica2.getValueAt(fila,5).toString());
+            comboDbt.setSelectedItem(tablaFichaMedica2.getValueAt(fila,6).toString());
+            comboCardiacas.setSelectedItem(tablaFichaMedica2.getValueAt(fila,7).toString());
+            comboMicosis.setSelectedItem(tablaFichaMedica2.getValueAt(fila,8).toString());*/
+            /*SEGUNDA TABLA*/
+            comboOnicocriptosis.setSelectedItem(tablaFichaMedica2.getValueAt(fila,0).toString());            
+            comboTalon.setSelectedItem(tablaFichaMedica2.getValueAt(fila,1).toString());
+            comboHiperqueratosis.setSelectedItem(tablaFichaMedica2.getValueAt(fila,2).toString());
+            comboHiperhidrosis.setSelectedItem(tablaFichaMedica2.getValueAt(fila,3).toString());
+            comboEdema.setSelectedItem(tablaFichaMedica2.getValueAt(fila,4).toString());
+            areaDClinicos.setText(tablaFichaMedica2.getValueAt(fila,5).toString());
+            areaPatologias.setText(tablaFichaMedica2.getValueAt(fila,6).toString());
+            areaTratamiento.setText(tablaFichaMedica2.getValueAt(fila,7).toString());
+            areaEvolucion.setText(tablaFichaMedica2.getValueAt(fila,8).toString());
+        }
+    }//GEN-LAST:event_tablaFichaMedica2MouseClicked
 
     public static void main(String args[]) {
         try {
@@ -904,7 +951,6 @@ public class VentanaFicha extends javax.swing.JFrame {
     private javax.swing.JTextField campoBuscarPacientes;
     public javax.swing.JTextField campoCod;
     public javax.swing.JTextField campoDire;
-    public javax.swing.JTextField campoEdad;
     public javax.swing.JTextField campoNom;
     public javax.swing.JComboBox<String> comboAnticuagulado;
     public javax.swing.JComboBox<String> comboCardiacas;
@@ -928,8 +974,10 @@ public class VentanaFicha extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JLabel labelAnticuagulado;
     private javax.swing.JLabel labelApe;
     private javax.swing.JLabel labelBuscarPacientes;
@@ -938,7 +986,6 @@ public class VentanaFicha extends javax.swing.JFrame {
     private javax.swing.JLabel labelDClinicos;
     private javax.swing.JLabel labelDbt;
     private javax.swing.JLabel labelDire;
-    private javax.swing.JLabel labelEdad;
     private javax.swing.JLabel labelEvolucion;
     private javax.swing.JLabel labelHiperhidrosis;
     private javax.swing.JLabel labelHiperquratosis;
@@ -949,6 +996,7 @@ public class VentanaFicha extends javax.swing.JFrame {
     private javax.swing.JLabel labelTalon1;
     private javax.swing.JLabel labelTratamiento;
     private javax.swing.JTable tablaFichaMedica;
+    private javax.swing.JTable tablaFichaMedica2;
     private javax.swing.JTable tablaPacientes;
     // End of variables declaration//GEN-END:variables
 
